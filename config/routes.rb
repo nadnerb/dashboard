@@ -2,6 +2,10 @@ Dashboard::Application.routes.draw do
   root :to => 'home#index'
 
   resources :projects
+  #match '/dashboard'            => 'dashboard#show'
+
+  #get "dashboard" => "dashboard#show", :as => "dashboard"
+  resource :dashboard, :controller => "dashboard"
 
   get "home/index"
 

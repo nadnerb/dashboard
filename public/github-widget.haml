@@ -1,0 +1,27 @@
+.github-box.repo
+  .github-box-title
+    %h3
+      %a{class: "owner", href: owner.href}
+        = owner.name
+      !/
+      %a{class: "repo", href: repo.href}
+        = repo.name
+    .github-stats
+      %a{class: "watchers", href: repo.watchers.href}
+        = repo.watchers.name
+      %a{class:"forks", href: repo.forks.href}
+        = repo.forks.name
+  .github-box-content
+    %p.description
+      = repo.description
+      !&mdash;
+      %a{href: repo.readme.href}
+        Read More
+    %p.link
+      %a{href: repo.homepage}
+        = repo.homepage
+  .github-box-download
+    %p.updated
+      Latest commit to the <strong>master</strong> branch on #{pushed_at}
+    %a{class: "download", href: repo.zipfile}
+      Download as zip

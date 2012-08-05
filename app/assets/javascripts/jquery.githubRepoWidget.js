@@ -73,9 +73,28 @@ $(function(){
                 %h3\n \
                   %a{class: "owner", href: owner.href}\n \
                     = owner.name\n \
-                  /\n \
+                  !/\n \
                   %a{class: "repo", href: repo.href}\n \
                     = repo.name\n \
+                .github-stats\n \
+                  %a{class: "watchers", href: repo.watchers.href}\n \
+                    = repo.watchers.name\n \
+                  %a{class:"forks", href: repo.forks.href}\n \
+                    = repo.forks.name\n \
+              .github-box-content\n \
+                %p.description\n \
+                  = repo.description\n \
+                  !&mdash;\n \
+                  %a{href: repo.readme.href}\n \
+                    Read More\n \
+                %p.link\n \
+                  %a{href: repo.homepage}\n \
+                    = repo.homepage\n \
+              .github-box-download\n \
+                %p.updated\n \
+                  Latest commit to the <strong>master</strong> branch on #{pushed_at}\n \
+                %a{class: "download", href: repo.zipfile}\n \
+                  Download as zip\n \
           ';
           var context = {
             owner: {
@@ -84,8 +103,23 @@ $(function(){
             },
             repo: {
               href: repo.url.replace('api.','').replace('repos/',''),
-              name: repo.name
-            }
+              name: repo.name,
+              description: repo.description,
+              homepage: repo.homepage,
+              watchers: {
+                href: repo.url.replace('api.','').replace('repos/','') + '/watchers',
+                name: repo.watchers
+              },
+              forks: {
+                href: repo.url.replace('api.','').replace('repos/','') + '/forks',
+                name: repo.forks
+              },
+              readme: {
+                href: repo.url.replace('api.','').replace('repos/','') + '#readme'
+              },
+              zipfile: repo.url.replace('api.','').replace('repos/','') + '/zipball/master'
+            },
+            pushed_at: pushed_at
           };
         var fn = haml.compileHaml({source: hamlContent});
         $(fn(context)).appendTo($container);

@@ -45,3 +45,5 @@ end
 
 gem "unicorn"
 gem "foreman"
+
+gem 'aws-sdk'

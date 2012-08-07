@@ -29,7 +29,7 @@ gem 'jquery-rails'
 # gem 'jbuilder'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano', :group => :development, :require => false
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'

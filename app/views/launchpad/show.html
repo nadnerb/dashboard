@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>dupondi.us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="/assets/bootstrap_and_overrides.css" rel="stylesheet">
+    <link href="/assets/dupondius.css" rel="stylesheet">
+    <link href="/assets/jquery.selectable-grid.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
+    <script src="/assets/jquery.js" type="text/javascript"></script>
+    <script src="/assets/bootstrap.js"></script>
+    <script src="/assets/dupondius.js"></script>
+    <script src="/assets/jquery.selectable-grid.js"></script>
+   </head>
+<body>
+
+  <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">dupondi.us Launchpad</a>
+          <div class="container-fluid nav-collapse">
+            <ul class="nav">
+              <li id="nav-application-name"></li>
+              <li id="nav-application-stack"></li>
+              <li id="nav-application-support"></li>
+              <li id="nav-application-envs"></li>
+              <li id="nav-application-github"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="steps">
+    <div id="page1" class="page" data-step="true" data-submit="page-one-done" data-next="github-details" data-navigation="nav-application-name">
+        <div class="page-container">
+          <h1>Get your environments up and running in no time</h1>
+          <p>
+            Welcome to the Launchpad! From here you will be able to define your application, specifiying the exact technology and environments you want along the way.
+          </p>
+          <p>&nbsp;</p>
+          <p>Type in the name of the application to get started.</p>
+          <p>
+            <input id="application-name" class="input-xxlarge" type="text" placeholder="Enter the name of the application"/>
+          </p>
+          <p>
+            <a href="#" class="btn btn-success btn-xlarge" id="page-one-done">
+              <i class="icon-arrow-down icon-white"></i> Get Started
+            </a>
+          </p>
+        </div>
+    </div>
+
+    <div id="github-details" class="page hidden" data-step="true" data-submit="github-details-done" data-next="page2">
+        <div class="page-container">
+          <h1>Github repository</h1>
+          <p>
+            In order to get the application up and running as quickly as possible we will be creating and pushing to a Github repository. The name of the Github repository is determined by the <a href="#" data-navigate="page1">name of the application</a>.
+          </p>
+          <p>&nbsp;</p>
+          <p>
+            Your Github repository will be found here.
+          </p>
+          <p>&nbsp;</p>
+          <p class="url"></p>
+          <p>&nbsp;</p>
+          <p>
+            Dont worry about remembering this URL, you will be able to grab it later.
+          </p>
+          <p>
+            <a href="#" class="btn btn-primary btn-xlarge" id="github-details-done">
+              <i class="icon-arrow-down icon-white"></i> Awesome, lets continue!
+            </a>
+          </p>
+        </div>
+    </div>
+
+    <div id="page2" class="page hidden" data-step="true" data-submit="page-two-done" data-next="page4" data-navigation="nav-application-stack">
+        <div class="page-container">
+          <h1>Select the technology stack for the application</h1>
+          <p>
+            Select the primary technology to use for the application. This cannot be undone once the environments have been created.
+          </p>
+          <div id="tech-stack" class="selectable-grid">
+            <div class="selectable-grid-row">
+              <div class="selectable-grid-column">
+                <img src="/assets/rails_trans.png"/>
+                <span>Ruby on Rails</span>
+              </div>
+              <div class="selectable-grid-column">
+                <img src="/assets/java_trans.png"/>
+                <span>Java</span>
+              </div>
+              <div class="selectable-grid-column" data-disabled="true">
+                <img src="/assets/grails.png"/>
+                <span>Grails</span>
+                <div class="claim">Coming Soon</div>
+              </div>
+              <div class="selectable-grid-column" data-disabled="true">
+                <img src="/assets/ios.png"/>
+                <span>iOS</span>
+                <div class="claim">Coming Soon</div>
+              </div>
+            </div>
+          </div>
+          <p>
+            <a href="#" class="btn btn-primary btn-xlarge" id="page-two-done">
+              <i class="icon-arrow-down icon-white"></i> Nice choice, keep going!
+            </a>
+          </p>
+        </div>
+    </div>  
+
+    <div id="page4" class="page hidden" data-step="true" data-submit="page-four-done" data-next="page5" data-navigation="nav-application-support">
+        <div class="page-container">
+          <h1>Select other tools to support the application</h1>
+          <p>
+            Jenkins will provide the application with a build pipeline to help with continous delivery. Choose either Sprint.ly or Pivotal Tracker for requirements gathereing and management.
+          </p>
+          <div id="support-technologies" class="selectable-grid" data-multiple="true">
+            <div class="selectable-grid-row">
+              <div class="selectable-grid-column" data-required="true">
+                <img src="/assets/jenkins.png"/>
+                <span>Jenkins</span>
+              </div>
+              <div class="selectable-grid-divider"></div>
+              <div class="selectable-grid-column selected" data-group="requirements">
+                <img src="/assets/pivotal.png"/>
+                <span>Pivotal Tracker</span>
+              </div>
+              <div class="selectable-grid-column" data-group="requirements">
+                <img src="/assets/sprintly.png"/>
+                <span>Sprint.ly</span>
+              </div>
+            </div>
+          </div>
+          <p>
+            <a href="#" class="btn btn-primary btn-xlarge" id="page-four-done">
+              <i class="icon-arrow-down icon-white"></i> Nearly there, you just need to do one more thing!
+            </a>
+          </p>
+        </div>
+    </div>
+
+    <div id="page5" class="page hidden" data-step="true" data-submit="page-five-done" data-next="summary" data-navigation="nav-application-envs">
+        <div class="page-container">
+          <h1>Select environments to create for the application</h1>
+          <p>
+            Development and Testing environments are required. Performance and Production environments can be configured now or at a later time.
+          </p>
+          <div id="envs" class="selectable-grid" data-multiple="true">
+            <div class="selectable-grid-row">
+              <div class="selectable-grid-column" data-required="true">
+                <img src="/assets/development.png"/>
+                <span>Development</span>
+              </div>
+              <div class="selectable-grid-column" data-required="true">
+                <img src="/assets/testing.png"/>
+                <span>Testing</span>
+              </div>
+              <div class="selectable-grid-column">
+                <img src="/assets/performance.png"/>
+                <span>Performance</span>
+              </div>
+              <div class="selectable-grid-column">
+                <img src="/assets/production.png"/>
+                <span>Production</span>
+              </div>
+            </div>
+          </div>
+          <p>
+            <a href="#" class="btn btn-primary btn-xlarge" id="page-five-done">
+              <i class="icon-arrow-down icon-white"></i> Good! But before we start creating stuff...
+            </a>
+          </p>
+        </div>
+    </div> 
+
+    <div id="summary" class="page hidden" data-step="true" data-next="waiting">
+        <div class="page-container">
+          <h1>Summary of your selection</h1>
+          <p>
+            Please review the following information. You may go back and change any selections if you wish to.
+          </p>
+          <p>&nbsp;</p>
+          <dl class="dl-horizontal summary">
+              <dt>Application Name:</dt>
+              <dd id="summary-application-name"></dd>
+
+              <dt>Technology Stack:</dt>
+              <dd id="summary-technology-stack"></dd>
+
+              <dt>Support Technology:</dt>
+              <dd id="summary-support-technology"></dd>
+
+              <dt>Environments:</dt>
+              <dd id="summary-environments"></dd>
+          </dl>
+          <p>&nbsp;</p>
+          <p>
+            <a href="#" class="btn btn-success btn-xlarge" id="page-five-done">
+              <i class="icon-ok icon-white"></i> Great, now lets create some environments!
+            </a>
+          </p>
+        </div>
+    </div> 
+
+    <div id="waiting" class="page hidden" data-step="true">
+        <div class="page-container">
+          <h1>Your environments are being created</h1>
+          <p>
+            Please wait for a moment...
+          </p>
+        </div>
+    </div> 
+</div> 
+</body>
+</html>

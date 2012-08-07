@@ -7,6 +7,7 @@ Dashboard::Application.routes.draw do
   #get "dashboard" => "dashboard#show", :as => "dashboard"
   resource :dashboard, :controller => "dashboard"
   resource :launchpad, :controller => "launchpad"
+  resource :too_early, :controller => "under_construction"
 
   get "home/index"
 

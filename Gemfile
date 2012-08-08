@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.7'
+gem 'bigdecimal'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -29,7 +30,10 @@ gem 'jquery-rails'
 # gem 'jbuilder'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+group :development do
+  gem 'capistrano', :require => false
+  gem 'capistrano-unicorn', :require => false
+end
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
@@ -47,3 +51,5 @@ gem "unicorn"
 gem "foreman"
 
 gem 'aws-sdk'
+gem 'aws-s3'
+

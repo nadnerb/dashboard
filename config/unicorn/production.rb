@@ -1,5 +1,5 @@
 worker_processes 4
-working_directory "/opt/apps/dashboard/current" # available in 0.94.0+
+working_directory "/opt/app/dashboard/current" # available in 0.94.0+
 
 listen "/tmp/.sock", :backlog => 64
 listen 8080, :tcp_nopush => true

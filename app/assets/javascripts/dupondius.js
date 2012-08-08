@@ -166,7 +166,10 @@ $(document).ready(function () {
         },
         finish: true
     },{
-        id: '#summary'
+        id: '#summary',
+        validation: function () {
+            return true;
+        }
     },{
         id: '#waiting',
         validation: function () {
@@ -193,7 +196,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'PUT',
-            url: 'start',
+            url: '/launchpad/launch',
             contentType: "application/json",
             data: JSON.stringify(data)
         });

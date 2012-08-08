@@ -5,9 +5,10 @@ Dashboard::Application.routes.draw do
   #match '/dashboard'            => 'dashboard#show'
 
   #get "dashboard" => "dashboard#show", :as => "dashboard"
-  resource :dashboard, :controller => "dashboard"
-  resource :launchpad, :controller => "launchpad"
+  resource :dashboard, :controller => "dashboard"  
   resource :too_early, :controller => "under_construction"
+
+  match 'launchpad/:action' => 'launchpad#show'
 
   get "home/index"
 

@@ -1,5 +1,5 @@
 Dashboard::Application.routes.draw do
-  root :to => 'home#index'
+  root :to => 'under_construction#show'
 
   resources :projects
   #match '/dashboard'            => 'dashboard#show'

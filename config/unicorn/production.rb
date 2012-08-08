@@ -7,10 +7,10 @@ listen 8080, :tcp_nopush => true
 timeout 30
 
 # feel free to point this anywhere accessible on the filesystem
-pid "/opt/apps/dashboard/shared/pids/unicorn.pid"
+pid "/opt/app/dashboard/shared/pids/unicorn.pid"
 
-stderr_path "/opt/apps/dashboard/shared/log/unicorn.stderr.log"
-stdout_path "/opt/apps/dashboard/shared/log/unicorn.stdout.log"
+stderr_path "/opt/app/dashboard/shared/log/unicorn.stderr.log"
+stdout_path "/opt/app/dashboard/shared/log/unicorn.stdout.log"
 
 # combine REE with "preload_app true" for memory savings
 # http://rubyenterpriseedition.com/faq.html#adapt_apps_for_cow

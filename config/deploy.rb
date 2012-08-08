@@ -15,9 +15,9 @@ set :deploy_to, applicationdir
 
 ssh_options[:keys] = %w(../deployer.pem)
 
-role :web, "ec2-23-22-45-5.compute-1.amazonaws.com"                          # Your HTTP server, Apache/etc
-role :app, "ec2-23-22-45-5.compute-1.amazonaws.com"                          # This may be the same as your `Web` server
-role :db,  "ec2-23-22-45-5.compute-1.amazonaws.com", :primary => true # This is where Rails migrations will run
+role :web, "dupondi.us"                          # Your HTTP server, Apache/etc
+role :app, "dupondi.us"                          # This may be the same as your `Web` server
+role :db,  "dupondi.us", :primary => true # This is where Rails migrations will run
 
 require 'capistrano-unicorn'
 # if you want to clean up old releases on each deploy uncomment this:

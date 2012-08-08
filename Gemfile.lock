@@ -39,6 +39,7 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
+    bigdecimal (1.1.0)
     builder (3.0.0)
     capistrano (2.12.0)
       highline
@@ -201,6 +202,7 @@ PLATFORMS
 DEPENDENCIES
   aws-s3
   aws-sdk
+  bigdecimal
   capistrano
   capybara
   coffee-rails (~> 3.2.1)

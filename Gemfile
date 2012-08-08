@@ -30,7 +30,10 @@ gem 'jquery-rails'
 # gem 'jbuilder'
 
 # Deploy with Capistrano
-gem 'capistrano', :group => :development, :require => false
+group :development do
+  gem 'capistrano', :require => false
+  gem 'capistrano-unicorn', :require => false
+end
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'

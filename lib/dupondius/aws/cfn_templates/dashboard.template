@@ -58,8 +58,13 @@
               "yum" : {
                 "gcc-c++"      : [],
                 "make"         : [],
-                "ruby-devel"   : [],
-                "rubygems"     : [],
+                "ruby19-devel.x86_64" :[],
+                "rubygems19"     : [],
+                "libxml2"      : [],
+                "libxml2-devel" : [],
+                "libxslt"       : [],
+                "libxslt-devel" : [],
+                "sqlite-devel" : [],
                 "git.x86_64"   : []
               },
               "rubygems" : {
@@ -101,6 +106,10 @@
           "    --access-key AKIAIB3JD5B24BFQEDVQ",
           "    --secret-key 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",
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+
+          "# Switch system Ruby to 1.9\n",
+          "ln -s /usr/bin/ruby1.9 /usr/bin/ruby\n",
+          "ln -s /usr/bin/gem1.9 /usr/bin/gem\n",
 
           "# Give the deployer user login rights\n",
           "chsh -s /bin/sh deployer",

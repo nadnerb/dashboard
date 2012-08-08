@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.7'
+gem 'bigdecimal'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -47,3 +48,5 @@ gem "unicorn"
 gem "foreman"
 
 gem 'aws-sdk'
+gem 'aws-s3'
+

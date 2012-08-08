@@ -2,7 +2,7 @@ worker_processes 4
 working_directory "/opt/app/dashboard/current" # available in 0.94.0+
 
 listen "/tmp/.sock", :backlog => 64
-listen 8080, :tcp_nopush => true
+listen 3000, :tcp_nopush => true
 
 timeout 30
 

@@ -64,20 +64,35 @@
                 "libxml2-devel" : [],
                 "libxslt"       : [],
                 "libxslt-devel" : [],
-                "sqlite-devel" : [],
-                "git.x86_64"   : []
-              },
-              "rubygems" : {
-                "bundler"       : []
+                "sqlite-devel"  : [],
+                "nginx"         : [],
+                "git.x86_64"    : []
               }
             },
             "groups" : {
-                "deployers" : {}
+                "www" : {}
             },
             "users" : {
               "deployer" : {
-                "groups" : ["deployers"],
+                "groups" : ["www"],
                 "homeDir" : "/home/deployer"
+              }
+            },
+            "files" : {
+              "/etc/nginx/nginx.conf" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf",
+                "mode"   : "000644",
+                "owner"  : "root",
+                "group"  : "root"
+              }
+            },
+            "services" : {
+              "sysvinit" : {
+                "nginx" : {
+                  "enabled" : "true",
+                  "ensureRunning" : "true",
+                  "files" : ["/etc/nginx/nginx.conf"]
+                }
               }
             }
           }
@@ -102,26 +117,32 @@
           "}\n",
 
           "# Install Rails packages\n",
-          "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r WebServer ",
+          "/opt/aws/bin/cfn-init -v -s ", { "Ref" : "AWS::StackName" }, " -r WebServer ",
           "    --access-key AKIAIB3JD5B24BFQEDVQ",
           "    --secret-key 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",
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
 
-          "# Switch system Ruby to 1.9\n",
+          "# Use Ruby 1.9\n",
+          "rm /usr/bin/ruby\n",
           "ln -s /usr/bin/ruby1.9 /usr/bin/ruby\n",
           "ln -s /usr/bin/gem1.9 /usr/bin/gem\n",
+          "gem install bundler --no-rdoc --no-ri\n",
 
           "# Give the deployer user login rights\n",
-          "chsh -s /bin/sh deployer",
-          "mkdir /home/deployer/.ssh",
-          "echo \"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAyrBOE3zDQMcoRi9no60foxqEy7EVmAARowko6rERDXCp5tKrY3dOpk0wDyuZgvvq2gfaVRaUuwo1AJwJk43sFb6ZVxRwNZLjIF2dFV+RjQKy1NnPd9ymrZacIOyQXLzFUWsM59JPA6v8zznF826RSBuQIIGESz9n0lhICfO4oIq62Bexllh9O/vU71EKnzFxqq2StNCd5q/tit7AK0GiHnm2OyufBQrGhUjVrCDmXx2X9XX77swHky56z4ZgZk1XdC4EEHE4WariMzryjBPldCXkQGq5x97IC35aeCCVcyDAkQ+5HRxJK/Ja2RYy8f5bsmYRcI06suWGePUQO48Bjw==\" >> /home/deployer/.ssh/authorized_keys",
-          "curl https://s3.amazonaws.com/private_keys/deployer.pem -o /home/deployer/.ssh/id_rsa",
-          "chown -R deployer:deployer /home/deployer/.ssh",
-          "chmod 600 /home/deployer/.ssh/id_rsa",
+          "chsh -s /bin/sh deployer\n",
+          "mkdir -p /home/deployer/.ssh\n",
+          "echo \"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAyrBOE3zDQMcoRi9no60foxqEy7EVmAARowko6rERDXCp5tKrY3dOpk0wDyuZgvvq2gfaVRaUuwo1AJwJk43sFb6ZVxRwNZLjIF2dFV+RjQKy1NnPd9ymrZacIOyQXLzFUWsM59JPA6v8zznF826RSBuQIIGESz9n0lhICfO4oIq62Bexllh9O/vU71EKnzFxqq2StNCd5q/tit7AK0GiHnm2OyufBQrGhUjVrCDmXx2X9XX77swHky56z4ZgZk1XdC4EEHE4WariMzryjBPldCXkQGq5x97IC35aeCCVcyDAkQ+5HRxJK/Ja2RYy8f5bsmYRcI06suWGePUQO48Bjw==\" >> /home/deployer/.ssh/authorized_keys\n",
+          "curl https://s3.amazonaws.com/private_keys/deployer.pem -o /home/deployer/.ssh/id_rsa\n",
+          "chown -R deployer:deployer /home/deployer/.ssh\n",
+          "chmod 600 /home/deployer/.ssh/id_rsa\n",
 
           "# Give the deployer permission to /opt\n",
-          "chown root:deployers /opt"
-          "chmod g+rxw /opt"
+          "chown root:www /opt\n",
+          "chmod g+rxw /opt\n",
+
+          "# Add nginx to the www group\n",
+          "usermod -a -G www nginx\n",
+
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Rails application setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
         ]]}}
@@ -144,7 +165,7 @@
     "FrontendGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
-        "GroupDescription" : "Enable HTTP access via port 3000",
+        "GroupDescription" : "Enable HTTP access",
         "SecurityGroupIngress" : [ {
           "IpProtocol" : "tcp",
           "FromPort" : "22",
@@ -152,8 +173,8 @@
           "CidrIp" : "0.0.0.0/0"
         }, {
           "IpProtocol" : "tcp",
-          "FromPort" : "3000",
-          "ToPort" : "3000",
+          "FromPort" : "80",
+          "ToPort" : "80",
           "CidrIp" : "0.0.0.0/0"
         } ]
 
@@ -163,7 +184,7 @@
 
   "Outputs" : {
     "WebsiteURL" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}, ":3000" ]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}]] },
       "Description" : "URL for newly created Rails application"
     }
   }

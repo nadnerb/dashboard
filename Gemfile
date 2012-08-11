@@ -2,12 +2,14 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.7'
 gem 'bigdecimal'
-#gem 'timezoner', :git => 'git://github.com/nadnerb/timezoner.git'
+gem 'appscrolls', :git => 'https://github.com/nadnerb/appscrolls.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'delayed_job_active_record'
+gem 'daemons'
 gem 'haml-rails'
 
 # Gems used only for assets and not required

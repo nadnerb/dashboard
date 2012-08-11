@@ -9,17 +9,21 @@ set :user, "deployer"  # The server's user for deploys
 set :scm, :git
 set :git_shallow_clone, 1
 set :use_sudo, false
-set :domain, 'dupondi.us' # Your domain goes here
+set :domain, 'dupondi.us'
 set :applicationdir, "/opt/app/#{application}"
 set :deploy_to, applicationdir
 
+# Make the key an env var
 ssh_options[:keys] = %w(../deployer.pem)
 
-role :web, "dupondi.us"                          # Your HTTP server, Apache/etc
-role :app, "dupondi.us"                          # This may be the same as your `Web` server
-role :db,  "dupondi.us", :primary => true # This is where Rails migrations will run
+#  Make the server an env var
+
+role :web, "ec2-23-22-148-52.compute-1.amazonaws.com"                          # Your HTTP server, Apache/etc
+role :app, "ec2-23-22-148-52.compute-1.amazonaws.com"                          # This may be the same as your `Web` server
+role :db,  "ec2-23-22-148-52.compute-1.amazonaws.com", :primary => true # This is where Rails migrations will run
 
 require 'capistrano-unicorn'
+
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
 

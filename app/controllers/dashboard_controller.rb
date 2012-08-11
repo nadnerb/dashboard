@@ -3,6 +3,6 @@ class DashboardController < ActionController::Base
   layout "application"
 
   def show
-    params[:application_name] = 'Workflow'
+    params[:application_name] = 'My App'
   end
 end

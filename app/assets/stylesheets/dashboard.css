@@ -37,7 +37,7 @@
 	border-left: 1px solid #8C8C8C;
 	border-right: 1px solid #303030;
 	text-shadow: 0 1px 0 black;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6C6C6C), color-stop(100%,#303030));
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5C5C5C), color-stop(100%,#303030));
 }
 
 .brand {

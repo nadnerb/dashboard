@@ -1,5 +1,20 @@
 .navbar {
-	margin-top: 20px;
+	margin-top: 10px;
+	-webkit-box-shadow: 0 0 5px 1px #888;
+}
+.navbar .nav li a {
+	padding: 0 !important;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+}
+
+.navbar .nav li a:hover {
+	color: #999;
+}
+
+.navbar .nav li div {
+	text-align: center;
 }
 
 .navbar-inner {
@@ -13,12 +28,25 @@
 }
 
 .navbar-inner .nav li {
+	cursor: pointer;
 	height: 82px;
 	width: 120px;
+	border-left: 1px solid #8C8C8C;
+	border-right: 1px solid #303030;
+	text-shadow: 0 1px 0 black;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6C6C6C), color-stop(100%,#303030));
 }
 
 .brand {
-	padding: 25px 50px !important;
+	padding-top: 25px !important;
+	padding-right: 0px !important;
 	font-size: 32px !important;
 	text-transform: uppercase;
+	margin-left: 0 !important;
+}
+
+.dashboard-brand {
+	padding-left: 0px !important;
+	padding-right: 25px !important;
+	font-weight: bold !important;
 }

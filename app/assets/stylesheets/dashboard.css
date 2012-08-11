@@ -45,8 +45,7 @@
 }
 
 .brand {
-	padding-top: 25px !important;
-	padding-right: 0px !important;
+	padding: 25px 0 12px 0 !important;
 	font-size: 32px !important;
 	text-transform: uppercase;
 	margin-left: 0 !important;

@@ -26,6 +26,9 @@
 .navbar-inner .nav {
 	position: relative;
 }
+.navbar-inner .nav li:first-child {
+	background: none;
+}
 
 .navbar-inner .nav li {
 	cursor: pointer;

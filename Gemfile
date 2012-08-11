@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.7'
 gem 'bigdecimal'
+gem 'appscrolls', :git => 'https://github.com/nadnerb/appscrolls.git'
+#gem 'timezoner', :git => 'git://github.com/nadnerb/timezoner.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

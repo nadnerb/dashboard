@@ -1,3 +1,14 @@
+GIT
+  remote: https://github.com/nadnerb/appscrolls.git
+  revision: a3eb6c9cdd0751acb5e594e551d05b3318c7005d
+  specs:
+    appscrolls (0.8.5)
+      activesupport (~> 3.0)
+      i18n
+      json (~> 1.7.0)
+      rails (~> 3.2.2)
+      thor
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -202,6 +213,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  appscrolls!
   aws-s3
   aws-sdk
   bigdecimal

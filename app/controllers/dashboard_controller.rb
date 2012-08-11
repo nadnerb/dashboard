@@ -3,6 +3,6 @@ class DashboardController < ActionController::Base
   layout "application"
 
   def show
-    flash.now[:notice] = "Dashboard - from dupondi.us"
+    
   end
 end

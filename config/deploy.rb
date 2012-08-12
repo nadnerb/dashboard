@@ -18,9 +18,12 @@ ssh_options[:keys] = %w(../deployer.pem)
 
 #  Make the server an env var
 
-role :web, "ec2-23-22-148-52.compute-1.amazonaws.com"                          # Your HTTP server, Apache/etc
-role :app, "ec2-23-22-148-52.compute-1.amazonaws.com"                          # This may be the same as your `Web` server
-role :db,  "ec2-23-22-148-52.compute-1.amazonaws.com", :primary => true # This is where Rails migrations will run
+#role :web, "ec2-23-22-148-52.compute-1.amazonaws.com"                          # Your HTTP server, Apache/etc
+#role :app, "ec2-23-22-148-52.compute-1.amazonaws.com"                          # This may be the same as your `Web` server
+#role :db,  "ec2-23-22-148-52.compute-1.amazonaws.com", :primary => true # This is where Rails migrations will run
+
+set :stages, %w(production staging qa)
+require 'capistrano/ext/multistage'
 
 require 'capistrano-unicorn'
 

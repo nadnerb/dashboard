@@ -6,7 +6,7 @@ module Dupondius; module Aws; module Config
     @access_key = "AKIAIB3JD5B24BFQEDVQ"
   end
 
-  def self.secret_key
+  def self.secret_access_key
     @secret_key = "n/je/rv5XRcvm8Z7PI7Tj2nge+R9me0IAuveUxB5"
   end
 

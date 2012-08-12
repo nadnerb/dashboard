@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.7'
 gem 'bigdecimal'
-gem 'appscrolls', :git => 'https://github.com/nadnerb/appscrolls.git'
+gem 'appscrolls', :git => 'git@github.com:nadnerb/appscrolls.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -11,6 +11,8 @@ gem 'sqlite3'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'haml-rails'
+
+gem 'oauth2'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -45,6 +47,11 @@ gem "capybara", :group => [:development, :test]
 gem "rspec-rails", :group => [:development, :test]
 gem "simple_form"
 gem "sqlite3", :group => [:development, :test]
+
+gem 'jasmine', :group => [:development, :test]
+gem 'jasmine-headless-webkit', :group => [:development, :test]
+gem 'jasmine-spec-extras', :group => [:development, :test]
+
 group :assets do
   gem "twitter-bootstrap-rails"
   gem "therubyracer"

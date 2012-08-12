@@ -1,10 +1,6 @@
-require 'aws-sdk'
 
 module Dupondius; module Aws; module Stacks
 
-  # consider location of cloudformation template
-  # s3?
-  #
 
   class Rails
 

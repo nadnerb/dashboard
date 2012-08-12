@@ -2,10 +2,11 @@ Dashboard::Application.routes.draw do
   root :to => 'under_construction#show'
 
   resources :projects
-  #match '/dashboard'            => 'dashboard#show'
+  match ':controller(/:action(/:id))'
+  match '/dashboard'            => 'dashboard#show'
 
   #get "dashboard" => "dashboard#show", :as => "dashboard"
-  resource :dashboard, :controller => "dashboard"  
+  # resource :dashboard, :controller => "dashboard"  
   resource :too_early, :controller => "under_construction"
 
   match 'launchpad/:action' => 'launchpad#show'

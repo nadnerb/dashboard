@@ -20,7 +20,7 @@ $(function(){
         var date = new Date(repo.pushed_at);
         var pushed_at = (date.getMonth()+1) + '-' + date.getDate() + '-' + date.getFullYear();
 
-        $.get("github-widget.haml", function(result) {
+        $.get("/github-widget.haml", function(result) {
           var context = {
             owner: {
               href: repo.owner.url.replace('api.','').replace('users/',''),

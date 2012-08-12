@@ -7,14 +7,13 @@
 	display: inline-block;
 	width: 100%;
 	text-align: center;
+	background: none !important;
+	position: absolute;
+	bottom: 5px;
 }
 
 .navbar .nav li a:hover {
 	color: #999;
-}
-
-.navbar .nav li div {
-	text-align: center;
 }
 
 .navbar-inner {
@@ -26,14 +25,15 @@
 .navbar-inner .nav {
 	position: relative;
 }
-.navbar-inner .nav li:first-child {
+.navbar-inner .nav .active {
 	background: none;
 }
 
 .navbar-inner .nav li {
+	position: relative;
 	cursor: pointer;
 	height: 82px;
-	width: 104px;
+	width: 95px;
 	border-left: 1px solid #8C8C8C;
 	border-right: 1px solid #303030;
 	text-shadow: 0 1px 0 black;

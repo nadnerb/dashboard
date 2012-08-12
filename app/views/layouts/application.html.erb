@@ -1,12 +1,10 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "Dashboard" %></title>
-
-    <link href="http://fonts.googleapis.com/css?family=Chivo:400,900,400italic,900italic" rel="stylesheet" type="text/css">
 
     <%= csrf_meta_tags %>
 
@@ -37,39 +35,58 @@
     <!-- Size should be 32 x 32 pixels -->
     <%= favicon_link_tag 'images/favicon.ico', :rel => 'shortcut icon' %>
   </head>
-  <body>
+  <body data-target=".subnav">
 
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
           <span class="brand" href="#"><%= params[:application_name] %></span>
           <span class="dashboard-brand brand" href="#">Dashboard</span>
-          <ul class="nav">
-            <li>
-              <div id="nav-source-dashboard"></div>
-              <a href="#">Dashboard</a>
-            </li>
-            <li>
-              <div id="nav-source-stories"></div>
-              <a href="#">Stories</a>
-            </li>
-            <li>
-              <div id="nav-source-build"></div>
-              <a href="#">Build</a>
-            </li>
-            <li>
-              <div id="nav-source-performance"></div>
-              <a href="#">Performance</a>
-            </li>
-            <li>
-              <div id="nav-source-image"></div>
-              <a href="#">Source</a>
-            </li>
-            <li>
-              <div id="nav-source-configure"></div>
-              <a href="#">Configure</a>
-            </li>
-          </ul>
+          <did class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active">
+                <%= link_to "index" do %>
+                  <span id="nav-dashboard-image"></span>
+                  <span>Dashboard</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to "stories" do %>
+                  <span id="nav-stories-image"></span>
+                  <span>Stories</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to "builds" do %>
+                  <span id="nav-builds-image"></span>
+                  <span>Builds</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to "performance" do %>
+                  <span id="nav-performance-image"></span>
+                  <span>Performance</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to "source" do %>
+                  <span id="nav-source-image"></span>
+                  <span>Source</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to "configure" do %>
+                  <span id="nav-configure-image"></span>
+                  <span>Configure</span>
+                <% end %>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -83,17 +100,7 @@
       <% end %>
       <div class="row-fluid">
 
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9">
+        <div class="span12">
           <%= yield %>
         </div>
       </div><!--/row-->

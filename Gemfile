@@ -47,6 +47,11 @@ gem "capybara", :group => [:development, :test]
 gem "rspec-rails", :group => [:development, :test]
 gem "simple_form"
 gem "sqlite3", :group => [:development, :test]
+
+gem 'jasmine', :group => [:development, :test]
+gem 'jasmine-headless-webkit', :group => [:development, :test]
+gem 'jasmine-spec-extras', :group => [:development, :test]
+
 group :assets do
   gem "twitter-bootstrap-rails"
   gem "therubyracer"

@@ -1,0 +1,42 @@
+.builds {
+	padding: 10px;
+	width: auto;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.builds .build-pipeline .build {
+	text-align: center;
+	width: 300px;
+	height: 400px;
+	margin: 10px;
+	display: inline-block;
+	-webkit-border-radius: 4px 4px 0 0;
+}
+
+.builds .build-pipeline .build .build-heading {
+	padding: 10px;
+	border-bottom: 1px solid #EEE;
+	font-weight: 400;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+	background-color: #686868;
+	-webkit-border-radius: 4px 4px 0 0;
+}
+
+.builds .build-pipeline .build .build-heading a {
+	color: white;
+	text-decoration: none;
+}
+
+.builds .build-pipeline .build-blue {
+	background-color: #2BC447;
+}
+
+.builds .build-pipeline .build-red,
+.builds .build-pipeline .build-red_anime {
+	background-color: #EB1E1E;
+}
+
+.builds .build-pipeline .build-grey {
+	background-color: #B5BDB7;
+}

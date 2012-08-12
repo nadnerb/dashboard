@@ -10,7 +10,13 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+//= require main.js
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require underscore
+//= require backbone
+//= require builds/build
+//= require builds/builds
+//= require builds/build-view
 //= require_tree .

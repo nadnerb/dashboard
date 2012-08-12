@@ -49,37 +49,37 @@
           <span class="dashboard-brand brand" href="#">Dashboard</span>
           <did class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active">
+              <li class="<%= 'active' if params[:action] == 'index' %>">
                 <%= link_to "index" do %>
                   <span id="nav-dashboard-image"></span>
                   <span>Dashboard</span>
                 <% end %>
               </li>
-              <li>
+              <li class="<%= 'active' if params[:action] == 'stories' %>">
                 <%= link_to "stories" do %>
                   <span id="nav-stories-image"></span>
                   <span>Stories</span>
                 <% end %>
               </li>
-              <li>
+              <li class="<%= 'active' if params[:action] == 'builds' %>">
                 <%= link_to "builds" do %>
                   <span id="nav-builds-image"></span>
                   <span>Builds</span>
                 <% end %>
               </li>
-              <li>
+              <li class="<%= 'active' if params[:action] == 'performance' %>">
                 <%= link_to "performance" do %>
                   <span id="nav-performance-image"></span>
                   <span>Performance</span>
                 <% end %>
               </li>
-              <li>
+              <li class="<%= 'active' if params[:action] == 'source' %>">
                 <%= link_to "source" do %>
                   <span id="nav-source-image"></span>
                   <span>Source</span>
                 <% end %>
               </li>
-              <li>
+              <li class="<%= 'active' if params[:action] == 'configure' %>">
                 <%= link_to "configure" do %>
                   <span id="nav-configure-image"></span>
                   <span>Configure</span>

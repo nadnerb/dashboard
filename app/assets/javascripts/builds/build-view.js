@@ -27,7 +27,7 @@ Dashboard.View.BuildView = Backbone.View.extend({
             html.push('</div>');
         }
         this.$el.html(html.join(''));
-        $('.row-fluid > div').append(this.el);
+        $('#builds').append(this.el);
     },
 
     renderHeading: function () {
@@ -42,8 +42,3 @@ Dashboard.View.BuildView = Backbone.View.extend({
                 '</div>';
     }
 });
-
-var collection = new Dashboard.Collection.Builds();
-var view = new Dashboard.View.BuildView({collection: collection});
-view.render();
-collection.fetch();

@@ -16,6 +16,7 @@
 //= require twitter/bootstrap
 //= require underscore
 //= require backbone
+//= require app-router
 //= require builds/build
 //= require builds/builds
 //= require builds/build-view

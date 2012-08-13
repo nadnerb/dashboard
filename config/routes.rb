@@ -10,8 +10,11 @@ Dashboard::Application.routes.draw do
   match '/dashboard/source'      => 'dashboard#source'
   match '/dashboard/configure'   => 'dashboard#configure'
 
-  #get "dashboard" => "dashboard#show", :as => "dashboard"
-  # resource :dashboard, :controller => "dashboard"  
+  resources :projects, :only => [:new, :create]
+  resource :skeleton, :only => :create, :controller => 'skeleton'
+  match '/project/callback' => 'projects#callback'
+
+  resource :dashboard, :controller => "dashboard"
   resource :too_early, :controller => "under_construction"
 
   match 'launchpad/:action' => 'launchpad#show'

@@ -6,8 +6,7 @@ class ProjectsController < ActionController::Base
     respond_with(project, :status => :created)
   end
 
-  def new
-    Skeleton.new.build('project_name_goes_here')
-    render :text => "Created new project project_name_goes_here"
+  def callback
+    render :text => 'callback'
   end
 end

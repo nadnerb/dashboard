@@ -52,6 +52,12 @@ gem 'jasmine', :group => [:development, :test]
 gem 'jasmine-headless-webkit', :group => [:development, :test]
 gem 'jasmine-spec-extras', :group => [:development, :test]
 
+group :test do
+  gem 'cucumber-rails', :require => false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
+end
+
 group :assets do
   gem "twitter-bootstrap-rails"
   gem "therubyracer"

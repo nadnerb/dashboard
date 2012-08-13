@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title><%= content_for?(:title) ? yield(:title) : "Dashboard" %></title>
 
     <%= csrf_meta_tags %>
@@ -50,37 +51,37 @@
           <did class="nav-collapse collapse">
             <ul class="nav">
               <li class="<%= 'active' if params[:action] == 'index' %>">
-                <%= link_to "index" do %>
+                <%= link_to url_for(:controller => 'dashboard', :action => 'index') do %>
                   <span id="nav-dashboard-image"></span>
                   <span>Dashboard</span>
                 <% end %>
               </li>
               <li class="<%= 'active' if params[:action] == 'stories' %>">
-                <%= link_to "stories" do %>
+                <%= link_to url_for(:controller => 'dashboard', :action => 'stories') do %>
                   <span id="nav-stories-image"></span>
                   <span>Stories</span>
                 <% end %>
               </li>
               <li class="<%= 'active' if params[:action] == 'builds' %>">
-                <%= link_to "builds" do %>
+                <%= link_to url_for(:controller => 'dashboard', :action => 'builds') do %>
                   <span id="nav-builds-image"></span>
                   <span>Builds</span>
                 <% end %>
               </li>
               <li class="<%= 'active' if params[:action] == 'performance' %>">
-                <%= link_to "performance" do %>
+                <%= link_to url_for(:controller => 'dashboard', :action => 'performance') do %>
                   <span id="nav-performance-image"></span>
                   <span>Performance</span>
                 <% end %>
               </li>
               <li class="<%= 'active' if params[:action] == 'source' %>">
-                <%= link_to "source" do %>
+                <%= link_to url_for(:controller => 'dashboard', :action => 'source') do %>
                   <span id="nav-source-image"></span>
                   <span>Source</span>
                 <% end %>
               </li>
               <li class="<%= 'active' if params[:action] == 'configure' %>">
-                <%= link_to "configure" do %>
+                <%= link_to url_for(:controller => 'dashboard', :action => 'configure') do %>
                   <span id="nav-configure-image"></span>
                   <span>Configure</span>
                 <% end %>
@@ -100,7 +101,7 @@
       <% end %>
       <div class="row-fluid">
 
-        <div class="span12">
+        <div id="dashboard-contents" class="span12">
           <%= yield %>
         </div>
       </div><!--/row-->

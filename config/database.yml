@@ -36,5 +36,11 @@ qa:
   pool: 5
   timeout: 5000
 
+canary:
+  adapter: sqlite3
+  database: db/canary.sqlite3
+  pool: 5
+  timeout: 5000
+
 cucumber:
   <<: *test

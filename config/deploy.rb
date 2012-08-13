@@ -22,7 +22,7 @@ ssh_options[:keys] = %w(../deployer.pem)
 #role :app, "ec2-23-22-148-52.compute-1.amazonaws.com"                          # This may be the same as your `Web` server
 #role :db,  "ec2-23-22-148-52.compute-1.amazonaws.com", :primary => true # This is where Rails migrations will run
 
-set :stages, %w(production staging qa)
+set :stages, %w(production staging qa canary)
 require 'capistrano/ext/multistage'
 
 require 'capistrano-unicorn'

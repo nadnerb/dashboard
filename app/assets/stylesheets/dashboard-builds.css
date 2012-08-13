@@ -28,7 +28,8 @@
 	text-decoration: none;
 }
 
-.builds .build-pipeline .build-blue {
+.builds .build-pipeline .build-blue,
+.builds .build-pipeline .build-blue_anime {
 	background-color: #2BC447;
 }
 

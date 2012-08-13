@@ -1,6 +1,6 @@
-require 'dupondius/aws/stacks/base'
-require 'dupondius/aws/stacks/dashboard'
-require 'dupondius/aws/stacks/continuous_integration'
+#require 'dupondius/aws/stacks/base'
+#require 'dupondius/aws/stacks/dashboard'
+#require 'dupondius/aws/stacks/continuous_integration'
 require 'dupondius/aws/stacks/rails'
 
 module Dupondius; module Aws; module Stacks

@@ -1,7 +1,7 @@
 (function ($) {
     $.scrollingWizard = function (steps, finished) {
         //
-        // Helpers 
+        // Helpers
         //
 
         // scroll to a step
@@ -14,7 +14,7 @@
             var wrapperOffset = $('.steps').offset();
 
             element.removeClass('hidden');
-            $('html, body').animate({scrollTop: element.offset().top - wrapperOffset.top}, 300, 'swing', callback);    
+            $('html, body').animate({scrollTop: element.offset().top - wrapperOffset.top}, 300, 'swing', callback);
         };
 
         // shortcut to find by id
@@ -43,7 +43,7 @@
             };
 
             $submit.click(function (event) {
-                event.preventDefault(); 
+                event.preventDefault();
 
                 var $next = $id(step.nextStep()),
                     value = step.validation();
@@ -96,7 +96,7 @@ $(document).ready(function () {
 
             if (text === '') {
                 return null;
-            } 
+            }
 
             $('p.url').html('https://github.com/DiUS/<b>' + text.replace(/[^\w\s]/gi, '').replace(/ /g, '_') + '</b>.git');
 
@@ -184,8 +184,8 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            type: 'PUT',
-            url: '/launchpad/launch',
+            type: 'POST',
+            url: '/projects',
             contentType: "application/json",
             data: JSON.stringify(data)
         });

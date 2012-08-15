@@ -1,7 +1,7 @@
 Dashboard::Application.routes.draw do
   root :to => 'under_construction#show'
 
-  resources :projects
+  resources :projects, :only => [:new, :create]
   match '/dashboard'             => 'dashboard#index'
   match '/dashboard/index'       => 'dashboard#index'
   match '/dashboard/builds'      => 'dashboard#builds'
@@ -17,7 +17,9 @@ Dashboard::Application.routes.draw do
   resource :dashboard, :controller => "dashboard"
   resource :too_early, :controller => "under_construction"
 
-  match 'launchpad/:action' => 'launchpad#show'
+
+  # Temporary route - to be removed after the under_construction sign to brought down
+  match 'launchpad' => 'projects#new'
 
   get "home/index"
 

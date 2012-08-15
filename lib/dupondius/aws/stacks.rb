@@ -35,7 +35,7 @@ module Dupondius; module Aws; module Stacks
 
     def as_json
       @template_json ||= File.open(File.expand_path(File.join(
-        File.dirname(__FILE__), '..', 'templates', "#{template_name}.template")), 'rb').read
+        File.dirname(__FILE__), '..', 'aws', 'templates', "#{template_name}.template")), 'rb').read
     end
   end
 

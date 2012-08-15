@@ -4,9 +4,13 @@ namespace :dupondius do
 
   namespace :aws do
 
-    desc 'Creates a new dashboard from the given project'
-    task :create_dashboard, [:project_name ] do |t, args|
+    task :environment do
+      raise "Error: AWS Credentails file must be specified in the environment variable AWS_CREDENTIAL_FILE" unless ENV['AWS_CREDENTIAL_FILE']
+      Dupondius::Aws::Config.aws_credential_file= ENV['AWS_CREDENTIAL_FILE']
+    end
 
+    desc 'Creates a new dashboard from the given project'
+    task :create_dashboard, [:project_name ] => :environment do |t, args|
       dashboard = Dupondius::Aws::Stacks::Dashboard.new args.project_name
 
       specified_params = ENV.to_hash.select { |k,v| dashboard.params.include? k }
@@ -18,7 +22,7 @@ namespace :dupondius do
     end
 
     desc 'Creates a new continuous integration instance from the given project'
-    task :create_ci, [:project_name ] do |t, args|
+    task :create_ci, [:project_name ] => :environment do |t, args|
 
       instance = Dupondius::Aws::Stacks::ContinuousIntegration.new args.project_name
 

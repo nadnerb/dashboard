@@ -140,6 +140,11 @@
           "chown root:www /opt\n",
           "chmod g+rxw /opt\n",
 
+
+          "# Give the deployer sudo permission to the dashboard /etc/init.d scripts\n",
+          "echo \"deployer ALL=(root)NOPASSWD:/bin/mv,/etc/init.d/dashboard *\" > /etc/sudoers.d/deployer\n",
+          "chmod 0440 /etc/sudoers.d/deployer\n",
+
           "# Add nginx to the www group\n",
           "usermod -a -G www nginx\n",
 

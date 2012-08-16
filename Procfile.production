@@ -1,0 +1,2 @@
+web: bundle exec unicorn -p $PORT -c /opt/app/dashboard/current/config/unicorn.rb
+delayed_job: bundle exec rake jobs:work

@@ -10,7 +10,6 @@ describe "project", :type => :api do
       post "#{url}.json", :project => { :name => "yo sup" }
 
       project = Project.find_by_name("yo sup")
-      route = "/projects/#{project.id}"
 
       last_response.status.should eql(201)
       last_response.body.should eql(project.to_json)

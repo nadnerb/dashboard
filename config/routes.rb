@@ -1,7 +1,6 @@
 Dashboard::Application.routes.draw do
   root :to => 'under_construction#show'
 
-  resources :projects, :only => [:new, :create]
   match '/dashboard'             => 'dashboard#index'
   match '/dashboard/index'       => 'dashboard#index'
   match '/dashboard/builds'      => 'dashboard#builds'
@@ -10,12 +9,11 @@ Dashboard::Application.routes.draw do
   match '/dashboard/source'      => 'dashboard#source'
   match '/dashboard/configure'   => 'dashboard#configure'
 
-  resources :projects, :only => [:new, :create]
+  resource :projects, :only => [:new, :create, :show]
   resource :skeleton, :only => :create, :controller => 'skeleton'
   resource :source, :only => :new do
     get 'callback'
   end
-  match '/project/callback' => 'projects#callback'
 
   resource :dashboard, :controller => "dashboard"
   resource :too_early, :controller => "under_construction"

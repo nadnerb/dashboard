@@ -12,6 +12,9 @@ Dashboard::Application.routes.draw do
 
   resources :projects, :only => [:new, :create]
   resource :skeleton, :only => :create, :controller => 'skeleton'
+  resource :source, :only => :new do
+    get 'callback'
+  end
   match '/project/callback' => 'projects#callback'
 
   resource :dashboard, :controller => "dashboard"

@@ -1,4 +1,4 @@
-class SkeletonJob
+class Jobs::Skeleton
 
   attr_reader :name
 

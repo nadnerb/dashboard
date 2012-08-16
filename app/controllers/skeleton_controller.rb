@@ -1,8 +1,9 @@
 class SkeletonController < ActionController::Base
+
   wrap_parameters :format => [:json]
 
   def create
-    Skeleton.new(params[:name]).build
-    render :text => "Created new project #{params[:name]}"
+    Jobs::Skeleton.new(params[:name]).build
+    render :text => "Creating new project #{params[:name]}, please wait"
   end
 end

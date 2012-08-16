@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/Draiken/foreman-export-initscript.git
+  revision: 70ea37aa23fbc1b483a90a037cb906b7f2c8c042
+  specs:
+    foreman-export-initscript (0.0.1)
+      foreman
+
+GIT
   remote: git@github.com:nadnerb/appscrolls.git
   revision: a3eb6c9cdd0751acb5e594e551d05b3318c7005d
   specs:
@@ -264,6 +271,7 @@ DEPENDENCIES
   database_cleaner
   delayed_job_active_record
   foreman
+  foreman-export-initscript!
   haml-rails
   jasmine
   jasmine-headless-webkit

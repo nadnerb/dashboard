@@ -28,25 +28,26 @@ namespace :foreman do
   task :export, :roles => :app do
     run ["cd #{release_path}",
       "mkdir -p tmp/foreman",
-      "bundle exec foreman export initscript ./tmp/foreman -f ./Procfile -a #{application} -u #{user} -l #{shared_path}/log",
+      "bundle exec foreman export initscript ./tmp/foreman -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log",
       "sudo mv tmp/foreman/#{application} /etc/init.d",
+      "chmod +x /etc/init.d/#{application}",
       "rm -rf tmp/foreman"
     ].join(' && ')
   end
 
   desc "Start the application services"
   task :start, :roles => :app do
-    sudo "start #{application}"
+    sudo "/etc/init.d/#{application} start"
   end
 
   desc "Stop the application services"
   task :stop, :roles => :app do
-    sudo "stop #{application}"
+    sudo "/etc/init.d/#{application} stop"
   end
 
   desc "Restart the application services"
   task :restart, :roles => :app do
-    run "sudo start #{application} || sudo restart #{application}"
+    run "sudo /etc/init.d/#{application} start || sudo /etc/init.d/#{application} restart"
   end
 
   desc "Display logs for a certain process - arg example: PROCESS=web-1"

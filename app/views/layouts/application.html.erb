@@ -37,9 +37,58 @@
     <!-- For all other devices -->
     <!-- Size should be 32 x 32 pixels -->
     <%= favicon_link_tag 'images/favicon.ico', :rel => 'shortcut icon' %>
+
+    <script>
+      function spinner(holderid, R1, R2, count, stroke_width, colour) {
+                var sectorsCount = count || 12,
+                    color = colour || "#fff",
+                    width = stroke_width || 15,
+                    r1 = Math.min(R1, R2) || 35,
+                    r2 = Math.max(R1, R2) || 60,
+                    cx = r2 + width,
+                    cy = r2 + width,
+                    r = Raphael(holderid, r2 * 2 + width * 2, r2 * 2 + width * 2),
+                    
+                    sectors = [],
+                    opacity = [],
+                    beta = 2 * Math.PI / sectorsCount,
+
+                    pathParams = {stroke: color, "stroke-width": width, "stroke-linecap": "round"};
+                    Raphael.getColor.reset();
+                for (var i = 0; i < sectorsCount; i++) {
+                    var alpha = beta * i - Math.PI / 2,
+                        cos = Math.cos(alpha),
+                        sin = Math.sin(alpha);
+                    opacity[i] = 1 / sectorsCount * i;
+                    sectors[i] = r.path([["M", cx + r1 * cos, cy + r1 * sin], ["L", cx + r2 * cos, cy + r2 * sin]]).attr(pathParams);
+                    if (color == "rainbow") {
+                        sectors[i].attr("stroke", Raphael.getColor());
+                    }
+                }
+                var tick;
+                (function ticker() {
+                    opacity.unshift(opacity.pop());
+                    for (var i = 0; i < sectorsCount; i++) {
+                        sectors[i].attr("opacity", opacity[i]);
+                    }
+                    r.safari();
+                    tick = setTimeout(ticker, 1000 / sectorsCount);
+                })();
+                return function () {
+                    clearTimeout(tick);
+                    r.remove();
+                };
+            }
+    </script>
   </head>
   <body data-target=".subnav">
-
+<div id="holder"></div>
+<div id="holder2"></div>
+<div id="holder3"></div>
+<div id="holder4"></div>
+<div id="holder5"></div>
+<div id="holder6"></div>
+<div id="holder7"></div>
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container">
@@ -104,6 +153,7 @@
       <div class="row-fluid">
 
         <div id="dashboard-contents" class="span12">
+        
           <%= yield %>
         </div>
       </div><!--/row-->
@@ -119,5 +169,19 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "application" %>
 
+    <script>
+      // spinner('holder', 80, 100, 30, 8, '#fff');
+      // spinner('holder2', 80, 100, 30, 8, '#fff');
+      // spinner('holder3', 80, 100, 30, 8, '#fff');
+      // spinner('holder4', 80, 100, 30, 8, '#fff');
+      // spinner('holder5', 80, 100, 30, 8, '#fff');
+      // spinner('holder6', 80, 100, 30, 8, '#fff');
+      // spinner('holder2', 80, 80, 100, 8, '#fff');
+      // spinner('holder3', 80, 80, 100, 8, '#fff');
+      // spinner('holder4', 80, 80, 100, 8, '#fff');
+      // spinner('holder5', 80, 80, 100, 8, '#fff');
+      // spinner('holder6', 80, 80, 100, 8, '#fff');
+      // spinner('holder7', 80, 80, 100, 8, '#fff');
+    </script>
   </body>
 </html>

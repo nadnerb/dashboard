@@ -33,7 +33,7 @@ listen 3000, :tcp_nopush => true
 timeout 30
 
 # feel free to point this anywhere accessible on the filesystem
-pid "/opt/app/dashboard/shared/pids/unicorn.pid"
+pid "/var/run/dashboard/unicorn.pid"
 
 stderr_path "/opt/app/dashboard/shared/log/unicorn.stderr.log"
 stdout_path "/opt/app/dashboard/shared/log/unicorn.stdout.log"

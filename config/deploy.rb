@@ -47,7 +47,7 @@ namespace :foreman do
 
   desc "Restart the application services"
   task :restart, :roles => :app do
-    run "sudo /etc/init.d/#{application} start || sudo /etc/init.d/#{application} restart"
+    sudo "/etc/init.d/#{application} restart"
   end
 
   desc "Display logs for a certain process - arg example: PROCESS=web-1"

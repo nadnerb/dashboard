@@ -1,6 +1,5 @@
 set :domain,      "canary.dupondi.us"
 set :rails_env,   "canary"
-set :unicorn_env, "canary"
 set :app_env,     "canary"
 
 role :web, domain

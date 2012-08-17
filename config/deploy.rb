@@ -13,13 +13,14 @@ set :domain, 'dupondi.us'
 set :applicationdir, "/opt/app/#{application}"
 set :deploy_to, applicationdir
 
-# Make the key an env var
+# TODO: Make the key an env var
 ssh_options[:keys] = %w(../deployer.pem)
 
 set :stages, %w(production staging qa canary)
 
 require 'capistrano/ext/multistage'
 
+after "deploy:update_code", "deploy:migrate"
 after 'deploy:update', 'foreman:export'
 after 'deploy:update', 'foreman:restart'
 
@@ -28,7 +29,9 @@ namespace :foreman do
   task :export, :roles => :app do
     run ["cd #{release_path}",
       "mkdir -p tmp/foreman",
-      "bundle exec foreman export initscript ./tmp/foreman -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log",
+      "echo \"RAILS_ENV=#{rails_env}\" > ./tmp/env",
+      "sudo mv tmp/env /etc/default/#{application}",
+      "bundle exec foreman export initscript ./tmp/foreman -e /etc/default/#{application} -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log",
       "sudo mv tmp/foreman/#{application} /etc/init.d",
       "chmod +x /etc/init.d/#{application}",
       "rm -rf tmp/foreman"

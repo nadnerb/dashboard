@@ -1,6 +1,5 @@
 set :domain,      "dupondi.us"
 set :rails_env,   "production"
-set :unicorn_env, "production"
 set :app_env,     "production"
 
 role :web, domain

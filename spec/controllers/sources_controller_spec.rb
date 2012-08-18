@@ -24,9 +24,13 @@ describe SourcesController do
       token = mock('token')
       client.should_receive(:get_token).and_return(token)
       token.should_receive('token').and_return('the goods')
+      client.should_receive(:user_info_for).with('the goods').and_return({'login' => 'login name'})
 
       get 'callback', {code: 'codes'}
-      expect(response.body).to eq('CODEZ! the goods')
+
+      response.should redirect_to :new_projects
+      session[:github_user].should == 'login name'
+      session[:token].should == 'the goods'
     end
 
     describe 'oauth error' do

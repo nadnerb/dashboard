@@ -98,7 +98,8 @@ $(document).ready(function () {
                 return null;
             }
 
-            $('p.url').html('https://github.com/DiUS/<b>' + text.replace(/[^\w\s]/gi, '').replace(/ /g, '_') + '</b>.git');
+            //$('p.url').html('https://github.com/DiUS/<b>' + text.replace(/[^\w\s]/gi, '').replace(/ /g, '_') + '</b>.git');
+            $('b.url').html(text);
 
             $('#page1 .btn').removeClass('btn-success').addClass('btn-primary').html('<i class="icon-arrow-down icon-white"></i>Update application name');
 

@@ -4,15 +4,16 @@ gem 'rails', '3.2.7'
 gem 'bigdecimal'
 gem 'appscrolls', :git => 'git@github.com:nadnerb/appscrolls.git'
 gem 'foreman-export-initscript', :git => 'git://github.com/Draiken/foreman-export-initscript.git'
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
 gem 'delayed_job_active_record'
 gem 'daemons'
-gem 'haml-rails'
 
 gem 'oauth2'
+gem 'rest-client'
+gem 'yajl-ruby'
+
+gem 'haml-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -28,20 +29,11 @@ end
 
 gem 'jquery-rails'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
 # Deploy with Capistrano
 group :development do
   gem 'capistrano', :require => false
   gem 'capistrano-unicorn', :require => false
 end
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
 
 gem "capybara", :group => [:development, :test]
 gem "rspec-rails", :group => [:development, :test]
@@ -63,8 +55,8 @@ group :assets do
   gem "therubyracer"
 end
 
-gem "unicorn"
-gem "foreman"
+gem 'unicorn'
+gem 'foreman'
 
 gem 'aws-sdk'
 gem 'aws-s3'

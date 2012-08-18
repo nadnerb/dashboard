@@ -4,7 +4,7 @@ class Dashboard::StoriesController < ActionController::Base
 
 	def show
 		# this is azzamallows account, with an example project. there is not enough data in there to show it off
-		# PivotalTracker::Client.token = 'da4f9bf2587bd8b68bef789846b35b3d' 
+		PivotalTracker::Client.token = 'da4f9bf2587bd8b68bef789846b35b3d' 
 		# project = PivotalTracker::Project.find(621317)
 
 		# Public project with lots of data

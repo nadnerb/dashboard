@@ -1,6 +1,8 @@
 Dashboard::Application.routes.draw do
   root :to => 'under_construction#show'
 
+  match '/dashboard' => 'dashboard#index'
+
   resource :projects, :only => [:new, :create, :show]
   resource :skeleton, :only => :create, :controller => 'skeleton'
   resource :source, :only => :new do
@@ -10,7 +12,6 @@ Dashboard::Application.routes.draw do
   resource :too_early, :controller => "under_construction"
 
   namespace :dashboard do
-    match '/' => 'dashboard#index'
     match '/stories' => 'stories#show'
   end
 

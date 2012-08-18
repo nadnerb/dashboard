@@ -8,7 +8,11 @@ class CreateGithubJob
   end
 
   def create
-    GithubClient.create_repo(name, directory)
+    # ssh-keygen -t rsa -q -f fooz_rsa -P foozie
+    # create repo
+    # add public key to their repo
+    # push repo
+    #GithubClient.create_repo(name, directory)
   end
 
   handle_asynchronously :create

@@ -12,6 +12,7 @@ class ProjectsController < ApplicationController
     #puts dashboard.create({KeyName: 'team-brats', InstanceType: 't1.micro'})
     #render :nothing => true
     project = Project.create(params[:project])
+    #Jobs::Skeleton.new(params[:project][:name]).build
     respond_with(project, :location => :projects)
   end
 

@@ -152,13 +152,13 @@ $(document).ready(function () {
             $('#summary-environments').text(text.join(', '));
 
             return text.join(', ');
-        },
-        finish: true
+        }
     },{
         id: '#summary',
         validation: function () {
             return true;
-        }
+        },
+        finish: true
     },{
         id: '#waiting',
         validation: function () {

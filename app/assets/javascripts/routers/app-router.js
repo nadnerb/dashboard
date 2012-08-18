@@ -55,7 +55,9 @@ define([
         },
 
         stories: function () {
-            this.dashboard.apply(new StoriesView().render());
+            var view = new StoriesView().render();
+            this.dashboard.apply(view);
+            view.model.fetch();
         }
     });
 });

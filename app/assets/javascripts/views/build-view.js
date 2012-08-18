@@ -36,7 +36,6 @@ define([
 
         renderBuild: function (build) {
             return build.get('displayName') + '<div class="build build-' + build.get('color') + '">' + 
-                    '</a></h2>' + 
                     '</div>';
         }
     });

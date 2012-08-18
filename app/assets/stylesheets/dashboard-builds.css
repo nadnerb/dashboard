@@ -11,7 +11,7 @@
 	height: 200px;
 	margin: 10px;
 	display: inline-block;
-	-webkit-border-radius: 200px;
+	-webkit-border-radius: 300px;
 }
 
 @-webkit-keyframes rotateEndlessly {
@@ -49,24 +49,24 @@
 .builds .build-pipeline .build-blue,
 .builds .build-pipeline .build-blue_anime {
 	background-color: #2BC447;
-	border: 3px solid #2BC447;
+	border: 5px solid #2BC447;
 }
 
 .builds .build-pipeline .build-blue_anime {
-	border-right-color: #666;
+	border-right-color: #333;
 }
 
 .builds .build-pipeline .build-red,
 .builds .build-pipeline .build-red_anime {
 	background-color: #EB1E1E;
-	border: 3px solid #EB1E1E;
+	border: 5px solid #EB1E1E;
 }
 
 .builds .build-pipeline .build-red_anime {
-	border-right-color: #666;
+	border-right-color: #333;
 }
 
 .builds .build-pipeline .build-grey {
-	border: 3px solid #B5BDB7;
+	border: 5px solid #B5BDB7;
 	background-color: #B5BDB7;
 }

@@ -1,23 +1,18 @@
 Dashboard::Application.routes.draw do
   root :to => 'under_construction#show'
 
-  match '/dashboard'             => 'dashboard#index'
-  match '/dashboard/index'       => 'dashboard#index'
-  match '/dashboard/builds'      => 'dashboard#builds'
-  match '/dashboard/stories'     => 'dashboard#stories'
-  match '/dashboard/performance' => 'dashboard#performance'
-  match '/dashboard/source'      => 'dashboard#source'
-  match '/dashboard/configure'   => 'dashboard#configure'
-
   resource :projects, :only => [:new, :create, :show]
   resource :skeleton, :only => :create, :controller => 'skeleton'
   resource :source, :only => :new do
     get 'callback'
   end
 
-  resource :dashboard, :controller => "dashboard"
   resource :too_early, :controller => "under_construction"
 
+  namespace :dashboard do
+    match '/' => 'dashboard#index'
+    match '/stories' => 'stories#show'
+  end
 
   # Temporary route - to be removed after the under_construction sign to brought down
   match 'launchpad' => 'projects#new'

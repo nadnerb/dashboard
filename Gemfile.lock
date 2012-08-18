@@ -117,6 +117,8 @@ GEM
       activesupport (~> 3.0)
       haml (~> 3.0)
       railties (~> 3.0)
+    happymapper (0.4.0)
+      libxml-ruby (~> 2.0)
     highline (1.6.13)
     hike (1.2.1)
     httparty (0.8.3)
@@ -150,6 +152,7 @@ GEM
     libv8 (3.3.10.4)
     libwebsocket (0.1.5)
       addressable
+    libxml-ruby (2.3.3)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -169,6 +172,15 @@ GEM
     oauth2 (0.5.2)
       faraday (~> 0.7)
       multi_json (~> 1.0)
+    pivotal-tracker (0.5.4)
+      builder
+      builder
+      happymapper (>= 0.3.2)
+      happymapper (>= 0.3.2)
+      nokogiri (>= 1.4.3)
+      nokogiri (~> 1.4)
+      rest-client (~> 1.6.0)
+      rest-client (~> 1.6.0)
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
@@ -197,6 +209,8 @@ GEM
     rake (0.9.2.2)
     rdoc (3.12)
       json (~> 1.4)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)
@@ -278,6 +292,7 @@ DEPENDENCIES
   jasmine-spec-extras
   jquery-rails
   oauth2
+  pivotal-tracker
   rails (= 3.2.7)
   rspec-rails
   sass-rails (~> 3.2.3)

@@ -5,6 +5,8 @@ define([
 ], function (BackboneSuperView, NavigationView, template) {
     return BackboneSuperView.extend({
 
+        className: 'container-fluid',
+
         template: template,
 
         postRender: function () {

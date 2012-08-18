@@ -28,9 +28,9 @@ define([
                    nostroke: false,
                    axis: "0 0 1 1",
                    smooth: false,
+                   width: 3,
                    symbol: 'circle',
-                   dash: "-",
-                   colors: ["#995555"]
+                   colors: ["#2B5FB3"]
                 }
             );
 

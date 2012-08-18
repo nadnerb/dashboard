@@ -3,12 +3,11 @@ define([
     'backbone',
     'views/dashboard-view',
     'views/index-view',
-    'views/source-view',
     'views/performance-view',
     'views/configure-view',
     'views/stories-view',
     'views/build-view'
-], function ($, Backbone, DashboardView, IndexView, SourceView, PerformanceView, ConfigureView, StoriesView, BuildView) {
+], function ($, Backbone, DashboardView, IndexView, PerformanceView, ConfigureView, StoriesView, BuildView) {
     return Backbone.Router.extend({
 
         routes: {
@@ -40,10 +39,6 @@ define([
 
         index: function () {
             this.dashboard.apply(new IndexView().render());
-        },
-
-        source: function () {
-            this.dashboard.apply(new SourceView().render());
         },
 
         performance: function () {

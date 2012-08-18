@@ -31,6 +31,11 @@ define([
                 }
 
                 this.$('.build-pipeline').html(html.join(''));
+
+                var self = this;
+                setTimeout(function () {
+                    self.render.call(self);
+                }, 5000);
             }   
         },
 

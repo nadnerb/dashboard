@@ -34,7 +34,7 @@ define([
 
                 var self = this;
                 setTimeout(function () {
-                    self.render.call(self);
+                    self.collection.fetch();
                 }, 5000);
             }   
         },

@@ -2,3 +2,12 @@
 	padding: 10px;
 	text-align: center;
 }
+
+#stories circle {
+	cursor: pointer;
+}
+
+.popover.bottom {
+	margin-top: 20px;
+	margin-left: 9px;
+}

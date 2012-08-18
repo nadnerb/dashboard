@@ -18,10 +18,10 @@ define([
         },
 
         renderImages: function () {
-            var r = Raphael(this.id, 620, 420);
+            var r = Raphael(this.id, 620, 370);
             var chart = r.linechart(
                 10, 10,
-                600, 400,
+                600, 350,
                 [this.model.burnDownDates()], 
                 [this.model.burnDownValues()], 
                 {

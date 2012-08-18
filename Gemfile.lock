@@ -267,6 +267,7 @@ GEM
     xml-simple (1.1.1)
     xpath (0.1.4)
       nokogiri (~> 1.3)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -294,6 +295,7 @@ DEPENDENCIES
   oauth2
   pivotal-tracker
   rails (= 3.2.7)
+  rest-client
   rspec-rails
   sass-rails (~> 3.2.3)
   simple_form
@@ -302,3 +304,4 @@ DEPENDENCIES
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
   unicorn
+  yajl-ruby

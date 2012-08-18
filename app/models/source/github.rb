@@ -1,6 +1,8 @@
+require 'yajl'
+
 class Source::Github
 
-  def initialize(client_id = '96dad6e6b00da1bac9a5', secret = '4ccb97caa0a26f39399baeb0399d1689828adac6')
+  def initialize(client_id = Dashboard::Application.config.github_client_id, secret = Dashboard::Application.config.github_secret)
     @client_id = client_id
     @secret = secret
   end
@@ -17,6 +19,11 @@ class Source::Github
     url = authorize_url
     puts "Redirecting to URL: #{url.inspect}"
     url
+  end
+
+  def user_info_for(token)
+    @user_info ||= RestClient.get("https://api.github.com/user", :params => {:access_token => token})
+    Yajl.load(@user_info)
   end
 
   def state
@@ -39,14 +46,6 @@ class Source::Github
     client.auth_code.authorize_url(
       :state        => state,
       :scope        => scopes
-      #:redirect_uri => redirect_uri
     )
   end
-
-  #def redirect_uri(path = '/auth/github/callback', query = nil)
-    #uri = URI.parse(request.url)
-    #uri.path  = path
-    #uri.query = query
-    #uri.to_s
-  #end
 end

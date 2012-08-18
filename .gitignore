@@ -22,3 +22,4 @@ reports
 *.iml
 /.idea/
 .jhw-cache/
+deployer.pem

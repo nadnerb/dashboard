@@ -38,20 +38,37 @@
 <div class="steps">
     <div id="page1" class="page" data-step="true" data-submit="page-one-done" data-next="github-details" data-navigation="nav-application-name">
         <div class="page-container">
-          <h1>Get your environments up and running in no time</h1>
-          <p>
-            Welcome to the Launchpad! From here you will be able to define your application, specifiying the exact technology and environments you want along the way.
-          </p>
-          <p>&nbsp;</p>
-          <p>Type in the name of the application to get started.</p>
-          <p>
-            <input id="application-name" class="input-xxlarge" type="text" placeholder="Enter the name of the application"/>
-          </p>
-          <p>
-            <a href="#" class="btn btn-success btn-xlarge" id="page-one-done">
-              <i class="icon-arrow-down icon-white"></i> Get Started
-            </a>
-          </p>
+          <%unless session[:token]%>
+            <h1>Github Authorisation</h1>
+            <p>
+              Welcome to the Launchpad!
+            </p>
+            <p>&nbsp;</p>
+            <p>
+              In order to get the application up and running as quickly, first we need to authorise access to your github account.
+            </p>
+            <p>
+              <a href="/source/new" class="btn btn-success btn-xlarge">
+                <i class="icon-arrow-right icon-white"></i> Authorise me please
+              </a>
+            </p>
+          <%else%>
+            <h1>Github Authorised</h1>
+            <p>
+            Great, you have successfully authorised via github. You are logged in as <strong><%=session[:github_user]%></strong>. From here on you will be able to define your application, specifiying the exact technology and environments you want along the way.
+            </p>
+            <p>&nbsp;</p>
+            <p>Now please type in the name of the application so we can get started. </p>
+            <p>
+              <input id="application-name" class="input-xxlarge" type="text" placeholder="Enter the name of the application"/>
+            </p>
+            <p>
+              <a href="#" class="btn btn-success btn-xlarge" id="page-one-done">
+                <i class="icon-arrow-down icon-white"></i> Get Started
+              </a>
+            </p>
+            <b><a href="/source/new">REAUTHORISE THIS APPLICATION</a></b>
+          <%end%>
         </div>
     </div>
 
@@ -59,15 +76,14 @@
         <div class="page-container">
           <h1>Github repository</h1>
           <p>
-            In order to get the application up and running as quickly as possible we will be creating and pushing to a Github repository. The name of the Github repository is determined by the <a href="#" data-navigate="page1">name of the application</a>.
+            Welcome to the Launchpad! From here you will be able to define your application, specifiying the exact technology and environments you want along the way.
           </p>
           <p>&nbsp;</p>
           <p>
             Your Github repository will be found here.
           </p>
-          <a href="source/new">AUTHORISE THIS PUPPY</a>
           <p>&nbsp;</p>
-          <p class="url"></p>
+          <p class="url">https://github.com/<%=session[:github_user]%>/<b class="url"></b>.git</p>
           <p>&nbsp;</p>
           <p>
             Dont worry about remembering this URL, you will be able to grab it later.

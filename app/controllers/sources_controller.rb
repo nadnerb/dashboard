@@ -9,7 +9,11 @@ class SourcesController < ActionController::Base
 
   def callback
     token = client.get_token(params[:code]).token
-    render :text => "CODEZ! #{token}"
+    user = client.user_info_for(token)
+
+    session[:github_user] = user['login']
+    session[:token] = token
+    redirect_to :new_projects
   end
 
   private

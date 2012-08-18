@@ -34,4 +34,7 @@ Dashboard::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.github_client_id = '96dad6e6b00da1bac9a5'
+  config.github_secret = '4ccb97caa0a26f39399baeb0399d1689828adac6'
 end

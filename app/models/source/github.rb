@@ -2,7 +2,7 @@ require 'yajl'
 
 class Source::Github
 
-  def initialize(client_id = '96dad6e6b00da1bac9a5', secret = '4ccb97caa0a26f39399baeb0399d1689828adac6')
+  def initialize(client_id = Dashboard::Application.config.github_client_id, secret = Dashboard::Application.config.github_secret)
     @client_id = client_id
     @secret = secret
   end

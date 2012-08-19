@@ -13,16 +13,26 @@ AfterConfiguration do |config|
   cucumber_config = config
 end
 
-Around('@canary') do |scenario, block|
-  if !cucumber_config.options[:tag_expressions].select { |tag| tag == '@canary' }.empty?
-    old_host = Capybara.app_host
-    Capybara.app_host = 'http://canary.dupondi.us'
-    begin
-      block.call
-    ensure
-      Capybara.app_host = old_host
-    end
+Around('@deploy_test') do |scenario, block|
+  running_as = running_as?(cucumber_config, [:canary, :qa])
+  if running_as
+    run_against(running_as, block)
   else
     block.call
+  end
+end
+
+def running_as?(cucumber_config, tags)
+  tags_to_check = tags.map { |tag| "@#{tag}" }
+  cucumber_config.options[:tag_expressions].select { |tag| tags_to_check.include? tag }.first
+end
+
+def run_against(tag, block)
+  old_host = Capybara.app_host
+  Capybara.app_host = "http://#{tag[1..-1]}.dupondi.us"
+  begin
+    block.call
+  ensure
+    Capybara.app_host = old_host
   end
 end

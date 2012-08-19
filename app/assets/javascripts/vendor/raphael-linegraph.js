@@ -15,7 +15,13 @@ Raphael.fn.drawGrid = function (x, y, w, h, wv, hv, color) {
 };
 
 
-var renderLineGraph = function (labels, data) {
+var renderLineGraph = function (options) {
+    var labels = options.labels;
+    var data = options.values;
+    var width = options.width;
+    var height = options.height;
+    var elementId = options.elementId;
+
     function getAnchors(p1x, p1y, p2x, p2y, p3x, p3y) {
         var l1 = (p2x - p1x) / 2,
             l2 = (p3x - p2x) / 2,
@@ -39,14 +45,12 @@ var renderLineGraph = function (labels, data) {
     var incrementsOf = 10;
     var spaceOnEitherSideOfLineGraph = 16;
     // Draw
-    var width = 900,
-        height = 250,
-        leftgutter = 30,
+    var leftgutter = 30,
         bottomgutter = 20,
         topgutter = 20,
         colorhue = .6 || Math.random(),
         color = "hsl(" + [colorhue, .5, .5] + ")",
-        r = Raphael("simpleExample", width, height),
+        r = Raphael(elementId, width, height),
         txt = {font: '12px Helvetica Neue, Arial', fill: "#fff"},
         txt1 = {font: '10px Helvetica Neue, Arial', fill: "#fff"},
         txt2 = {font: '12px Helvetica Neue, Arial', fill: "#666"},
@@ -57,7 +61,7 @@ var renderLineGraph = function (labels, data) {
 
         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dev'];
 
-    r.drawGrid(leftgutter + X * .5 + .5, topgutter + .5, width - leftgutter - X, height - topgutter - bottomgutter, 6, 7, "#CCC");
+    r.drawGrid(leftgutter + X * .5 + .5, topgutter + .5, width - leftgutter - X, height - topgutter - bottomgutter, null, (nextIncrimentPastMax/incrementsOf), "#CCC");
     var path = r.path().attr({stroke: color, "stroke-width": 4, "stroke-linejoin": "round"}),
         bgp = r.path().attr({stroke: "none", opacity: .3, fill: color}),
         label = r.set(),
@@ -74,7 +78,6 @@ var renderLineGraph = function (labels, data) {
     var maxyval = data[0];
     var yvalcount = 0;
     for (var i = 0; i < maxyval; i+=incrementsOf) {
-        console.log(Y);
         r.text(Math.round(leftgutter + 40), Math.round(height - bottomgutter - Y * i), i).attr(txt2).toBack();
         yvalcount += 1;
     }
@@ -102,7 +105,7 @@ var renderLineGraph = function (labels, data) {
         //     p = p.concat([a.x1, a.y1, x, y, a.x2, a.y2]);
             // bgpp = bgpp.concat([i ? "L" : "M", x, y]);
         }
-        var dot = r.circle(x, y, 4).attr({fill: "#333", stroke: color, "stroke-width": 2});
+        var dot = r.circle(x, y, 4).attr({fill: color, stroke: color, "stroke-width": 2});
         blanket.push(r.rect(x - (spaceOnEitherSideOfLineGraph * 3), 0, X, height - bottomgutter).attr({stroke: "none", fill: "#fff", opacity: 0}));
         var rect = blanket[blanket.length - 1];
         (function (x, y, data, lbl, dot) {

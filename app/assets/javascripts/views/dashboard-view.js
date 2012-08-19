@@ -14,6 +14,12 @@ define([
             navigationView.render();
             $('body').prepend(navigationView.el);
             navigationView.renderImages();
+
+            var _this = this;
+            $.get('/status', function (data) {
+              _this.$('footer .version').html("Version: " + data.version + ", Git SHA: " + data.git_commit +
+                ", Build Date: " + data.build_date);
+            });
         },
 
         apply: function (view) {

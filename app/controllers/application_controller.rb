@@ -4,7 +4,9 @@ class ApplicationController < ActionController::Base
 
   rescue_from Dupondius::Aws::Config::InvalidCredentials, :with => :bad_aws_credentials
 
-
+  before_filter {
+    headers['X-Refspec'] = Dupondius::Version.refspec
+  }
 
   private
 

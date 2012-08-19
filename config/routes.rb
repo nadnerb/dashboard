@@ -15,6 +15,9 @@ Dashboard::Application.routes.draw do
     match '/stories' => 'stories#show'
   end
 
+  match '/status' => 'status#index'
+  match '/status/heart_beat' => 'status#heart_beat'
+
   # Temporary route - to be removed after the under_construction sign to brought down
   match 'launchpad' => 'projects#new'
 

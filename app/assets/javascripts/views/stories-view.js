@@ -18,8 +18,14 @@ define([
             }, this);
         },
 
+        postRender: function () {
+          this.$el.html('Pivotal Tracker Chatter happening...');
+        },
+
         renderImages: function () {
+            this.$el.empty();
             renderLineGraph({
+              elementId: this.id,
               labels: this.model.burnDownDates(),
               values: this.model.burnDownValues(),
               width: Math.min(this.$el.width(), 900),

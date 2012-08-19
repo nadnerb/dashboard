@@ -20,6 +20,7 @@ var renderLineGraph = function (options) {
     var data = options.values;
     var width = options.width;
     var height = options.height;
+    var elementId = options.elementId;
 
     function getAnchors(p1x, p1y, p2x, p2y, p3x, p3y) {
         var l1 = (p2x - p1x) / 2,
@@ -49,7 +50,7 @@ var renderLineGraph = function (options) {
         topgutter = 20,
         colorhue = .6 || Math.random(),
         color = "hsl(" + [colorhue, .5, .5] + ")",
-        r = Raphael("simpleExample", width, height),
+        r = Raphael(elementId, width, height),
         txt = {font: '12px Helvetica Neue, Arial', fill: "#fff"},
         txt1 = {font: '10px Helvetica Neue, Arial', fill: "#fff"},
         txt2 = {font: '12px Helvetica Neue, Arial', fill: "#666"},
@@ -77,7 +78,6 @@ var renderLineGraph = function (options) {
     var maxyval = data[0];
     var yvalcount = 0;
     for (var i = 0; i < maxyval; i+=incrementsOf) {
-        console.log(Y);
         r.text(Math.round(leftgutter + 40), Math.round(height - bottomgutter - Y * i), i).attr(txt2).toBack();
         yvalcount += 1;
     }

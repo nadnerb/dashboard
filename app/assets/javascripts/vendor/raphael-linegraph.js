@@ -1,13 +1,13 @@
 Raphael.fn.drawGrid = function (x, y, w, h, wv, hv, color) {
     color = color || "#000";
-    var path = ["M", Math.round(x) + .5, Math.round(y) + .5, "L", Math.round(x + w) + .5, Math.round(y) + .5, Math.round(x + w) + .5, Math.round(y + h) + .5, Math.round(x) + .5, Math.round(y + h) + .5, Math.round(x) + .5, Math.round(y) + .5],
+    var path = ["M", Math.round(x), Math.round(y) - .5, "L", Math.round(x + w), Math.round(y) - .5, Math.round(x + w), Math.round(y + h) - .5, Math.round(x), Math.round(y + h) - .5, Math.round(x), Math.round(y) - .5],
         rowHeight = h / hv,
         columnWidth = w / wv;
     for (var i = 1; i < hv; i++) {
         path = path.concat(["M", Math.round(x) + .5, Math.round(y + i * rowHeight) + .5, "H", Math.round(x + w) + .5]);
     }
     for (i = 1; i < wv; i++) {
-        path = path.concat(["M", Math.round(x + i * columnWidth) + .5, Math.round(y) + .5, "V", Math.round(y + h) + .5]);
+        // path = path.concat(["M", Math.round(x + i * columnWidth) + .5, Math.round(y) + .5, "V", Math.round(y + h) + .5]);
     }
     return this.path(path.join(",")).attr({stroke: color});
 };
@@ -48,11 +48,12 @@ var renderLineGraph = function (labels, data) {
         txt2 = {font: '12px Helvetica Neue, Arial', fill: "#000"},
         X = (width - leftgutter) / labels.length,
         max = Math.max.apply(Math, data),
-        Y = (height - bottomgutter - topgutter) / max;
+        nextIncrimentPastMax = (Math.round(parseInt(max)/10)*10),
+        Y = (height - bottomgutter - topgutter) / nextIncrimentPastMax;
 
         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dev'];
 
-    r.drawGrid(leftgutter + X * .5 + .5, topgutter + .5, width - leftgutter - X, height - topgutter - bottomgutter, 6, 8, "#CCC");
+    r.drawGrid(leftgutter + X * .5 + .5, topgutter + .5, width - leftgutter - X, height - topgutter - bottomgutter, 6, 7, "#CCC");
     var path = r.path().attr({stroke: color, "stroke-width": 4, "stroke-linejoin": "round"}),
         bgp = r.path().attr({stroke: "none", opacity: .3, fill: color}),
         label = r.set(),
@@ -69,10 +70,11 @@ var renderLineGraph = function (labels, data) {
     var maxyval = data[0];
     var yvalcount = 0;
     for (var i = 0; i < maxyval; i+=10) {
+        console.log(Y);
         r.text(Math.round(leftgutter + 40), Math.round(height - bottomgutter - Y * i), i).attr(txt2).toBack();
         yvalcount += 1;
     }
-    r.text(Math.round(leftgutter + 40), Math.round(height - bottomgutter - Y * maxyval), maxyval).attr(txt2).toBack();
+    r.text(Math.round(leftgutter + 40), Math.round(height - bottomgutter - Y * nextIncrimentPastMax), nextIncrimentPastMax).attr(txt2).toBack();
 
     var p=[], bgpp;
     for (var i = 0, ii = labels.length; i < ii; i++) {

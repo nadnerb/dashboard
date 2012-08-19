@@ -20,6 +20,12 @@ begin
       t.profile = 'default'
     end
 
+    Cucumber::Rake::Task.new({:canary => 'db:test:prepare'}, 'Run features that should pass on canary node') do |t|
+      t.binary = vendored_cucumber_bin # If nil, the gem's binary is used.
+      t.fork = true # You may get faster startup if you set this to false
+      t.profile = 'canary'
+    end
+
     Cucumber::Rake::Task.new({:wip => 'db:test:prepare'}, 'Run features that are being worked on') do |t|
       t.binary = vendored_cucumber_bin
       t.fork = true # You may get faster startup if you set this to false

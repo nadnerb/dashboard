@@ -16,7 +16,7 @@ module Dupondius
     end
 
     def self.build_date
-      @_build_date ||= `git show #{refspec} --pretty=tformat:'%cd' 2>/dev/null`.strip
+      @_build_date ||= `git log -n 1 #{refspec} --format=%ad 2>/dev/null`.strip
     end
 
   end

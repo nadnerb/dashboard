@@ -19,9 +19,12 @@ define([
         },
 
         renderImages: function () {
-            var values = this.model.burnDownValues();
-            var dates = this.model.burnDownDates();
-            renderLineGraph(dates, values);
+            renderLineGraph({
+              labels: this.model.burnDownDates(),
+              values: this.model.burnDownValues(),
+              width: Math.min(this.$el.width(), 900),
+              height: 250
+            });
         }
     });
 });

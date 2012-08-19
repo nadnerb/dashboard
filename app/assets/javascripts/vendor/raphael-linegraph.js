@@ -15,7 +15,12 @@ Raphael.fn.drawGrid = function (x, y, w, h, wv, hv, color) {
 };
 
 
-var renderLineGraph = function (labels, data) {
+var renderLineGraph = function (options) {
+    var labels = options.labels;
+    var data = options.values;
+    var width = options.width;
+    var height = options.height;
+
     function getAnchors(p1x, p1y, p2x, p2y, p3x, p3y) {
         var l1 = (p2x - p1x) / 2,
             l2 = (p3x - p2x) / 2,
@@ -39,9 +44,7 @@ var renderLineGraph = function (labels, data) {
     var incrementsOf = 10;
     var spaceOnEitherSideOfLineGraph = 16;
     // Draw
-    var width = 900,
-        height = 250,
-        leftgutter = 30,
+    var leftgutter = 30,
         bottomgutter = 20,
         topgutter = 20,
         colorhue = .6 || Math.random(),

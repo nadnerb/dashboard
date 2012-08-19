@@ -5,8 +5,6 @@ gem 'bigdecimal'
 gem 'appscrolls', :git => 'git@github.com:nadnerb/appscrolls.git'
 gem 'foreman-export-initscript', :git => 'git://github.com/Draiken/foreman-export-initscript.git'
 gem 'pivotal-tracker'
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
 gem 'delayed_job_active_record'

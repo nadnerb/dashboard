@@ -1,4 +1,4 @@
-@canary
+@canary @javascript
 Feature: Dashboard
 
   Scenario: There should be a dashboard, all things considered

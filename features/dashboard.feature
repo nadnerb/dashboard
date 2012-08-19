@@ -1,4 +1,4 @@
-@canary @qa @deploy_test @javascript
+@canary @qa @staging @production @deploy_test @javascript
 Feature: Dashboard
 
   Scenario: The app should live

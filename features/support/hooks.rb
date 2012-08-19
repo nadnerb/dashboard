@@ -14,7 +14,7 @@ AfterConfiguration do |config|
 end
 
 Around('@deploy_test') do |scenario, block|
-  running_as = running_as?(cucumber_config, [:canary, :qa])
+  running_as = running_as?(cucumber_config, [:canary, :qa, :staging, :production])
   if running_as
     run_against(running_as, block)
   else

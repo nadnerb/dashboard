@@ -1,9 +1,9 @@
 define([
-    'jquery',
     'vendor/base',
     'models/iteration',
+    'views/widget-view',
     'text!templates/stories.html.haml'
-], function ($, BackboneSuperView, Iteration, template) {
+], function (BackboneSuperView, Iteration, WidgetView, template) {
     return BackboneSuperView.extend({
 
         id: 'stories',
@@ -14,23 +14,28 @@ define([
             this.model = new Iteration();
             this.model.on('change', function () {
                 this.render();
-                this.renderImages();
             }, this);
         },
 
         postRender: function () {
-          this.$el.html('Pivotal Tracker Chatter happening...');
-        },
+          var view = new WidgetView({
+            heading: 'Burn Down Chart',
+            contentId: 'burn-down-widget'
+          });
+          view.render();
+          this.$el.html(view.el);
 
-        renderImages: function () {
-            this.$el.empty();
-            renderLineGraph({
-              elementId: this.id,
-              labels: this.model.burnDownDates(),
-              values: this.model.burnDownValues(),
-              width: Math.min(this.$el.width(), 900),
-              height: 250
-            });
+          if (this.model.hasChanged()) {
+              renderLineGraph({
+                elementId: view.options.contentId,
+                labels: this.model.burnDownDates(),
+                values: this.model.burnDownValues(),
+                width: Math.min(this.$el.width(), 900),
+                height: 250
+              });
+          } else {
+            view.content('Pivotal Tracker Chatter happening...');
+          }
         }
     });
 });

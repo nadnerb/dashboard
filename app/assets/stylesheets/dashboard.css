@@ -1,0 +1,30 @@
+html, body {
+	background-color: #E9E9E9;
+}
+
+.widget-header {
+	height: 40px;
+	background: #E9E9E9;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#FAFAFA), color-stop(100%,#E9E9E9));
+	background:-webkit-linear-gradient(top, #FAFAFA 0%,#E9E9E9 100%);
+	border: 1px solid #D5D5D5;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	-webkit-background-clip: padding-box;
+}	
+	
+.widget-header h3 {	
+	font-size: 14px;
+	font-weight: 800;
+	color: #555;
+	line-height: 40px;
+	text-shadow: 1px 1px 2px rgba(255,255,255,.5);
+}
+	
+.widget-content {
+	padding: 10px;
+	background: white;
+	border: 1px solid #D5D5D5;
+	-webkit-border-bottom-left-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+}

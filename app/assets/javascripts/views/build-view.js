@@ -1,8 +1,9 @@
 define([
     'vendor/base',
     'collections/builds',
+    'views/widget-view',
     'text!templates/builds.html.haml'
-], function (BackboneSuperView, BuildsCollection, template) {
+], function (BackboneSuperView, BuildsCollection, WidgetView, template) {
     return BackboneSuperView.extend({
 
         className: 'builds',
@@ -18,8 +19,15 @@ define([
         },
 
         postRender: function () {
+            var view = new WidgetView({
+                heading: 'Build Pipeline',
+                contentId: 'build-pipeline-widget'
+            });
+            view.render();
+            this.$el.append(view.el);
+
             if (this.collection.isEmpty()) {
-                this.$('.build-pipeline').html('Negotiating with Jenkins...');
+                view.content('Negotiating with Jenkins...');
             } else {
                 var build = this.collection.firstInPipeline;
                 var html = [];
@@ -30,18 +38,20 @@ define([
                     build = build.next;
                 }
 
-                this.$('.build-pipeline').html(html.join(''));
+                view.content(html.join(''));
 
                 var self = this;
-                setTimeout(function () {
-                    self.collection.fetch();
-                }, 5000);
+                // setTimeout(function () {
+                //     self.collection.fetch();
+                // }, 5000);
             }   
         },
 
         renderBuild: function (build) {
-            return build.get('displayName') + '<div class="build build-' + build.get('color') + '">' + 
-                    '</div>';
+            return '<div class="build build-' + build.get('color') + '">' + 
+                    '<div class="rotation">' + 
+                    '</div></div>' +
+                    '<span class="heading">' + build.get('displayName') + '</span>';
         }
     });
 });

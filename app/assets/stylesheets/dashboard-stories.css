@@ -1,14 +1,6 @@
 #stories {
 	padding: 10px;
+	margin: 0 auto;
 	text-align: center;
-}
-
-
-#stories circle {
-	cursor: pointer;
-}
-
-.popover.bottom {
-	margin-top: 20px;
-	margin-left: 9px;
+	max-width: 900px;
 }

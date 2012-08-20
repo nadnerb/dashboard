@@ -105,6 +105,10 @@ var renderLineGraph = function (options) {
         //     p = p.concat([a.x1, a.y1, x, y, a.x2, a.y2]);
             // bgpp = bgpp.concat([i ? "L" : "M", x, y]);
         }
+        if (data[i] === undefined) {
+            continue;    
+        }
+
         var dot = r.circle(x, y, 4).attr({fill: color, stroke: color, "stroke-width": 2});
         blanket.push(r.rect(x - (spaceOnEitherSideOfLineGraph * 3), 0, X, height - bottomgutter).attr({stroke: "none", fill: "#fff", opacity: 0}));
         var rect = blanket[blanket.length - 1];

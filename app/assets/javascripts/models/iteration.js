@@ -7,10 +7,19 @@ define([
         url: 'dashboard/stories',
 
         burnDownValues: function () {
-            var cummulatedPoints = [0,0,0,0,0,0,0];
+            var cummulatedPoints = [];
             var startDate = new Date(this.get('start'));
             var finishDate = new Date(this.get('finish'));            
             var numberOfDays = (finishDate - startDate) / millisecondsInADay;
+
+            var today = new Date();
+            today.setHours(startDate.getHours());
+            today.setMinutes(startDate.getMinutes());
+            today.setSeconds(startDate.getSeconds());
+
+            if (today > startDate && today < finishDate) {
+                numberOfDays = Math.floor((today - startDate) / millisecondsInADay) + 1; 
+            }
 
             _(this.get('stories')).each(function (story) {
                 var dayComplete = numberOfDays;
@@ -23,7 +32,11 @@ define([
                     dayComplete = (dateAccepted - startDate) / millisecondsInADay;
                 }
 
+                
                 _(dayComplete).times(function (count) {
+                    if (cummulatedPoints[count] === undefined) {
+                        cummulatedPoints[count] = 0;
+                    }
                     cummulatedPoints[count] += story.estimate;
                 });
             });

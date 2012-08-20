@@ -41,17 +41,17 @@ define([
                 view.content(html.join(''));
 
                 var self = this;
-                // setTimeout(function () {
-                //     self.collection.fetch();
-                // }, 5000);
-            }   
+                setTimeout(function () {
+                    self.collection.fetch();
+                }, 6000);
+            }
         },
 
         renderBuild: function (build) {
-            return '<div class="build build-' + build.get('color') + '">' + 
-                    '<div class="rotation">' + 
-                    '</div></div>' +
-                    '<span class="heading">' + build.get('displayName') + '</span>';
+            return '<div class="build build-' + build.get('color') + '">' +
+                '<div class="rotation">' + 
+                '</div></div>' +
+                '<span class="heading">' + build.get('displayName') + '</span>';
         }
     });
 });

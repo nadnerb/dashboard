@@ -1,4 +1,4 @@
-class SourcesController < ActionController::Base
+class SourcesController < ApplicationController
   rescue_from OAuth2::Error, :with => :oauth_error
 
   before_filter :client

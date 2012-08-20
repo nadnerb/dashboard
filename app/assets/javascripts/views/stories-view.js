@@ -34,7 +34,7 @@ define([
                 height: 250
               });
           } else {
-            view.content('Pivotal Tracker Chatter happening...');
+                view.content('Pivotal Tracker Chatter happening...');
           }
         }
     });

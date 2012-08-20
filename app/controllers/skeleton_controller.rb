@@ -1,4 +1,4 @@
-class SkeletonController < ActionController::Base
+class SkeletonController < ApplicationController
 
   wrap_parameters :format => [:json]
 

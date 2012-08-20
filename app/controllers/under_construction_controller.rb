@@ -1,4 +1,4 @@
-class UnderConstructionController < ActionController::Base
+class UnderConstructionController < ApplicationController
   def show
     
   end

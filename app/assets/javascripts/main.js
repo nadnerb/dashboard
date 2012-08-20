@@ -26,6 +26,8 @@ require.config({
 
         'vendor/bootstrap': ["jquery"],
 
+        'vendor/jquery.cookie': ["jquery"],
+
         'vendor/base': ['backbone']
     }
 });
@@ -42,7 +44,8 @@ require([
   'routers/app-router',
   'vendor/base',
   'vendor/bootstrap',
-  'vendor/haml'
+  'vendor/haml',
+  'vendor/jquery.cookie'
 ], function($, Backbone, AppRouter) {
     $(function() {
         router = new AppRouter();

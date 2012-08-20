@@ -187,7 +187,30 @@ $(document).ready(function () {
             type: 'POST',
             url: '/projects',
             contentType: "application/json",
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            success: success
         });
+
+        var success = function (response) {
+            if (JSON.parse(response).status === 'CREATE_COMPLETE') {
+                console.log('hooray for life');
+                return;
+            }
+
+            setTimeout(function () {
+                fetch();
+            }, 5000);
+        };
+
+        var fetch = function () {
+            $.ajax({
+                type: 'GET',
+                url: '/projects',
+                contentType: "application/json",
+                success: success
+            });
+        };
+
+        fetch();
     });
 });

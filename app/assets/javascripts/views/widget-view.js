@@ -17,7 +17,7 @@ define([
             this.$('.widget-content').attr('id', this.options.contentId);
         },
 
-        content: function (content) {
+        append: function (content) {
           this.$('.widget-content').append(content);
         }
     });

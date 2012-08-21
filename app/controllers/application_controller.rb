@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     headers['X-Refspec'] = Dupondius::Version.refspec
   }
   
-  before_filter :can_we_haz
+  before_filter :can_we_haz, :except => [:monkeys_and_bananas]
 
   private
 

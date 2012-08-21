@@ -1,7 +1,4 @@
-#require 'dupondius/aws/stacks/base'
-#require 'dupondius/aws/stacks/dashboard'
-#require 'dupondius/aws/stacks/continuous_integration'
-require 'dupondius/aws/stacks/rails'
+#require 'dupondius/aws/stacks/rails'
 
 module Dupondius; module Aws; module Stacks
 
@@ -11,31 +8,36 @@ module Dupondius; module Aws; module Stacks
   end
 
   class Base
+    attr_reader :stack
 
-    def initialize project
-      @project = project
+    def initialize stack
+      @stack = stack
     end
-
     def self.template name
+       @template_name = name
        self.class_eval("def template_name; '#{name}';end")
     end
 
-    def create parameters
-      Dupondius::Aws::Stacks.cloudformation.stacks.create("#{template_name}#{@project}", as_json,
+    def self.find name
+      self.new(Dupondius::Aws::Stacks.cloudformation.stacks["#{@template_name}#{name}"])
+    end
+
+    def self.create name, parameters
+      Dupondius::Aws::Stacks.cloudformation.stacks.create("#{@template_name}#{name}", as_json,
         :parameters => parameters)
     end
 
-    def params
-      @param ||= validate[:parameters].collect { |p| p[:parameter_key] }
+    def self.template_params
+      Dupondius::Aws::Stacks.cloudformation.validate_template(self.as_json)[:parameters].collect { |p| p[:parameter_key] }
     end
 
-    def validate
-      Dupondius::Aws::Stacks.cloudformation.validate_template(as_json)
-    end
-
-    def as_json
+    def self.as_json
       @template_json ||= File.open(File.expand_path(File.join(
-        File.dirname(__FILE__), '..', 'aws', 'templates', "#{template_name}.template")), 'rb').read
+        File.dirname(__FILE__), '..', 'aws', 'templates', "#{@template_name}.template")), 'rb').read
+    end
+
+    def ready?
+      @stack.status == 'CREATE_COMPLETE'
     end
   end
 

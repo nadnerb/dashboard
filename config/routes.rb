@@ -3,7 +3,7 @@ Dashboard::Application.routes.draw do
 
   match '/dashboard' => 'dashboard#index'
 
-  resource :projects, :only => [:new, :create, :show]
+  resources :projects, :only => [:new, :create, :show]
   resource :skeleton, :only => :create, :controller => 'skeleton'
   resource :source, :only => :new do
     get 'callback'

@@ -1,0 +1,11 @@
+{
+    "id" : "<%= @project.id %>",
+    "name" : "<%= @project.name %>",
+    "status" : "<%= @project.dashboard.stack.status %>",
+    <% if @project.dashboard.ready? %>
+      "output" : {
+        "key" : "<%= @project.dashboard.stack.outputs.first.key%>",
+        "value" : "<%= @project.dashboard.stack.outputs.first.value%>"
+      }
+    <% end %>
+}

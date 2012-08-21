@@ -32,7 +32,10 @@ define([
         },
 
         builds: function () {
-            var view = new BuildsView().render();
+            var view = new BuildsView({
+                heading: 'Build Pipeline',
+                contentId: 'build-pipeline-widget'
+            }).render();
             this.dashboard.apply(view);
             view.collection.fetch();
         },

@@ -1,17 +1,17 @@
 define([
-    'vendor/base',
     'collections/builds',
     'views/widget-view',
     'views/build-view',
-    'text!templates/builds.html.haml'
-], function (BackboneSuperView, BuildsCollection, WidgetView, BuildView, template) {
-    return BackboneSuperView.extend({
+], function (BuildsCollection, WidgetView, BuildView) {
+    return WidgetView.extend({
 
         className: 'builds',
 
-        template: template,
+        builds: [],
 
-        initialize: function () {
+        initialize: function (options) {
+            WidgetView.prototype.initialize.call(this, options);
+
             this.collection = new BuildsCollection();
             this.collection.on('reset', function () {
                 this.collection.pipeline();
@@ -20,34 +20,31 @@ define([
         },
 
         postRender: function () {
-            var view = new WidgetView({
-                heading: 'Build Pipeline',
-                contentId: 'build-pipeline-widget'
-            }).render();
-            this.$el.append(view.el);
+            WidgetView.prototype.postRender.call(this);
 
             if (this.collection.isEmpty()) {
-                view.append('Negotiating with Jenkins...');
+                this.append('Negotiating with Jenkins...');
                 return;
             }
 
-            this.appendAll(view, this.collection);
-            // this.checkPeriodically();
+            this.appendBuilds(this.collection);
+            this.checkPeriodically();
         },
 
-        appendAll: function (view, builds) {
+        appendBuilds: function (builds) {
             var build = builds.firstInPipeline;
-            this.append(view, build);
+            this.appendBuild(build);
 
             while (build.hasNext()) {
-                this.append(view, build.next);
+                this.appendBuild(build.next);
                 build = build.next;
             }
         },
 
-        append: function (view, build) {
+        appendBuild: function (build) {
             var buildView = new BuildView({model: build}).render();
-            view.append(buildView.el);
+            this.builds.push(buildView);
+            this.append(buildView.el);
             buildView.renderSpinner();
         },
 

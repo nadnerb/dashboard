@@ -23,6 +23,6 @@ class ApplicationController < ActionController::Base
 #
 # you can now access everything again
   def can_we_haz
-    redirect_to("/404.html") unless cookies[:u_can_haz] == 'monkeysAndBananas' || params[:controller] == 'under_construction'
+#    redirect_to("/404.html") unless cookies[:u_can_haz] == 'monkeysAndBananas' || params[:controller] == 'under_construction'
   end
 end

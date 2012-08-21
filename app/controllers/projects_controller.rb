@@ -16,7 +16,4 @@ class ProjectsController < ApplicationController
     respond_with(project, :location => :projects)
   end
 
-  def can_we_haz
-  end
-
 end

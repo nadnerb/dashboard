@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe SourcesController do
 
+  before do
+    request.cookies['u_can_haz'] = 'monkeysAndBananas'
+  end
+
   let(:client) do
     client = mock(Source::Github)
     Source::Github.should_receive(:new).and_return(client)

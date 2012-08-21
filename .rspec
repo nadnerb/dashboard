@@ -2,4 +2,3 @@
 --format d
 --format html
 --out reports/rspec_output.html
-

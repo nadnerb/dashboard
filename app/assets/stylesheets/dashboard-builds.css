@@ -44,14 +44,13 @@
 .builds .build-blue,
 .builds .build-blue_anime {
 	background-color: #2eb535;
-
-    /*background-image: -moz-radial-gradient(center 45deg,circle cover, #cde6f9, #6191bf);
-    background-image: -webkit-gradient(radial,45% 45%,5,60% 60%,40,from(yellow),color-stop(75%, green),to(rgba(255, 255, 255, 0)))*/
+    /*background-image: -webkit-radial-gradient(50px 50px, circle cover, #43E859, #2eb535);*/
 }
 
 .builds .build-red,
 .builds .build-red_anime {
 	background-color: #da2c47;
+    /*background-image: -webkit-radial-gradient(40px 40px, circle cover, #D46A7A, #da2c47);*/
 }
 
 .builds .build-grey,

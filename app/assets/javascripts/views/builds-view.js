@@ -15,20 +15,37 @@ define([
             this.collection = new BuildsCollection();
             this.collection.on('reset', function () {
                 this.collection.pipeline();
-                this.render();
+                this.renderCollection();
             }, this);
         },
 
         postRender: function () {
             WidgetView.prototype.postRender.call(this);
+            this.append('Negotiating with Jenkins...');
+        },
 
-            if (this.collection.isEmpty()) {
-                this.append('Negotiating with Jenkins...');
-                return;
+        renderCollection: function () {
+            if (this.builds.length > 0) {
+                this.refreshBuilds(this.collection);
+            } else {
+                this.empty();
+                this.appendBuilds(this.collection);
             }
 
-            this.appendBuilds(this.collection);
             this.checkPeriodically();
+        },
+
+        refreshBuilds: function (builds) {
+            var count = 0;
+            var build = builds.firstInPipeline;
+            this.builds[count].update(build);
+
+            count++;
+            while (build.hasNext()) {
+                this.builds[count].update(build.next);
+                build = build.next;
+                count++;
+            }
         },
 
         appendBuilds: function (builds) {

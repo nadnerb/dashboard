@@ -18,7 +18,11 @@ define([
         },
 
         append: function (content) {
-          this.$('.widget-content').append(content);
+            this.$('.widget-content').append(content);
+        },
+
+        empty: function () {
+            this.$('.widget-content').empty();  
         }
     });
 });

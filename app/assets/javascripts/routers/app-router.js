@@ -6,8 +6,8 @@ define([
     'views/performance-view',
     'views/configure-view',
     'views/stories-view',
-    'views/build-view'
-], function ($, Backbone, DashboardView, IndexView, PerformanceView, ConfigureView, StoriesView, BuildView) {
+    'views/builds-view'
+], function ($, Backbone, DashboardView, IndexView, PerformanceView, ConfigureView, StoriesView, BuildsView) {
     return Backbone.Router.extend({
 
         routes: {
@@ -32,7 +32,7 @@ define([
         },
 
         builds: function () {
-            var view = new BuildView().render();
+            var view = new BuildsView().render();
             this.dashboard.apply(view);
             view.collection.fetch();
         },

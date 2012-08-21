@@ -6,62 +6,60 @@
 	max-width: 900px;
 }
 
+.builds .widget-content {
+    padding-left: 50px;
+}
+
 .builds .build {
-	margin: 15px;
-	width: 180px;
-	height: 180px;
+    position: relative;
+	margin: 25px 15px;
+	width: 250px;
+    text-align: center;
+    cursor: pointer;
 }
 
-.builds .build .rotation {
-	width: 170px;
-	height: 170px;
+.builds .build a {
+    display: block;
+    text-decoration: none;
+    color: #eee;
+    font-size: 16px;
+    padding: 15px;
 }
 
-.builds .build,
-.builds .build .rotation {
-	text-align: center;
-	display: inline-block;
-	-webkit-border-radius: 300px;
+.builds .build .spinner {
+    position: absolute;
+    right: 5px;
+    top: 5px;
 }
 
-@-webkit-keyframes rotateEndlessly {
-    from {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
+.builds .build:first-child {
+    margin-top: 15px;
 }
 
-.builds .build .rotation {
-    -webkit-animation-name: rotateEndlessly;
-    -webkit-animation-duration: 2s;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear;
+.build > div {
+    -webkit-border-radius: 3px;
+    -webkit-box-shadow: 0 0 5px 1px #888;
 }
 
 .builds .build-blue,
 .builds .build-blue_anime {
-	background-color: #2BC447;
-}
+	background-color: #2eb535;
 
-.builds .build-blue_anime .rotation {
-	border: 5px solid #2BC447;
-	border-right-color: #333;
+    /*background-image: -moz-radial-gradient(center 45deg,circle cover, #cde6f9, #6191bf);
+    background-image: -webkit-gradient(radial,45% 45%,5,60% 60%,40,from(yellow),color-stop(75%, green),to(rgba(255, 255, 255, 0)))*/
 }
 
 .builds .build-red,
 .builds .build-red_anime {
-	background-color: #EB1E1E;
+	background-color: #da2c47;
 }
 
-.builds .build-red_anime .rotation {
-	border: 5px solid #EB1E1E;
-	border-right-color: #333;
-}
-
-.builds .build-grey {
+.builds .build-grey,
+.builds .build-grey_anime {
 	background-color: #B5BDB7;
 }
+
+
+/*
+    yellow: #d0bf27;
+*/

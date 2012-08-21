@@ -4,7 +4,7 @@ Dashboard::Application.routes.draw do
   match '/dashboard' => 'dashboard#index'
   match '/dashboard/monkeys_and_bananas' => 'dashboard#monkeys_and_bananas'
 
-  resource :projects, :only => [:new, :create, :show]
+  resources :projects, :only => [:new, :create, :show]
   resource :skeleton, :only => :create, :controller => 'skeleton'
   resource :source, :only => :new do
     get 'callback'

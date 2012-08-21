@@ -7,10 +7,11 @@ class ProjectsController < ApplicationController
   def new
   end
 
+  def show
+    @project = Project.find(params[:id])
+  end
+
   def create
-    #dashboard = Dupondius::Aws::Stacks::Dashboard.new(params[:name])
-    #puts dashboard.create({KeyName: 'team-brats', InstanceType: 't1.micro'})
-    #render :nothing => true
     project = Project.create(params[:project])
     #Jobs::Skeleton.new(params[:project][:name]).build
     respond_with(project, :location => :projects)

@@ -13,7 +13,7 @@ class SourcesController < ApplicationController
 
     session[:github_user] = user['login']
     session[:token] = token
-    redirect_to :new_projects
+    redirect_to :new_project
   end
 
   private

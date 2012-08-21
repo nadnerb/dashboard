@@ -183,11 +183,39 @@ $(document).ready(function () {
             environments: environments
         };
 
+        var getSuccess = function(response) {
+            if (JSON.parse(response).status === 'CREATE_COMPLETE') {
+                console.log('hooray for life');
+                return;
+            } else {
+              console.log('not yet. be patient...');
+            }
+
+            setTimeout(function () {
+              $.ajax({
+                  type: 'GET',
+                  url: '/projects' + response.id,
+                  contentType: "application/json",
+                  success: getSuccess
+              });
+            }, 5000);
+        }
+        var postSuccess = function(response) {
+              $.ajax({
+                  type: 'GET',
+                  url: '/projects/' + response.id,
+                  contentType: "application/json",
+                  success: getSuccess
+              });
+        };
+
         $.ajax({
             type: 'POST',
             url: '/projects',
             contentType: "application/json",
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+           success: postSuccess
         });
+
     });
 });

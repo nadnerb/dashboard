@@ -2,6 +2,7 @@ Dashboard::Application.routes.draw do
   root :to => 'under_construction#show'
 
   match '/dashboard' => 'dashboard#index'
+  match '/dashboard/monkeys_and_bananas' => 'dashboard#monkeys_and_bananas'
 
   resource :projects, :only => [:new, :create, :show]
   resource :skeleton, :only => :create, :controller => 'skeleton'

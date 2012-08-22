@@ -12,7 +12,12 @@ module Dupondius
     end
 
     def self.version
-      @_version ||= `git describe 2>/dev/null`.strip
+      if @_version
+        @_version
+      else
+        @_version ||= `git log --decorate --format=format:%d --tags 2>/dev/null | head -n 1`
+        @_version = @_version[1..-2].split(', ').first
+      end
     end
 
     def self.build_date

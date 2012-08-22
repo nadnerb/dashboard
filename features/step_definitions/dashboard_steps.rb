@@ -1,4 +1,5 @@
 Given /^I go to the dashboard url$/ do
+  visit('/dashboard/monkeys_and_bananas')
   visit('/dashboard')
 end
 

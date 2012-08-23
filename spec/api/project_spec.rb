@@ -4,6 +4,11 @@ describe "project", :type => :api do
 
   context "creating a project" do
 
+    before do
+      skeleton = mock(Jobs::Skeleton).as_null_object
+      Jobs::Skeleton.should_receive(:new).and_return(skeleton)
+    end
+
     let(:url) { "/projects" }
 
     it "sucessful as JSON" do

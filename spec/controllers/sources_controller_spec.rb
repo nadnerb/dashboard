@@ -7,8 +7,8 @@ describe SourcesController do
   end
 
   let(:client) do
-    client = mock(Source::Github)
-    Source::Github.should_receive(:new).and_return(client)
+    client = mock(Source::Security)
+    Source::Security.should_receive(:new).and_return(client)
     client
   end
 

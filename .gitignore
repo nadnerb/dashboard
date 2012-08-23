@@ -22,5 +22,5 @@ reports
 *.iml
 /.idea/
 .jhw-cache/
-deployer.pem
 public/assets/
+deployer.*

@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :token
 
   validates_presence_of :name
 
@@ -13,9 +13,9 @@ class Project < ActiveRecord::Base
 
   def dashboard
     @dashboard ||= begin
-      d = Dupondius::Aws::Stacks::Dashboard.find(self.name)
-      d if d.stack.exists?
-    end
+                     d = Dupondius::Aws::Stacks::Dashboard.find(self.name)
+                     d if d.stack.exists?
+                   end
   end
 
 end

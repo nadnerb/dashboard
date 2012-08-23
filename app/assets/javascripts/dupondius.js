@@ -175,13 +175,14 @@ $(document).ready(function () {
             environments.push($(element).text().trim());
         });
 
-        var data = {
+        var data = {project: {
             name: $('#application-name').val(),
+            token: $('#application-token').val(),
             github: $('#application-name').val().replace(/[^\w\s]/gi, '').replace(/ /g, '_'),
             tech_stack: $('#tech-stack').selectableGrid().selected().text().trim(),
             support: support,
             environments: environments
-        };
+        }};
 
         var getSuccess = function(response) {
             if (JSON.parse(response).status === 'CREATE_COMPLETE') {

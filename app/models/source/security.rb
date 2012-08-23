@@ -1,6 +1,6 @@
 require 'yajl'
 
-class Source::Github
+class Source::Security
 
   def initialize(client_id = Dashboard::Application.config.github_client_id, secret = Dashboard::Application.config.github_secret)
     @client_id = client_id
@@ -35,6 +35,7 @@ class Source::Github
   end
 
   private
+
   def client
     @client ||= OAuth2::Client.new(@client_id, @secret,
                                    :site          => oauth_url,

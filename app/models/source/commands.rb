@@ -1,4 +1,6 @@
 require 'yajl'
+require 'octokit'
+
 class Source::Commands < SimpleDelegator
 
   attr_accessor :user, :token
@@ -11,17 +13,13 @@ class Source::Commands < SimpleDelegator
   end
 
   def create_repo(name)
-    #client.create(name, {private: 'false'}).to_json
-    create(name, {private: 'false'}).to_json
+    #create(name, {private: 'false'}).to_json
+    #doesn't like the private flag even though i have used it in the past wtf its too late my head hurts just pretend i don't care blah blahbbbb
+    create(name).to_json
   end
 
   #def add_deploy_key
     #client.add_deploy_key
-  #end
-
-  #def user_info
-    #@user_info ||= RestClient.get("https://api.github.com/user", :params => {:access_token => token})
-    #Yajl.load(@user_info)
   #end
 
   private

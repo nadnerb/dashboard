@@ -33,7 +33,6 @@ gem 'jquery-rails'
 # Deploy with Capistrano
 group :development do
   gem 'capistrano', :require => false
-  gem 'capistrano-unicorn', :require => false
 end
 
 gem "capybara", :group => [:development, :test]

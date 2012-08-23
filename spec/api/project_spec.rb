@@ -7,7 +7,7 @@ describe "project", :type => :api do
     let(:url) { "/projects" }
 
     it "sucessful as JSON" do
-      post "#{url}.json", :project => { :name => "yo sup" }
+      post "#{url}.json", :project => {:name => "yo sup"}
 
       project = Project.find_by_name("yo sup")
 
@@ -16,7 +16,7 @@ describe "project", :type => :api do
     end
 
     it "unsuccessful as JSON" do
-      post "#{url}.json", :project => {}
+      post "#{url}.json", :project => {:github => :what}
 
       last_response.status.should eql(422)
       errors = {"errors" => {"name" => ["can't be blank"]}}.to_json

@@ -15,6 +15,15 @@
       "Default" : "m1.small",
       "AllowedValues" : [ "t1.micro","m1.small","m1.medium","m1.large","m1.xlarge","m2.xlarge","m2.2xlarge","m2.4xlarge","c1.medium","c1.xlarge","cc1.4xlarge","cc2.8xlarge","cg1.4xlarge"],
       "ConstraintDescription" : "must be a valid EC2 instance type."
+    },
+    "ProjectName" : {
+      "Description" : "Name of your project",
+      "Type" : "String"
+    },
+    "HostedZone" : {
+      "Description" : "The DNS name of an existing Amazon Route 53 hosted zone",
+      "Type" : "String",
+      "Default" : "dupondi.us"
     }
   },
 
@@ -148,8 +157,22 @@
           "# Add nginx to the www group\n",
           "usermod -a -G www nginx\n",
 
+          "# Standalone dashboard mode\n",
+          "sudo su - deployer\n",
+          "echo \"UserKnownHostsFile /dev/null\" >> ~/.ssh/config\n",
+          "echo \"StrictHostKeyChecking no\" >> ~/.ssh/config\n",
+          "chmod 600 ~/.ssh/config\n",
+          "mkdir -p /opt/app/dashboard/shared/log\n",
+          "mkdir -p /opt/app/dashboard/shared/pids\n",
+          "cd /opt/app/dashboard &&  git clone --depth 1 git@github.com:nadnerb/dashboard.git current\n",
+          "cd current && bundle install --path vendor/bundle --deployment --without development test\n",
+          "bundle exec rake RAILS_ENV=production RAILS_GROUPS=assets assets:precompile\n",
+          "bundle exec rake RAILS_ENV=production db:migrate\n",
+          "mkdir -p tmp/foreman && echo \"RAILS_ENV=production\" > ./tmp/env && sudo mv tmp/env /etc/default/dashboard && bundle exec foreman export initscript ./tmp/foreman -e /etc/default/dashboard -f ./Procfile.production -a dashboard -u deployer -l /opt/app/dashboard/current/log && sudo mv tmp/foreman/dashboard /etc/init.d && chmod +x /etc/init.d/dashboard && rm -rf tmp/foreman\n",
+          "sudo /etc/init.d/dashboard restart\n",
+
           "# All is well so signal success\n",
-          "/opt/aws/bin/cfn-signal -e 0 -r \"Rails application setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
+          "/opt/aws/bin/cfn-signal -e 0 -r \"Dashboard application setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
         ]]}}
       }
     },
@@ -184,13 +207,24 @@
         } ]
 
       }
+    },
+    "dashboarDNSRecord" : {
+      "Type" : "AWS::Route53::RecordSet",
+      "Properties" : {
+        "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "HostedZone"}, "." ]]},
+        "Comment" : "CNAME to dashboard instance.",
+        "Name" : { "Fn::Join" : [ "", ["dashboard", ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, "."]]},
+        "Type" : "CNAME",
+        "TTL" : "900",
+        "ResourceRecords" : [{ "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}]
+      }
     }
   },
 
   "Outputs" : {
     "WebsiteURL" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}]] },
-      "Description" : "URL for newly created Rails application"
+      "Value" : { "Fn::Join" : ["", ["http://", "dashboard", ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}]] },
+      "Description" : "URL for newly created Dupondius Dashboard"
     }
   }
 }

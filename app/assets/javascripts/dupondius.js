@@ -184,6 +184,7 @@ $(document).ready(function () {
         };
 
         var getSuccess = function(response) {
+          console.log('getSuccess');
             if (JSON.parse(response).status === 'CREATE_COMPLETE') {
                 console.log('hooray for life');
                 return;
@@ -199,13 +200,13 @@ $(document).ready(function () {
                   success: getSuccess
               });
             }, 5000);
-        }
+        };
         var postSuccess = function(response) {
               $.ajax({
                   type: 'GET',
                   url: '/projects/' + response.id,
                   contentType: "application/json",
-                  success: getSuccess
+                  success:  function () { getSuccess(); }
               });
         };
 

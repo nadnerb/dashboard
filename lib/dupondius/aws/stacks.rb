@@ -19,12 +19,13 @@ module Dupondius; module Aws; module Stacks
     end
 
     def self.find name
-      self.new(Dupondius::Aws::Stacks.cloudformation.stacks["#{@template_name}#{name}"])
+      stack = Dupondius::Aws::Stacks.cloudformation.stacks["#{@template_name}#{name}"]
+      stack.exists? ? self.new(stack) : nil
     end
 
     def self.create name, parameters
       Dupondius::Aws::Stacks.cloudformation.stacks.create("#{@template_name}#{name}", as_json,
-        :parameters => parameters)
+        :parameters => parameters.merge({HostedZone: Dupondius::Aws::Config.hosted_zone, ProjectName: name}))
     end
 
     def self.template_params
@@ -36,7 +37,7 @@ module Dupondius; module Aws; module Stacks
         File.dirname(__FILE__), '..', 'aws', 'templates', "#{@template_name}.template")), 'rb').read
     end
 
-    def ready?
+    def complete?
       @stack.status == 'CREATE_COMPLETE'
     end
   end

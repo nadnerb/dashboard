@@ -2,7 +2,7 @@
     "id" : "<%= @project.id %>",
     "name" : "<%= @project.name %>",
     "status" : "<%= @project.dashboard.stack.status unless @project.dashboard.nil?%>",
-    <% if @project.dashboard && @project.dashboard.ready?  %>
+    <% if @project.dashboard && @project.dashboard.complete?  %>
       "output" : {
         "key" : "<%= @project.dashboard.stack.outputs.first.key%>",
         "value" : "<%= @project.dashboard.stack.outputs.first.value%>"

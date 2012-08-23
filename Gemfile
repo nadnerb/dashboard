@@ -13,6 +13,7 @@ gem 'daemons'
 gem 'oauth2'
 gem 'rest-client'
 gem 'yajl-ruby'
+gem 'octokit'
 
 gem 'haml-rails'
 

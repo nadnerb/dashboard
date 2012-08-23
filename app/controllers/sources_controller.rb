@@ -18,7 +18,7 @@ class SourcesController < ApplicationController
 
   private
   def client
-    @client ||= Source::Github.new
+    @client ||= Source::Security.new
   end
 
   def oauth_error

@@ -185,30 +185,30 @@ $(document).ready(function () {
         }};
 
         var getSuccess = function(response) {
-          console.log('getSuccess');
-            if (JSON.parse(response).status === 'CREATE_COMPLETE') {
-                console.log('hooray for life');
+            if (response.status === 'CREATE_COMPLETE') {
+                $('#loading-image').remove();
+                $('#please-wait').remove();
+                $('#waiting .page-container').append('<h2>Alright!</h2><h3>Your environment is ready for action</h3><a href="' + response.output.value + '">' + response.output.key + '</a>');
                 return;
             } else {
-              console.log('not yet. be patient...');
-            }
-
-            setTimeout(function () {
-              $.ajax({
-                  type: 'GET',
-                  url: '/projects' + response.id,
-                  contentType: "application/json",
-                  success: getSuccess
-              });
-            }, 5000);
-        };
-        var postSuccess = function(response) {
-              $.ajax({
+              setTimeout(function () {
+                $.ajax({
                   type: 'GET',
                   url: '/projects/' + response.id,
                   contentType: "application/json",
-                  success:  function () { getSuccess(); }
-              });
+                  success: getSuccess
+                });
+             }, 10000);
+            }
+        };
+
+        var postSuccess = function(response) {
+            $.ajax({
+                type: 'GET',
+                url: '/projects/' + response.id,
+                contentType: "application/json",
+                success:  getSuccess
+            });
         };
 
         $.ajax({
@@ -218,6 +218,6 @@ $(document).ready(function () {
             data: JSON.stringify(data),
            success: postSuccess
         });
-
+        $('#please-wait').append('<div id="loading-image"><img src="/assets/ajax-loading.gif" alt="Loading..." /></div>');
     });
 });

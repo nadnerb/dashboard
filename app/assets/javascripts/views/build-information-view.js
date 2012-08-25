@@ -11,9 +11,9 @@ define([
         template: template,
 
         initialize: function () {
-            this.collection.on('reset', function () {
+            this.bindTo(this.collection, 'reset', function () {
                 this.renderInformation();
-            }, this);
+            });
         },
 
         postRender: function () {

@@ -8,32 +8,52 @@ define([
 
         className: 'builds',
 
+        infiniteFetch: null,
+
+        views: [],
+
         initialize: function (options) {
             WidgetView.prototype.initialize.call(this, options);
 
             this.collection = new BuildsCollection();
-            this.collection.on('reset', function () {
+            this.bindTo(this.collection, 'reset', function () {
                 this.$('.message').remove();
-            }, this);
+            });
         },
 
         postRender: function () {
             WidgetView.prototype.postRender.call(this);
             this.append(this.make('span', {class: 'message span12'}, 'Negotiating with Jenkins...'));
-            this.append(new BuildPipelineView({collection: this.collection}).render().el);
-            this.append(new BuildInformationView({collection: this.collection}).render().el);
-            this.checkPeriodically();
+
+            this.appendView(BuildPipelineView).
+                appendView(BuildInformationView).
+                checkPeriodically();
+        },
+
+        appendView: function (View) {
+            var view = new View({collection: this.collection});
+            this.views.push(view);
+            this.append(view.render().el);
+            return this;
         },
 
         checkPeriodically: function () {
             var infiniteFetch = function (collection) {
                 collection.fetch();
-                setTimeout(function () {
+                this.infiniteFetch = setTimeout(function () {
                     infiniteFetch(collection);
                 }, 10000);
             };
 
             infiniteFetch(this.collection);
+        },
+
+        destroy: function () {
+            WidgetView.prototype.destroy.call(this);
+            _(this.views).each(function (view) {
+                view.destroy();
+            });
+            clearTimeout(this.infiniteFetch);
         }
     });
 });

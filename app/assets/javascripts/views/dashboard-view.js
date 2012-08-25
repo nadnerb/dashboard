@@ -9,6 +9,8 @@ define([
 
         template: template,
 
+        currentView: null,
+
         postRender: function () {
             var navigationView = new NavigationView();
             navigationView.render();
@@ -23,7 +25,13 @@ define([
         },
 
         apply: function (view) {
-            this.$('#dashboard-contents').html(view.el);
+            if (this.currentView !== null) {
+                this.currentView.destroy();
+            }
+
+            this.currentView = view;
+            this.currentView.render();
+            this.$('#dashboard-contents').html(this.currentView.el);
         }
     });
 });

@@ -53,13 +53,13 @@ define([
             this.model = model;
             if (this.$('.build-' + this.model.get('color')).length === 0) {
                 this.$('.build-button')
-                    .removeClass('blue')
-                    .removeClass('blue_anime')
-                    .removeClass('red')
-                    .removeClass('red_anime')
-                    .removeClass('grey')
-                    .removeClass('grey_anime')
-                    .addClass(model.get('color'));
+                    .removeClass('build-blue')
+                    .removeClass('build-blue_anime')
+                    .removeClass('build-red')
+                    .removeClass('build-red_anime')
+                    .removeClass('build-grey')
+                    .removeClass('build-grey_anime')
+                    .addClass('build-' + model.get('color'));
             }
 
             this.renderSpinner();

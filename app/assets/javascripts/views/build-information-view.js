@@ -24,6 +24,7 @@ define([
                 return;
             }
 
+            this.$('.hidden').removeClass('hidden');
             this.renderCommitBuild();
             this.renderProductionBuild();            
         },

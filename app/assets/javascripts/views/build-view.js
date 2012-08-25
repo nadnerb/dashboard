@@ -20,9 +20,16 @@ define([
                 var lastFailed = new LastFailed({displayName: this.model.get('displayName')});
 
                 lastFailed.on('change', function () {
+                    var theBreaker = lastFailed.theBreaker();
+                    if (theBreaker === '') {
+                        var message = 'Not sure who did it';
+                    } else {
+                        var message = 'Chase down: ' + theBreaker;    
+                    }
+                    
                     this.$('.build-' + this.model.get('color') + ' a').attr({
                         'data-title': 'Broken Build',
-                        'data-content': 'Chase down these guys: ' + lastFailed.theBreaker()
+                        'data-content': message
                     }).popover({
                         trigger: 'hover'
                     });

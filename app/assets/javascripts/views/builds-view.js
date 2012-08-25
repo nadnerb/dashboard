@@ -19,7 +19,7 @@ define([
 
         postRender: function () {
             WidgetView.prototype.postRender.call(this);
-            this.append(this.make('span', {class: 'message'}, 'Negotiating with Jenkins...'));
+            this.append(this.make('span', {class: 'message span12'}, 'Negotiating with Jenkins...'));
             this.append(new BuildPipelineView({collection: this.collection}).render().el);
             this.append(new BuildInformationView({collection: this.collection}).render().el);
             this.checkPeriodically();

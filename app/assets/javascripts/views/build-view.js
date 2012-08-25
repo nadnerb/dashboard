@@ -52,7 +52,7 @@ define([
         update: function (model) {
             this.model = model;
             if (this.$('.build-' + this.model.get('color')).length === 0) {
-                this.$('.build-' + this.model.get('color'))
+                this.$('.build-button')
                     .removeClass('blue')
                     .removeClass('blue_anime')
                     .removeClass('red')

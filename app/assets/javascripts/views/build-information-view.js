@@ -11,12 +11,9 @@ define([
         template: template,
 
         initialize: function () {
-            var onReset = function () {
+            this.collection.on('reset', function () {
                 this.render();
-                this.collection.off('reset', onReset);
-            };
-
-            this.collection.on('reset', onReset, this);
+            }, this);
         },
 
         postRender: function () {
@@ -42,6 +39,10 @@ define([
         },
 
         renderProductionBuild: function () {
+            if (this.$('.last-production-deployment').text().trim() !== '') {
+                return;
+            }
+
             var productionBuild = this.collection.find(function (build) {
                 return build.isProductionBuild();
             });

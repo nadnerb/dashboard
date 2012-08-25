@@ -36,14 +36,19 @@ group :development do
   gem 'capistrano', :require => false
 end
 
-gem "capybara", :group => [:development, :test]
-gem "rspec-rails", :group => [:development, :test]
 gem "simple_form"
-gem "sqlite3", :group => [:development, :test]
 
-gem 'jasmine', :group => [:development, :test]
-gem 'jasmine-headless-webkit', :group => [:development, :test]
-gem 'jasmine-spec-extras', :group => [:development, :test]
+group :development, :test do
+  gem "capybara"
+  gem "rspec-rails"
+  gem "sqlite3"
+
+  gem 'jasmine'
+  gem 'jasmine-headless-webkit'
+  gem 'jasmine-spec-extras'
+
+  gem 'awesome_print'
+end
 
 group :test do
   gem 'cucumber-rails', :require => false

@@ -1,75 +1,39 @@
 define([
     'collections/builds',
     'views/widget-view',
-    'views/build-view',
-], function (BuildsCollection, WidgetView, BuildView) {
+    'views/build-information-view',
+    'views/build-pipeline-view'
+], function (BuildsCollection, WidgetView, BuildInformationView, BuildPipelineView) {
     return WidgetView.extend({
 
         className: 'builds',
-
-        builds: [],
 
         initialize: function (options) {
             WidgetView.prototype.initialize.call(this, options);
 
             this.collection = new BuildsCollection();
             this.collection.on('reset', function () {
-                this.collection.pipeline();
-                this.renderCollection();
+                this.$('.message').remove();
             }, this);
         },
 
         postRender: function () {
             WidgetView.prototype.postRender.call(this);
-            this.append('Negotiating with Jenkins...');
-        },
-
-        renderCollection: function () {
-            if (this.builds.length > 0) {
-                this.refreshBuilds(this.collection);
-            } else {
-                this.empty();
-                this.appendBuilds(this.collection);
-            }
-
+            this.append(this.make('span', {class: 'message'}, 'Negotiating with Jenkins...'));
+            this.append(new BuildPipelineView({collection: this.collection}).render().el);
+            this.append(new BuildInformationView({collection: this.collection}).render().el);
             this.checkPeriodically();
         },
 
-        refreshBuilds: function (builds) {
-            var count = 0;
-            var build = builds.firstInPipeline;
-            this.builds[count].update(build);
-
-            count++;
-            while (build.hasNext()) {
-                this.builds[count].update(build.next);
-                build = build.next;
-                count++;
-            }
-        },
-
-        appendBuilds: function (builds) {
-            var build = builds.firstInPipeline;
-            this.appendBuild(build);
-
-            while (build.hasNext()) {
-                this.appendBuild(build.next);
-                build = build.next;
-            }
-        },
-
-        appendBuild: function (build) {
-            var buildView = new BuildView({model: build}).render();
-            this.builds.push(buildView);
-            this.append(buildView.el);
-            buildView.renderSpinner();
-        },
-
         checkPeriodically: function () {
-            var self = this;
-            setTimeout(function () {
-                self.collection.fetch();
-            }, 5000);
+            var infiniteFetch = function (collection) {
+                collection.fetch();
+                setTimeout(function () {
+                    infiniteFetch(collection);
+                }, 10000);
+            };
+
+            infiniteFetch(this.collection);
         }
     });
 });

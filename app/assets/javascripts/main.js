@@ -28,6 +28,8 @@ require.config({
 
         'vendor/jquery.cookie': ["jquery"],
 
+        'vendor/jquery.countdown': ["jquery"],
+
         'vendor/base': ['backbone']
     }
 });
@@ -45,7 +47,8 @@ require([
   'vendor/base',
   'vendor/bootstrap',
   'vendor/haml',
-  'vendor/jquery.cookie'
+  'vendor/jquery.cookie',
+  'vendor/jquery.countdown'
 ], function($, Backbone, AppRouter) {
     $(function() {
         router = new AppRouter();

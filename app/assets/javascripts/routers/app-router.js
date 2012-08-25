@@ -37,7 +37,6 @@ define([
                 contentId: 'build-pipeline-widget'
             }).render();
             this.dashboard.apply(view);
-            view.collection.fetch();
         },
 
         index: function () {

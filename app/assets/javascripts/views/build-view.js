@@ -1,13 +1,36 @@
 define([
+    'backbone',
     'vendor/base',
+    'models/last-failed',
     'text!templates/build.html.haml'
-], function (BackboneSuperView, template) {
+], function (Backbone, BackboneSuperView, LastFailed, template) {
 
     return BackboneSuperView.extend({
 
         className: 'build',
 
         template: template,
+
+        events: {
+            'click .build-now': 'buildNow'
+        },
+
+        postRender: function () {
+            if (this.model.isCurrentlyFailing()) {
+                var lastFailed = new LastFailed({displayName: this.model.get('displayName')});
+
+                lastFailed.on('change', function () {
+                    this.$('.build-' + this.model.get('color') + ' a').attr({
+                        'data-title': 'Broken Build',
+                        'data-content': 'Chase down these guys: ' + lastFailed.theBreaker()
+                    }).popover({
+                        trigger: 'hover'
+                    });
+                }, this);
+
+                lastFailed.fetch();
+            }
+        },
 
         renderSpinner: function () {
             if (this.model.get('color').indexOf('anim') !== -1) {
@@ -33,6 +56,20 @@ define([
             }
 
             this.renderSpinner();
+        },
+
+        buildNow: function (event) {
+            var BuildNow = Backbone.Model.extend({
+                url: $(event.currentTarget).attr('href'),
+                sync: function(method, model, options) {  
+                    options.dataType = 'jsonp';  
+                    options.jsonp = 'jsonp';
+                    return Backbone.sync(method, model, options);  
+                } 
+            });
+
+            new BuildNow().save();
+            return false;
         }
     });
 });

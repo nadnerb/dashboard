@@ -12,13 +12,19 @@
 
 .builds .build {
     position: relative;
-	margin: 25px 15px;
-	width: 250px;
+	margin: 15px 0px;
     text-align: center;
     cursor: pointer;
+    display: inline-block;
 }
 
-.builds .build a {
+.builds .build .build-button {
+    display: inline-block;
+    width: 250px;
+    position: relative;
+}
+
+.builds .build .heading {
     display: block;
     text-decoration: none;
     color: #eee;
@@ -44,21 +50,57 @@
 .builds .build-blue,
 .builds .build-blue_anime {
 	background-color: #2eb535;
-    /*background-image: -webkit-radial-gradient(50px 50px, circle cover, #43E859, #2eb535);*/
 }
 
 .builds .build-red,
 .builds .build-red_anime {
 	background-color: #da2c47;
-    /*background-image: -webkit-radial-gradient(40px 40px, circle cover, #D46A7A, #da2c47);*/
 }
 
 .builds .build-grey,
-.builds .build-grey_anime {
+.builds .build-grey_anime,
+.builds .build-aborted,
+.builds .build-aborted_anime {
 	background-color: #B5BDB7;
 }
 
+.builds .build-pipeline {
+    text-align: left;
+}
 
-/*
-    yellow: #d0bf27;
-*/
+.builds .build-pipeline .build-now {
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 15px;
+}
+
+.builds .build-pipeline .icon-arrow-down {
+    position: absolute;
+    left: 120px;
+    top: 55px;
+}
+
+.builds .build-pipeline .build:last-child .icon-arrow-down {
+    display: none;
+}
+
+.builds .build-information {
+    font-size: 20px;
+    color: #333;
+    text-align: left;
+}
+
+.builds .build-information dt:first-child {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.builds .build-information dt {
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.builds .build-information * {
+    line-height: 40px;
+    margin-left: 0;
+}

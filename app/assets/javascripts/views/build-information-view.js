@@ -12,18 +12,22 @@ define([
 
         initialize: function () {
             this.collection.on('reset', function () {
-                this.render();
+                this.renderInformation();
             }, this);
         },
 
         postRender: function () {
+            this.renderInformation();
+        },
+
+        renderInformation: function () {
             if (this.collection.isEmpty()) {
                 return;
             }
 
             this.$('.hidden').removeClass('hidden');
             this.renderCommitBuild();
-            this.renderProductionBuild();            
+            this.renderProductionBuild();
         },
 
         renderCommitBuild: function () {

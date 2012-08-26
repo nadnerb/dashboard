@@ -15,7 +15,7 @@ module Dupondius
       if @_version
         @_version
       else
-        versions ||= `git log --decorate --format=format:%d --tags 2>/dev/null | head -n 1`
+        versions ||= `git log --decorate --format=format:%d --tags -n 1 2>/dev/null`
         @_version = versions[1..-2].split(', ').collect { |it| it.match(/v\d+\.\d+\.\d+/) }.select { |it| it }.first[0]
       end
     end

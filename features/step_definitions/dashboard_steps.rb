@@ -1,3 +1,5 @@
+require 'awesome_print'
+
 Given /^I go to the dashboard url$/ do
   visit('/dashboard/monkeys_and_bananas')
   visit('/dashboard')
@@ -14,7 +16,14 @@ Then /^the dashboard should have the correct version$/ do
     expected_version = Dupondius::Version.version
   end
   versions = Hash[*find('footer .version').text.split(',').collect{ |val| val.strip.split(': ') }.flatten]
-  versions['Version'].should == expected_version
+  if versions['Version'] != expected_version
+    if ENV['GIT_COMMIT']
+      expected_git_sha = ENV['GIT_COMMIT']
+    else
+      expected_git_sha = Dupondius::Version.refspec
+    end
+    fail "Expected version #{expected_version} but got #{versions['Version']} instead" unless expected_git_sha == versions['Git SHA']
+  end
 end
 
 Given /^I go to the heart beat url$/ do

@@ -6,11 +6,14 @@ class Jobs::Skeleton
     @project = Project.find(project_id)
   end
 
-  def build
+  def run
     p "building: #{resting_place} for project: #{project.name}"
-    p `cd #{resting_place}; scrolls new #{project.name} -s capistrano unicorn rspec git 2>&1`
+    p `cd #{resting_place} && scrolls new #{project.name} -s capistrano unicorn rspec git 2>&1`
+    `git init`
+    `git add .`
+    `git commit -m 'Initial commit'`
     # will move this to super job associated with a project
-    Jobs::GithubCreate.new(project.id, resting_place).create
+    Jobs::GithubCreate.new(project.id, resting_place).run
   end
 
   def resting_place
@@ -21,5 +24,5 @@ class Jobs::Skeleton
                       end
   end
 
-  handle_asynchronously :build
+  handle_asynchronously :run
 end

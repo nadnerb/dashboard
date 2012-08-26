@@ -14,6 +14,7 @@ define([
 
         initialize: function (options) {
             WidgetView.prototype.initialize.call(this, options);
+            this.views = [];
 
             this.collection = new BuildsCollection();
             this.bindTo(this.collection, 'reset', function () {

@@ -10,6 +10,7 @@ define([
         views: [],
 
         initialize: function () {
+            this.views = [];
             this.bindTo(this.collection, 'reset', function () {
                 this.collection.pipeline();
                 this.updateBuilds();

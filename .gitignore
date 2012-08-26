@@ -24,3 +24,4 @@ reports
 .jhw-cache/
 public/assets/
 deployer.pem
+.env

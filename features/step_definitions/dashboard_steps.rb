@@ -17,11 +17,7 @@ Then /^the dashboard should have the correct version$/ do
   end
   versions = Hash[*find('footer .version').text.split(',').collect{ |val| val.strip.split(': ') }.flatten]
   if versions['Version'] != expected_version
-    if ENV['GIT_COMMIT']
-      expected_git_sha = ENV['GIT_COMMIT']
-    else
-      expected_git_sha = Dupondius::Version.refspec
-    end
+    expected_git_sha = `git log --decorate --format=format:'%H %d' --tags | grep v0.0.3720 | cut -f1 -d\\ `
     fail "Expected version #{expected_version} but got #{versions['Version']} instead" unless expected_git_sha == versions['Git SHA']
   end
 end

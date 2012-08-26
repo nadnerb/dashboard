@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
 
   def create
     project = Project.create(params[:project].except!(:github, :tech_stack, :support, :environments))
-    Jobs::Skeleton.new(project.id).build
+    #Jobs::Skeleton.new(project.id).build
     respond_with(project, :location => :projects)
   end
 

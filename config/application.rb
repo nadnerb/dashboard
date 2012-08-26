@@ -62,5 +62,14 @@ module Dashboard
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Launchpad component can be enabled by a setting in the environment
+    config.launchpad_enabled = ENV['LAUNCHPAD_ENABLED'] && ENV['LAUNCHPAD_ENABLED'].downcase == 'true' ? true : false
+
+    # AWS integration can be enabled by a setting in the environment
+    # You may want to disable AWS integration to prevent resource from being
+    # created and thus costing money.
+    config.aws_enabled = ENV['AWS_ENABLED'] && ENV['AWS_ENABLED'].downcase == 'true' ? true : false
+
   end
 end

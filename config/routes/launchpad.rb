@@ -1,7 +1,6 @@
 Dashboard::Application.routes.draw do
 
-  if ENV['LAUNCHPAD_ENABLED'] && ENV['LAUNCHPAD_ENABLED'] == 'true'
-
+  if Rails.configuration.launchpad_enabled
     resources :projects, :only => [:new, :create, :show]
     match 'launchpad' => 'projects#new'
 

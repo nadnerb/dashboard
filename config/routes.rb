@@ -13,7 +13,7 @@ Dashboard::Application.routes.draw do
   get "home/index"
 
 
-  if ENV['LAUNCHPAD_ENABLED'] && ENV['LAUNCHPAD_ENABLED'] == 'true'
+  if Rails.configuration.launchpad_enabled
     root :to => 'under_construction#show'
   else
     root :to => 'dashboard#index'

@@ -5,7 +5,7 @@ define([
     var NAMES = {
         'Build_Project': 'Build',
         'Acceptance_Test': 'Acceptance',
-        'Deployment_Test': 'Deploy',
+        'Deployment_Test': 'Deployment Test',
         'Deploy_To_QA': 'Deploy to QA',
         'Deploy_To_Staging': 'Deploy to Staging',
         'Deploy_To_Production': 'Deploy to Production'

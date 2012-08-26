@@ -10,7 +10,9 @@ Then /^I should see a dashboard, duh!$/ do
 end
 
 Then /^the dashboard should have the correct version$/ do
-  if ENV['PIPELINE_BUILD_NUMBER']
+  if ENV['PIPELINE_VERSION']
+    expected_version = ENV['PIPELINE_VERSION']
+  elsif ENV['PIPELINE_BUILD_NUMBER']
     expected_version = 'v0.0.' + ENV['PIPELINE_BUILD_NUMBER']
   else
     expected_version = Dupondius::Version.version

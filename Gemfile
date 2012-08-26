@@ -14,6 +14,8 @@ gem 'oauth2'
 gem 'rest-client'
 gem 'yajl-ruby'
 gem 'octokit'
+gem 'omniauth'
+gem 'devise'
 
 gem 'haml-rails'
 
@@ -48,6 +50,7 @@ group :development, :test do
   gem 'jasmine-spec-extras'
 
   gem 'awesome_print'
+  gem 'thin'
 end
 
 group :test do

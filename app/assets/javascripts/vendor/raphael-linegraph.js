@@ -56,7 +56,7 @@ var renderLineGraph = function (options) {
         txt2 = {font: '12px Helvetica Neue, Arial', fill: "#666"},
         X = ((width - leftgutter) / labels.length) - spaceOnEitherSideOfLineGraph,
         max = Math.max.apply(Math, data),
-        nextIncrimentPastMax = (Math.round(parseInt(max)/incrementsOf)*incrementsOf),
+        nextIncrimentPastMax = (Math.ceil(parseInt(max)/incrementsOf)*incrementsOf),
         Y = (height - bottomgutter - topgutter) / nextIncrimentPastMax;
 
         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dev'];

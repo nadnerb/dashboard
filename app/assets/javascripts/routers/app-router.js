@@ -35,24 +35,24 @@ define([
             var view = new BuildsView({
                 heading: 'Build Pipeline',
                 contentId: 'build-pipeline-widget'
-            }).render();
+            });
             this.dashboard.apply(view);
         },
 
         index: function () {
-            this.dashboard.apply(new IndexView().render());
+            this.dashboard.apply(new IndexView());
         },
 
         performance: function () {
-            this.dashboard.apply(new PerformanceView().render());
+            this.dashboard.apply(new PerformanceView());
         },
 
         configure: function () {
-            this.dashboard.apply(new ConfigureView().render());
+            this.dashboard.apply(new ConfigureView());
         },
 
         stories: function () {
-            var view = new StoriesView().render();
+            var view = new StoriesView();
             this.dashboard.apply(view);
             view.model.fetch();
         }

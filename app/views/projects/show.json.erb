@@ -4,8 +4,8 @@
     <% if @project.dashboard && @project.dashboard.complete?  %>
       "output" : {
         "key" : "<%= @project.dashboard.stack.outputs.first.key%>",
-        "value" : "<%= @project.dashboard.stack.outputs.first.value%>",
-      }
+        "value" : "<%= @project.dashboard.stack.outputs.first.value%>"
+      },
     <% end %>
     "name" : "<%= @project.name %>"
 }

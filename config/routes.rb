@@ -1,16 +1,7 @@
 Dashboard::Application.routes.draw do
-  root :to => 'under_construction#show'
 
   match '/dashboard' => 'dashboard#index'
   match '/dashboard/monkeys_and_bananas' => 'dashboard#monkeys_and_bananas'
-
-  resources :projects, :only => [:new, :create, :show]
-  resource :skeleton, :only => :create, :controller => 'skeleton'
-  resource :source, :only => :new do
-    get 'callback'
-  end
-
-  resource :too_early, :controller => "under_construction"
 
   namespace :dashboard do
     match '/stories' => 'stories#show'
@@ -19,11 +10,14 @@ Dashboard::Application.routes.draw do
   match '/status' => 'status#index'
   match '/status/heart_beat' => 'status#heart_beat'
 
-  # Temporary route - to be removed after the under_construction sign to brought down
-  match 'launchpad' => 'projects#new'
-
   get "home/index"
 
+
+  if ENV['LAUNCHPAD_ENABLED'] && ENV['LAUNCHPAD_ENABLED'] == 'true'
+    root :to => 'under_construction#show'
+  else
+    root :to => 'dashboard#index'
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

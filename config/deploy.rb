@@ -30,6 +30,8 @@ namespace :foreman do
     run ["cd #{release_path}",
       "mkdir -p tmp/foreman",
       "echo \"RAILS_ENV=#{rails_env}\" > ./tmp/env",
+      "echo \"AWS_ACCESS_KEY=#{ENV['AWS_ACCESS_KEY']}\" >> ./tmp/env",
+      "echo \"AWS_SECRET_ACCESS_KEY=#{ENV['AWS_SECRET_ACCESS_KEY']}\" >> ./tmp/env",
       "sudo mv tmp/env /etc/default/#{application}",
       "bundle exec foreman export initscript ./tmp/foreman -e /etc/default/#{application} -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log",
       "sudo mv tmp/foreman/#{application} /etc/init.d",

@@ -9,9 +9,9 @@ class Jobs::Skeleton
   def run
     p "building: #{resting_place} for project: #{project.name}"
     p `cd #{resting_place} && scrolls new #{project.name} -s capistrano unicorn rspec git 2>&1`
-    `git init`
-    `git add .`
-    `git commit -m 'Initial commit'`
+    #`git init`
+    #`git add .`
+    #`git commit -m 'Initial commit'`
     # will move this to super job associated with a project
     Jobs::GithubCreate.new(project.id, resting_place).run
   end

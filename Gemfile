@@ -51,6 +51,7 @@ group :development, :test do
 
   gem 'awesome_print'
   gem 'thin'
+  gem 'dotenv'
 end
 
 group :test do

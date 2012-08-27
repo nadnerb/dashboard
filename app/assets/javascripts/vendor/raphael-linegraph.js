@@ -14,6 +14,13 @@ Raphael.fn.drawGrid = function (x, y, w, h, wv, hv, color) {
     return this.path(path.join(",")).attr({stroke: color});
 };
 
+var incrementsOfCalculator = function (max, current) {
+    if (max <= current) {
+        return incrementsOfCalculator(max, Math.ceil(current/5));
+    } else {
+        return current; 
+    }
+};
 
 var renderLineGraph = function (options) {
     var labels = options.labels;
@@ -42,7 +49,8 @@ var renderLineGraph = function (options) {
         };
     }
     
-    var incrementsOf = 10;
+    var incrementsOf = incrementsOfCalculator(data[0], 10);
+    
     var spaceOnEitherSideOfLineGraph = 16;
     // Draw
     var leftgutter = 30,

@@ -8,7 +8,7 @@ class Dashboard::StoriesController < ActionController::Base
 		# project = PivotalTracker::Project.find(621317)
 
 		# Public project with lots of data
-		project = PivotalTracker::Project.find(102714)
+		project = PivotalTracker::Project.find(627145)
 
 		render :json => PivotalTracker::Iteration.current(project)
 	end

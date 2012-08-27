@@ -7,12 +7,6 @@ Dashboard::Application.routes.draw do
     match '/stories' => 'stories#show'
   end
 
-  resources :projects, :only => [:new, :create, :show]
-  resource :skeleton, :only => :create, :controller => 'skeleton'
-  resource :source, :only => :new do
-    get 'callback'
-  end
-
   match '/status' => 'status#index'
   match '/status/heart_beat' => 'status#heart_beat'
 

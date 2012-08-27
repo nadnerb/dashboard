@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Dupondi.us Dashboard app. Create a Ruby on Rails stack using a single EC2 instance with a local MySQL database for storage. ",
+  "Description" : "Dupondi.us. Single instance Rails stack using with nginx, a local MySQL database. ",
 
   "Parameters" : {
 
@@ -20,12 +20,8 @@
       "Description" : "Name of your project",
       "Type" : "String"
     },
-    "AwsAccessKey" : {
-      "Description" : "Your AWS access key",
-      "Type" : "String"
-    },
-    "AwsSecretAccessKey" : {
-      "Description" : "Your AWS secret access key",
+    "EnvironmentName" : {
+      "Description" : "Name of the environment",
       "Type" : "String"
     },
     "HostedZone" : {
@@ -157,34 +153,12 @@
           "chown root:www /opt\n",
           "chmod g+rxw /opt\n",
 
-
           "# Give the deployer sudo permission to the dashboard /etc/init.d scripts\n",
           "echo \"deployer ALL=(root)NOPASSWD:/bin/mv,/etc/init.d/dashboard *\" > /etc/sudoers.d/deployer\n",
           "chmod 0440 /etc/sudoers.d/deployer\n",
 
           "# Add nginx to the www group\n",
           "usermod -a -G www nginx\n",
-
-          "# Standalone dashboard mode\n",
-          "echo \"UserKnownHostsFile /dev/null\" >> /home/deployer/.ssh/config\n",
-          "echo \"StrictHostKeyChecking no\" >> /home/deployer/.ssh/config\n",
-          "chown deployer:deployer /home/deployer/.ssh/config\n",
-          "su - deployer -c \"chmod 600 /home/deployer/.ssh/config\"\n",
-          "su - deployer -c \"mkdir -p /opt/app/dashboard/shared/log\"\n",
-          "su - deployer -c \"mkdir -p /opt/app/dashboard/shared/pids\"\n",
-          "su - deployer -c \"cd /opt/app/dashboard &&  git clone --depth 1 git@github.com:nadnerb/dashboard.git current\"\n",
-          "su - deployer -c \"cd /opt/app/dashboard/current && bundle install --path vendor/bundle --deployment --without development test\"\n",
-          "su - deployer -c \"cd /opt/app/dashboard/current && bundle exec rake RAILS_ENV=production RAILS_GROUPS=assets assets:precompile\"\n",
-          "su - deployer -c \"cd /opt/app/dashboard/current && bundle exec rake RAILS_ENV=production db:migrate\"\n",
-          "echo \"RAILS_ENV=production\" > /etc/default/dashboard\n",
-          "echo \"PROJECT_NAME=", { "Ref" : "ProjectName" }, "\" >> /etc/default/dashboard\n",
-          "echo \"ENABLE_LAUNCHPAD=false\" >> /etc/default/dashboard\n",
-          "echo \"AWS_ACCESS_KEY=", { "Ref" : "AwsAccessKey" }, "\" >> /etc/default/dashboard\n",
-          "echo \"AWS_SECRET_ACCESS_KEY=", { "Ref" : "AwsSecretAccessKey" }, "\" >> /etc/default/dashboard\n",
-          "su - deployer -c \"cd /opt/app/dashboard/current && bundle exec foreman export initscript /tmp -e /etc/default/dashboard -f ./Procfile.production -a dashboard -u deployer -l /opt/app/dashboard/current/log\"\n",
-          "mv /tmp/dashboard /etc/init.d\n",
-          "chmod +x /etc/init.d/dashboard\n",
-          "/etc/init.d/dashboard restart\n",
 
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Dashboard application setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
@@ -227,8 +201,8 @@
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "HostedZone"}, "." ]]},
-        "Comment" : "CNAME to dashboard instance.",
-        "Name" : { "Fn::Join" : [ "", ["dashboard", ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, "."]]},
+        "Comment" : "CNAME for the web instance.",
+        "Name" : { "Fn::Join" : [ "", [{"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, "."]]},
         "Type" : "CNAME",
         "TTL" : "900",
         "ResourceRecords" : [{ "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}]
@@ -238,8 +212,8 @@
 
   "Outputs" : {
     "WebsiteURL" : {
-      "Value" : { "Fn::Join" : ["", ["http://", "dashboard", ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}]] },
-      "Description" : "URL for newly created Dupondius Dashboard"
+      "Value" : { "Fn::Join" : ["", ["http://", {"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}]] },
+      "Description" : "URL for newly created Dupondius Instance"
     }
   }
 }

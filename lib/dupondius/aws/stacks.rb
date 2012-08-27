@@ -14,21 +14,22 @@ module Dupondius; module Aws; module Stacks
       @stack = stack
     end
     def self.template name
-       @template_name = name
+       @template_name = name.to_s
        self.class_eval("def template_name; '#{name}';end")
     end
 
-    def self.find name
-      stack = Dupondius::Aws::Stacks.cloudformation.stacks["#{@template_name}#{name}"]
+    def self.find environment_name, project_name
+      stack = Dupondius::Aws::Stacks.cloudformation.stacks["#{environment_name}-#{project_name}"]
       stack.exists? ? self.new(stack) : nil
     end
 
-    def self.create name, parameters
-      Dupondius::Aws::Stacks.cloudformation.stacks.create("#{@template_name}#{name}", as_json,
-        :parameters => parameters.merge({HostedZone: Dupondius::Aws::Config.hosted_zone, ProjectName: name}))
+    def self.create environment_name, project_name, parameters
+      Dupondius::Aws::Stacks.cloudformation.stacks.create("#{environment_name}-#{project_name}", as_json,
+        :parameters => parameters.merge({HostedZone: Dupondius::Aws::Config.hosted_zone, ProjectName: project_name}))
     end
 
     def self.template_params
+      puts Dupondius::Aws::Stacks.cloudformation.validate_template(self.as_json)
       Dupondius::Aws::Stacks.cloudformation.validate_template(self.as_json)[:parameters].collect { |p| p[:parameter_key] }
     end
 
@@ -40,17 +41,38 @@ module Dupondius; module Aws; module Stacks
     def complete?
       @stack.status == 'CREATE_COMPLETE'
     end
+
   end
 
   class ContinuousIntegration < Base
 
     template :jenkins
+
+    def self.create project_name, parameters
+      super('ci', project_name, parameters)
+    end
+
+    def self.find project_name
+      super('ci', project_name)
+    end
   end
 
 
   class Dashboard < Base
 
     template :dashboard
+
+    def self.create project_name, parameters
+      super('dashboard', project_name, parameters)
+    end
+
+    def self.find project_name
+      super('dashboard', project_name)
+    end
   end
 
+  class RailsSingleInstance < Base
+
+    template :rails_single_instance
+  end
 end; end; end

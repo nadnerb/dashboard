@@ -7,7 +7,7 @@ class Project < ActiveRecord::Base
 
   def launch_dashboard
     # temporarily guard the creation of aws resources
-    if ENV['AWS_ENABLED'] == 'true'
+    if Rails.configuration.aws_enabled
       Dupondius::Aws::Stacks::Dashboard.create(self.name, {KeyName: 'team-brats',
                                                            InstanceType: 't1.micro',
                                                            AwsAccessKey: Dupondius::Aws::Config.access_key,

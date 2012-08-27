@@ -3,6 +3,14 @@ module Dupondius; module Aws; module Config
 
   class InvalidCredentials < ::StandardError; end
 
+  def self.project_name= name
+    @project_name = name
+  end
+
+  def self.project_name
+    @project_name
+  end
+
   def self.hosted_zone= zone
     @hosted_zone = zone
   end

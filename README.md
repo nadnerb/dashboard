@@ -1,4 +1,4 @@
-# dupondi.us dashboard motherfuckers!!
+# dupondi.us dashboard
 
 
 ## Deployment

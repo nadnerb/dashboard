@@ -9,7 +9,7 @@ class Project < ActiveRecord::Base
     # temporarily guard the creation of aws resources
     if Rails.configuration.aws_enabled
       Dupondius::Aws::Stacks::Dashboard.create(self.name, {KeyName: 'team-brats',
-                                                           InstanceType: 't1.micro',
+                                                           InstanceType: 'm1.small',
                                                            AwsAccessKey: Dupondius::Aws::Config.access_key,
                                                            AwsSecretAccessKey: Dupondius::Aws::Config.secret_access_key })
     end

@@ -35,6 +35,7 @@ namespace :foreman do
       "echo \"AWS_ENABLED=#{ENV['AWS_ENABLED']}\" >> ./tmp/env",
       "echo \"AWS_ACCESS_KEY=#{ENV['AWS_ACCESS_KEY']}\" >> ./tmp/env",
       "echo \"AWS_SECRET_ACCESS_KEY=#{ENV['AWS_SECRET_ACCESS_KEY']}\" >> ./tmp/env",
+      "echo \"LAUNCHPAD_JOBS=#{ENV['LAUNCHPAD_JOBS']}\" >> ./tmp/env",
       "sudo mv tmp/env /etc/default/#{application}",
       "bundle exec foreman export initscript ./tmp/foreman -e /etc/default/#{application} -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log",
       "sudo mv tmp/foreman/#{application} /etc/init.d",

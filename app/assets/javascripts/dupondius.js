@@ -120,6 +120,14 @@ $(document).ready(function () {
         $('#page1').addClass('hidden');
         $('#waiting').removeClass('hidden');
         inifiniteCheck($.cookie('project_id'));
+
+        var data = JSON.parse($.cookie('project_data'));
+
+        $('#nav-application-name').html('<button class="btn btn-info">' + data.project.name + '</button>');
+        $('#nav-application-stack').html('<button class="btn btn-info">' + data.project.tech_stack + '</button>');
+        $('#nav-application-support').html('<button class="btn btn-info">' + data.project.support.join(', ') + '</button>');
+        $('#nav-application-envs').html('<button class="btn btn-info">' + data.project.environments.join(', ') + '</button>');
+
         return;
     }
 
@@ -218,8 +226,10 @@ $(document).ready(function () {
             environments: environments
         }};
 
+        $.cookie('project_data', JSON.stringify(data));
+
         var postSuccess = function(response) {
-            $.cookie('project_id', response.id);
+            $.cookie('project_id', response.id, {expires: 365});
             inifiniteCheck(response.id);
         };
 
@@ -230,7 +240,5 @@ $(document).ready(function () {
             data: JSON.stringify(data),
            success: postSuccess
         });
-
-        $('#please-wait').append('<div id="loading-image"><img src="/assets/ajax-loading.gif" alt="Loading..." /></div>');
     });
 });

@@ -85,7 +85,41 @@
 })(jQuery);
 
 $(document).ready(function () {
-    if ($('.steps').length === 0) {
+    var getSuccess = function(response) {
+        if (response.status === 'CREATE_COMPLETE') {
+            $('#loading-image').remove();
+            $('#please-wait').remove();
+            $('#waiting .page-container').append('<h2>Alright!</h2><h3>Your environment is ready for action</h3><a href="' + response.output.value + '">' + response.output.key + '</a>');
+            return;
+        } else {
+          setTimeout(function () {
+            $.ajax({
+              type: 'GET',
+              url: '/projects/' + response.id,
+              contentType: "application/json",
+              success: getSuccess
+            });
+         }, 10000);
+        }
+    };
+
+    var inifiniteCheck = function (projectId) {
+        $.ajax({
+            type: 'GET',
+            url: '/projects/' + projectId,
+            contentType: "application/json",
+            success:  getSuccess
+        });        
+
+        $('#please-wait').append('<div id="loading-image"><img src="/assets/ajax-loading.gif" alt="Loading..." /></div>');        
+    };
+
+    // recover from page refresh?
+    if ($.cookie('project_id') !== null) {
+        // show to last step
+        $('#page1').addClass('hidden');
+        $('#waiting').removeClass('hidden');
+        inifiniteCheck($.cookie('project_id'));
         return;
     }
 
@@ -184,31 +218,9 @@ $(document).ready(function () {
             environments: environments
         }};
 
-        var getSuccess = function(response) {
-            if (response.status === 'CREATE_COMPLETE') {
-                $('#loading-image').remove();
-                $('#please-wait').remove();
-                $('#waiting .page-container').append('<h2>Alright!</h2><h3>Your environment is ready for action</h3><a href="' + response.output.value + '">' + response.output.key + '</a>');
-                return;
-            } else {
-              setTimeout(function () {
-                $.ajax({
-                  type: 'GET',
-                  url: '/projects/' + response.id,
-                  contentType: "application/json",
-                  success: getSuccess
-                });
-             }, 10000);
-            }
-        };
-
         var postSuccess = function(response) {
-            $.ajax({
-                type: 'GET',
-                url: '/projects/' + response.id,
-                contentType: "application/json",
-                success:  getSuccess
-            });
+            $.cookie('project_id', response.id);
+            inifiniteCheck(response.id);
         };
 
         $.ajax({
@@ -218,6 +230,7 @@ $(document).ready(function () {
             data: JSON.stringify(data),
            success: postSuccess
         });
-        $('#please-wait').append('<div id="loading-image"><img src="/assets/ajax-loading.gif" alt="Loading..." /></div>');
+
+        $('#please-wait').append('<div id="loading-image"><img src="/assets/ajax-loading.gif" alt="Loading..." /></div>');        
     });
 });

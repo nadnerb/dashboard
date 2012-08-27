@@ -6,7 +6,7 @@ define([
 ], function (BuildsCollection, WidgetView, BuildInformationView, BuildPipelineView) {
     return WidgetView.extend({
 
-        className: 'builds',
+        className: 'builds '  + WidgetView.prototype.className,
 
         infiniteFetch: null,
 

@@ -1,26 +1,30 @@
 .navbar-inner
   .container-fluid
+    %a.btn.btn-navbar{'data-toggle': 'collapse', 'data-target': '.nav-collapse'}
+      %span.icon-bar
+      %span.icon-bar
+      %span.icon-bar
     %span.project-brand.brand 
     %span.dashboard-brand.brand Dashboard
     .nav-collapse.collapse
       %ul.nav
         %li
-          %a{href: '#index'}
+          %a{href: '#index', 'data-toggle': 'collapse', 'data-target': '.nav-collapse'}
             %span#nav-dashboard-image
             %span Dashboard
         %li
-          %a{href: '#stories'}
+          %a{href: '#stories', 'data-toggle': 'collapse', 'data-target': '.nav-collapse'}
             %span#nav-stories-image
             %span Iteration
         %li
-          %a{href: '#builds'}
+          %a{href: '#builds', 'data-toggle': 'collapse', 'data-target': '.nav-collapse'}
             %span#nav-builds-image
             %span Builds
         %li
-          %a{href: '#performance'}
+          %a{href: '#performance', 'data-toggle': 'collapse', 'data-target': '.nav-collapse'}
             %span#nav-performance-image
             %span Performance
         %li
-          %a{href: '#configure'}
+          %a{href: '#configure', 'data-toggle': 'collapse', 'data-target': '.nav-collapse'}
             %span#nav-configure-image
             %span Configure

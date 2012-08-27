@@ -29,6 +29,10 @@ html, body {
 	-webkit-border-bottom-right-radius: 4px;
 }
 
+.widget .row {
+	margin-left: 0;
+}
+
 .dashboard-footer {
   margin-top: 25px;
   padding: 15px 0 16px;

@@ -26,6 +26,6 @@ class ApplicationController < ActionController::Base
     redirect_to("/404.html") unless
       cookies[:u_can_haz] == 'monkeysAndBananas' ||
       params[:controller] == 'under_construction' ||
-      Rails.configuration.launchpad_enabled
+      !Rails.configuration.launchpad_enabled
   end
 end

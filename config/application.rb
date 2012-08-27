@@ -71,5 +71,7 @@ module Dashboard
     # created and thus costing money.
     config.aws_enabled = ENV['AWS_ENABLED'] && ENV['AWS_ENABLED'].downcase == 'true' ? true : false
 
+    # To run the launchpad jobs for creating and pushing the project
+    config.launchpad_jobs = ENV['LAUNCHPAD_JOBS'] && ENV['LAUNCHPAD_JOBS'].downcase == 'true' ? true : false
   end
 end

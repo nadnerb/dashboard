@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
     def index
+        params[:project_name] = 'dupondius' #ENV['']
     end
 
     def monkeys_and_bananas

@@ -16,6 +16,7 @@ gem 'yajl-ruby'
 gem 'octokit'
 gem 'omniauth'
 gem 'devise'
+gem 'newrelic_rpm'
 
 gem 'haml-rails'
 

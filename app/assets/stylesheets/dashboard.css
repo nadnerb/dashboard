@@ -11,16 +11,16 @@ html, body {
 	-webkit-border-top-left-radius: 4px;
 	-webkit-border-top-right-radius: 4px;
 	-webkit-background-clip: padding-box;
-}	
-	
-.widget-header h3 {	
+}
+
+.widget-header h3 {
 	font-size: 14px;
 	font-weight: 800;
 	color: #555;
 	line-height: 40px;
 	text-shadow: 1px 1px 2px rgba(255,255,255,.5);
 }
-	
+
 .widget-content {
 	padding: 10px;
 	background: white;
@@ -38,3 +38,11 @@ html, body {
   padding: 15px 0 16px;
   border-top: 1px solid #D5D5D5;
 }
+
+#stories, #performance {
+	padding: 10px;
+	margin: 0 auto;
+	text-align: center;
+	max-width: 900px;
+}
+

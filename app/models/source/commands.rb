@@ -18,10 +18,6 @@ class Source::Commands < SimpleDelegator
     create(name).to_json
   end
 
-  #def add_deploy_key
-    #client.add_deploy_key
-  #end
-
   private
   def client
     @client ||= Octokit::Client.new(:login => user['login'], :oauth_token => token)

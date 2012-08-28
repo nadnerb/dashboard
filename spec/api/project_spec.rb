@@ -7,7 +7,7 @@ describe "project", :type => :api do
 
     before do
       skeleton = mock(Jobs::Skeleton).as_null_object
-      Jobs::Skeleton.should_receive(:new).and_return(skeleton)
+      Jobs::Skeleton.stub(:new).and_return(skeleton)
 
       set_cookie 'u_can_haz=monkeysAndBananas'
     end

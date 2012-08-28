@@ -1,10 +1,16 @@
 Dashboard::Application.routes.draw do
 
+  devise_for :users, :controllers => { :omniauth_callbacks => "authentication/omniauth_callbacks" }
+
   match '/dashboard' => 'dashboard#index'
   match '/dashboard/monkeys_and_bananas' => 'dashboard#monkeys_and_bananas'
 
   namespace :dashboard do
     match '/stories' => 'stories#show'
+
+    # Omniauth pure
+    match "/signin" => "authentication#signin"
+    match "/signout" => "authentication#signout"
   end
 
   resources :projects, :only => [:new, :create, :show]

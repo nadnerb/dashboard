@@ -15,6 +15,8 @@ gem 'rest-client'
 gem 'yajl-ruby'
 gem 'octokit'
 gem 'omniauth'
+gem 'omniauth-openid'
+gem 'omniauth-google-apps'
 gem 'devise'
 gem 'newrelic_rpm'
 

@@ -1,4 +1,6 @@
 class DashboardController < ApplicationController
+#    before_filter :authenticate_user!, :except => [:monkeys_and_bananas]
+
     def index
         params[:project_name] = ENV['PROJECT_NAME']
     end

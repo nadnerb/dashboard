@@ -52,7 +52,7 @@ group :development, :test do
   gem 'jasmine-headless-webkit'
   gem 'jasmine-spec-extras'
 
-  gem 'awesome_print'
+  gem 'awesome_print', :require => 'ap'
   gem 'thin'
   gem 'dotenv'
 end

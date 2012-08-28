@@ -1,16 +1,18 @@
 Dashboard::Application.routes.draw do
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "authentication/omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "authentication" }
+
+  devise_scope :user do
+    delete "/users/sign_out" => "devise/sessions#destroy"
+    get 'sign_in', :to => 'authentication#sign_in_redirect', :as => :new_user_session
+    get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+  end
 
   match '/dashboard' => 'dashboard#index'
   match '/dashboard/monkeys_and_bananas' => 'dashboard#monkeys_and_bananas'
 
   namespace :dashboard do
     match '/stories' => 'stories#show'
-
-    # Omniauth pure
-    match "/signin" => "authentication#signin"
-    match "/signout" => "authentication#signout"
   end
 
   resources :projects, :only => [:new, :create, :show]

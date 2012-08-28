@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  devise :database_authenticatable, :omniauthable, :trackable
+  devise :omniauthable, :trackable
 
   attr_accessible :email, :password, :password_confirmation, :provider, :uid
 
@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
     if user = User.where(:email => data['email']).first
       return user
     else #create a user with stub pwd
-      User.create!(:email => data['email'], :password => Devise.friendly_token[0,20])
+      User.create!(:email => data['email'])
     end
   end
 

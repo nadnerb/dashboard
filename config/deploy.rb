@@ -4,7 +4,7 @@ require 'bundler/capistrano'
 begin
   require 'dotenv'
   Dotenv.load
-rescue => e
+rescue LoadError
 end
 default_run_options[:pty] = true
 

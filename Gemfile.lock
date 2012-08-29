@@ -334,6 +334,7 @@ DEPENDENCIES
   jasmine-headless-webkit
   jasmine-spec-extras
   jquery-rails
+  json
   newrelic_rpm
   oauth2
   octokit

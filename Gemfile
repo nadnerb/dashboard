@@ -19,6 +19,7 @@ gem 'omniauth-openid'
 gem 'omniauth-google-apps'
 gem 'devise'
 gem 'newrelic_rpm'
+gem 'json'
 
 gem 'haml-rails'
 

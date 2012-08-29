@@ -1,4 +1,4 @@
-set :domain,      "staging.dupondi.us"
+set :domain,      "staging.#{ENV['PROJECT_NAME']}.dupondi.us"
 set :rails_env,   "staging"
 set :unicorn_env, "staging"
 set :app_env,     "staging"

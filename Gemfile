@@ -6,7 +6,6 @@ gem 'appscrolls', :git => 'git@github.com:nadnerb/appscrolls.git'
 gem 'foreman-export-initscript', :git => 'git://github.com/Draiken/foreman-export-initscript.git'
 gem 'pivotal-tracker'
 
-gem 'sqlite3'
 gem 'delayed_job_active_record'
 gem 'daemons'
 
@@ -35,11 +34,13 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'mysql'
 gem 'jquery-rails'
 
 # Deploy with Capistrano
 group :development do
   gem 'capistrano', :require => false
+  gem 'sqlite3'
 end
 
 gem "simple_form"

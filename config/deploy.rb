@@ -1,15 +1,18 @@
 load "deploy/assets"
 require 'bundler/capistrano'
 
+require 'dotenv'
+Dotenv.load
+
 default_run_options[:pty] = true
 
+# TODO: application should be set from project_name env var
 set :application, "dashboard"
 set :repository,  "git@github.com:nadnerb/dashboard.git"
 set :user, "deployer"  # The server's user for deploys
 set :scm, :git
 set :git_shallow_clone, 1
 set :use_sudo, false
-set :domain, 'dupondi.us'
 set :applicationdir, "/opt/app/#{application}"
 set :deploy_to, applicationdir
 
@@ -28,6 +31,7 @@ namespace :foreman do
   desc "Export the Procfile to inittab"
   task :export, :roles => :app do
     run ["cd #{release_path}",
+      # Setup application environment variables
       "mkdir -p tmp/foreman",
       "echo \"RAILS_ENV=#{rails_env}\" > ./tmp/env",
       "echo \"PROJECT_NAME=#{ENV['PROJECT_NAME']}\" >> ./tmp/env",
@@ -36,7 +40,14 @@ namespace :foreman do
       "echo \"AWS_ENABLED=#{ENV['AWS_ENABLED']}\" >> ./tmp/env",
       "echo \"AWS_ACCESS_KEY=#{ENV['AWS_ACCESS_KEY']}\" >> ./tmp/env",
       "echo \"AWS_SECRET_ACCESS_KEY=#{ENV['AWS_SECRET_ACCESS_KEY']}\" >> ./tmp/env",
+
+      # Push the database environment variables into the app
+      "cat /etc/default/database >> ./tmp/env",
+
+      # Move it to the common place
       "sudo mv tmp/env /etc/default/#{application}",
+
+      # Get foreman to the inittab script
       "bundle exec foreman export initscript ./tmp/foreman -e /etc/default/#{application} -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log",
       "sudo mv tmp/foreman/#{application} /etc/init.d",
       "chmod +x /etc/init.d/#{application}",

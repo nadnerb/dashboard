@@ -18,29 +18,33 @@ test: &test
   pool: 5
   timeout: 5000
 
-production:
-  adapter: sqlite3
-  database: db/production.sqlite3
-  pool: 5
-  timeout: 5000
-
-staging:
-  adapter: sqlite3
-  database: db/staging.sqlite3
-  pool: 5
-  timeout: 5000
-
-qa:
-  adapter: sqlite3
-  database: db/qa.sqlite3
-  pool: 5
-  timeout: 5000
-
-canary:
-  adapter: sqlite3
-  database: db/canary.sqlite3
-  pool: 5
-  timeout: 5000
-
 cucumber:
   <<: *test
+
+
+# MySQL
+# In production and similar environments we use MySQL
+# with configuration specified on the instance and
+# exported as environment variables.
+base: &base
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  timeout: 5000
+  pool: 5
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  socket: <%= ENV['DB_SOCKET'] %>
+
+production:
+  <<: *base
+
+staging:
+  <<: *base
+qa:
+  <<: *base
+
+canary:
+  <<: *base
+

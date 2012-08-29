@@ -336,8 +336,8 @@ DEPENDENCIES
   jasmine-spec-extras
   jquery-rails
   json
-  newrelic_rpm
   mysql
+  newrelic_rpm
   oauth2
   octokit
   omniauth

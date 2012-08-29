@@ -1,9 +1,11 @@
 load "deploy/assets"
 require 'bundler/capistrano'
 
-require 'dotenv'
-Dotenv.load
-
+begin
+  require 'dotenv'
+  Dotenv.load
+rescue
+end
 default_run_options[:pty] = true
 
 # TODO: application should be set from project_name env var

@@ -6,7 +6,9 @@ Given /^I go to the dashboard url$/ do
 end
 
 Then /^I should see a dashboard, duh!$/ do
-  find('.navbar .dashboard-brand').text.should == 'DASHBOARD'
+  page.wait_until do
+    find('.navbar .dashboard-brand').text.should == 'DASHBOARD'
+  end
 end
 
 Then /^the dashboard should have the correct version$/ do

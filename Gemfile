@@ -34,7 +34,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'mysql'
+gem 'mysql2'
 gem 'jquery-rails'
 
 # Deploy with Capistrano

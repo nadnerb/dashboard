@@ -1,5 +1,10 @@
 require 'dupondius'
-require 'dotenv/tasks'
+
+begin
+  require 'dotenv/tasks'
+rescue LoadError
+end
+
 
 namespace :dupondius do
 

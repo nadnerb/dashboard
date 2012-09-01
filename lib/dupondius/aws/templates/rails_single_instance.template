@@ -139,9 +139,7 @@
                 "mode"   : "000644",
                 "owner"  : "root",
                 "group"  : "root"
-              }
-            },
-            "files" : {
+              },
               "/tmp/setup.mysql" : {
                 "content" : { "Fn::Join" : ["", [
                   "CREATE USER '", { "Ref" : "DBUsername" }, "'@'localhost' IDENTIFIED BY '", { "Ref" : "DBPassword" }, "';\n",
@@ -151,30 +149,41 @@
                 "mode"  : "000644",
                 "owner" : "root",
                 "group" : "root"
-            },
-            "/etc/default/database" : {
-             "content" : { "Fn::Join" : ["", [
-                "DB_NAME: ", { "Ref" : "DBName" }, "\n",
-                "DB_USERNAME: ", { "Ref" : "DBUsername" }, "\n",
-                "DB_PASSWORD: ", { "Ref" : "DBPassword" }, "\n",
-                "DB_SOCKET: /var/lib/mysql/mysql.sock\n"
-                ]]},
-              "mode"  : "000644",
-              "owner" : "root",
-              "group" : "root"
+              },
+              "/etc/default/database" : {
+               "content" : { "Fn::Join" : ["", [
+                  "DB_NAME=", { "Ref" : "DBName" }, "\n",
+                  "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
+                  "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
+                  "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
+                  ]]},
+                "mode"  : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
+              "/home/deployer/.ssh/environment" : {
+               "content" : { "Fn::Join" : ["", [
+                  "DB_NAME=", { "Ref" : "DBName" }, "\n",
+                  "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
+                  "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
+                  "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
+                  ]]},
+                "mode"  : "000644",
+                "owner" : "deployer",
+                "group" : "deployer"
             }
           },
-            "services" : {
-              "sysvinit" : {
-                "nginx" : {
-                  "enabled" : "true",
-                  "ensureRunning" : "true",
-                  "files" : ["/etc/nginx/nginx.conf"]
-                },
-                "mysqld" : {
-                  "enabled"       : "true",
-                  "ensureRunning" : "true"
-                }
+          "services" : {
+            "sysvinit" : {
+              "nginx" : {
+                "enabled" : "true",
+                "ensureRunning" : "true",
+                "files" : ["/etc/nginx/nginx.conf"]
+              },
+              "mysqld" : {
+                "enabled"       : "true",
+                "ensureRunning" : "true"
+              }
               }
             }
           }
@@ -207,6 +216,10 @@
           "# Setup MySQL root password and create a user\n",
           "mysqladmin -u root password '", { "Ref" : "DBRootPassword" }, "' || error_exit 'Failed to initialize root password'\n",
           "mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql || error_exit 'Failed to create database user'\n",
+
+          "# Allow the environment to the loaded for the deployer\n",
+          "echo \"PermitUserEnvironment yes\" >> /etc/ssh/sshd_config\n",
+          "/etc/init.d/sshd restart\n",
 
           "# Use Ruby 1.9\n",
           "rm /usr/bin/ruby\n",

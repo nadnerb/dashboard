@@ -25,9 +25,30 @@ set :stages, %w(production staging qa canary)
 
 require 'capistrano/ext/multistage'
 
+after "deploy:setup", 'deploy:db:create'
 after "deploy:update_code", "deploy:migrate"
 after 'deploy:update', 'foreman:export'
 after 'deploy:update', 'foreman:restart'
+
+
+namespace :deploy do
+  namespace :db do
+    desc 'Create the database'
+    task :create do
+      puts "\n\n=== Creating the Database! ===\n\n"
+      create_sql = <<-SQL
+        CREATE DATABASE $DB_NAME;
+      SQL
+      run "mysql --user=$DB_USERNAME --password=$DB_PASSWORD --execute=\"#{create_sql}\""
+    end
+
+    desc 'Seed the database'
+    task :seed do
+      puts "\n\n=== Populating the Database! ===\n\n"
+      run "cd #{release_path}; rake db:seed RAILS_ENV=#{rails_env}"
+    end
+  end
+end
 
 namespace :foreman do
   desc "Export the Procfile to inittab"

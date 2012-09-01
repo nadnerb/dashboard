@@ -29,6 +29,14 @@
       "Type" : "String",
       "Default" : "dupondi.us"
     },
+    "AwsAccessKey" : {
+      "Description" : "Your AWS access key",
+      "Type" : "String"
+    },
+    "AwsSecretAccessKey" : {
+      "Description" : "Your AWS secret access key",
+      "Type" : "String"
+    },
     "DBName": {
       "Default": "MyDatabase",
       "Description" : "MySQL database name",
@@ -134,6 +142,18 @@
               }
             },
             "files" : {
+              "/usr/local/bin/cli53" : {
+                "source" : "https://raw.github.com/barnybug/cli53/master/scripts/cli53",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
+              "/usr/sbin/update-route53-dns" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/update-route53-dns",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
               "/etc/nginx/nginx.conf" : {
                 "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf",
                 "mode"   : "000644",
@@ -146,6 +166,19 @@
                   "GRANT ALL ON ", { "Ref" : "DBName" }, ".* TO '", { "Ref" : "DBUsername" }, "'@'localhost';\n",
                   "FLUSH PRIVILEGES;\n"
                     ]]},
+                "mode"  : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
+              "/etc/default/route53" : {
+               "content" : { "Fn::Join" : ["", [
+                  "ENVIRONMENT_NAME=", { "Ref" : "EnvironmentName" }, "\n",
+                  "PROJECT_NAME=", { "Ref" : "ProjectName" }, "\n",
+                  "ZONE=", { "Ref" : "HostedZone" }, "\n",
+                  "TTL=600\n",
+                  "AWS_ACCESS_KEY_ID=", { "Ref" : "AwsAccessKey" }, "\n",
+                  "AWS_SECRET_ACCESS_KEY=", { "Ref" : "AwsSecretAccessKey" }, "\n"
+                  ]]},
                 "mode"  : "000644",
                 "owner" : "root",
                 "group" : "root"
@@ -245,6 +278,12 @@
 
           "# Add nginx to the www group\n",
           "usermod -a -G www nginx\n",
+
+          "# Tools to support automated DNS update using Route53\n",
+          "easy_install  -U boto\n",
+          "easy_install  -U argparse\n",
+          "easy_install  -U dnspython\n",
+          "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
 
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Dashboard application setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"

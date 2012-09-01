@@ -47,6 +47,7 @@ gem "simple_form"
 
 group :development, :test do
   gem "capybara"
+  gem "capybara-webkit"
   gem "rspec-rails"
   gem "sqlite3"
 

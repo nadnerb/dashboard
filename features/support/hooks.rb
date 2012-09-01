@@ -29,7 +29,8 @@ end
 
 def run_against(tag, block)
   old_host = Capybara.app_host
-  Capybara.app_host = "http://#{tag[1..-1]}.dupondi.us"
+  hostname = "http://#{tag[1..-1]}.dupondius.dupondi.us"
+  Capybara.app_host = hostname
   begin
     block.call
   ensure

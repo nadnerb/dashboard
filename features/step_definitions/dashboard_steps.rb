@@ -25,5 +25,5 @@ Given /^I go to the heart beat url$/ do
 end
 
 Then /^I should see OK$/ do
-  @response.body.should == 'OK'
+  page.text.should == 'OK'
 end

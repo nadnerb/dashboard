@@ -21,6 +21,10 @@ define([
             this.$('.widget-content').append(content);
         },
 
+        appendTemplate: function (content) {
+            this.append(haml.compileHaml({source: content})());
+        },
+
         empty: function () {
             this.$('.widget-content').empty();  
         }

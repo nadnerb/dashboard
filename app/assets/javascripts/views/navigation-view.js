@@ -4,7 +4,7 @@ define([
 ], function (BackboneSuperView, template) {
     return BackboneSuperView.extend({
 
-        className: 'navbar',
+        className: 'navbar', //navbar-fixed-top
 
         events: {
             'click .nav a': 'showPage'

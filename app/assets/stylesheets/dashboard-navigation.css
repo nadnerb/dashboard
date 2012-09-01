@@ -32,11 +32,11 @@
 .navbar-inner .nav .active {
 	background: none;
 }
-
+/*
 .navbar .btn-navbar {
 	margin-top: 27px;
 }
-
+*/
 .navbar-inner .nav li {
 	position: relative;
 	cursor: pointer;

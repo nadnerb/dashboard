@@ -3,6 +3,7 @@ html, body {
 }
 
 .widget-header {
+	text-align: center;
 	height: 40px;
 	background: #E9E9E9;
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#FAFAFA), color-stop(100%,#E9E9E9));

@@ -2,13 +2,15 @@ define([
     'vendor/base',
     'models/iteration',
     'views/widget-view',
-    'text!templates/stories.html.haml'
-], function (BackboneSuperView, Iteration, WidgetView, template) {
+    'text!templates/configure-pivotal.html.haml'
+], function (BackboneSuperView, Iteration, WidgetView, configurePivotalTemplate) {
     return BackboneSuperView.extend({
 
         id: 'stories',
 
-        template: template,
+        events: {
+            'click .btn': 'configurePivotalTracker'
+        },
 
         initialize: function (options) {
             this.model = new Iteration();
@@ -18,24 +20,58 @@ define([
         },
 
         postRender: function () {
-          var view = new WidgetView({
-            heading: 'Burn Down Chart',
-            contentId: 'burn-down-widget'
-          });
-          view.render();
-          this.$el.html(view.el);
+            if (this.model.has('stories')) {
+                this.renderBurnDownChart();
+            } else {
+                this.renderConfigurePivotalTracker();
+            }
+        },
 
-          if (this.model.hasChanged()) {
-              renderLineGraph({
+        renderBurnDownChart: function () {
+            var view = new WidgetView({
+                 heading: 'Burn Down Chart',
+                 contentId: 'burn-down-widget'
+            }).render();
+            this.$el.html(view.el);
+            this.renderLineGraph(view);
+        },
+
+        renderConfigurePivotalTracker: function () {
+            var view = new WidgetView({
+               heading: 'Configure Pivotal Tracker',
+               contentId: 'configure-pivotal-tracker-widget'
+            }).render();
+
+            if (this.model.has('not_configured')) {
+                view.appendTemplate(configurePivotalTemplate);    
+            } else {
+                view.append('Loading...');
+            }
+
+            this.$el.html(view.el);
+        },
+
+        configurePivotalTracker: function () {
+            var token = this.$('#pivotal-tracker-token').val();
+            var projectId = this.$('#pivotal-tracker-project').val();
+
+            this.model.unset('not_configured');
+            this.model.save({
+                token: token,
+                project_id: projectId
+            });
+
+            return false;
+        },
+
+        renderLineGraph: function (view) {
+            renderLineGraph({
                 elementId: view.options.contentId,
                 labels: this.model.burnDownDates(),
                 values: this.model.burnDownValues(),
                 width: Math.min(this.$el.width(), 900),
                 height: 250
-              });
-          } else {
-                view.append('Pivotal Tracker Chatter happening...');
-          }
+            });
         }
     });
 });

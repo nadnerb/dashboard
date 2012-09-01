@@ -15,6 +15,10 @@ Raphael.fn.drawGrid = function (x, y, w, h, wv, hv, color) {
 };
 
 var incrementsOfCalculator = function (max, current) {
+    if (current === 1) {
+        return current;
+    }
+    
     if (max <= current) {
         return incrementsOfCalculator(max, Math.ceil(current/5));
     } else {
@@ -159,4 +163,6 @@ var renderLineGraph = function (options) {
     label[0].toFront();
     label[1].toFront();
     blanket.toFront();
+
+    return r;
 };

@@ -12,7 +12,7 @@ Dashboard::Application.routes.draw do
   match '/dashboard/monkeys_and_bananas' => 'dashboard#monkeys_and_bananas'
 
   namespace :dashboard do
-    match '/stories' => 'stories#show'
+    resource :stories, :only => [:create, :show]
   end
 
   resources :projects, :only => [:new, :create, :show]

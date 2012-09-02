@@ -44,7 +44,9 @@ define([
         },
 
         performance: function () {
-            this.dashboard.apply(new PerformanceView());
+            var view = new PerformanceView();
+            this.dashboard.apply(view);
+            view.model.fetch();
         },
 
         configure: function () {

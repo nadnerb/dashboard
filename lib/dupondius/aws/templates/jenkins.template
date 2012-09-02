@@ -15,6 +15,24 @@
       "Default" : "m1.small",
       "AllowedValues" : [ "t1.micro","m1.small","m1.medium","m1.large","m1.xlarge","m2.xlarge","m2.2xlarge","m2.4xlarge","c1.medium","c1.xlarge","cc1.4xlarge","cc2.8xlarge","cg1.4xlarge"],
       "ConstraintDescription" : "must be a valid EC2 instance type."
+    },
+    "ProjectName" : {
+      "Description" : "Name of your project",
+      "Type" : "String"
+    },
+    "ProjectGithubUser" : {
+      "Description" : "Github User for the project",
+      "Type" : "String"
+    },
+    "ProjectType" : {
+      "Description" : "Tech stack of your project",
+      "Type" : "String",
+      "Default" : "rails"
+    },
+    "HostedZone" : {
+      "Description" : "The DNS name of an existing Amazon Route 53 hosted zone",
+      "Type" : "String",
+      "Default" : "dupondi.us"
     }
   },
 
@@ -92,10 +110,32 @@
           "  exit 1\n",
           "}\n",
 
+          "# Give the deployer user login rights\n",
+          "useradd -m deployer\n",
+          "mkdir -p /home/deployer/.ssh\n",
+          "curl https://s3.amazonaws.com/private_keys/deployer.pem -o /home/deployer/.ssh/id_rsa\n",
+          "chown -R deployer:deployer /home/deployer/.ssh\n",
+          "chmod 600 /home/deployer/.ssh/id_rsa\n",
+          "su - deployer -c \"ssh -o StrictHostKeyChecking=no git@github.com\"\n",
+
           "# Install Jenkins\n",
           "wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo\n",
           "rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key\n",
-          "yum install -y jenkins\n",
+          "yum install -y jenkins git\n",
+
+          "service jenkins stop\n",
+          "mkdir -p /var/lib/jenkins/\n",
+          "rm -rf /var/lib/jenkins/*\n",
+          "su - deployer -c \"git clone -n git@github.com:uglyog/jenkins-config.git /var/tmp/git-tmp\"\n",
+          "mv /var/tmp/git-tmp/.git /var/lib/jenkins/\n",
+          "cd /var/lib/jenkins/\n",
+          "git checkout ", { "Ref" : "ProjectType" } ,"\n",
+          "sed -i 's/\\(<hudsonUrl>\\).*\\(<\\/hudsonUrl>\\)/\\1http:\\/\\/ci.", { "Ref" : "ProjectName" }, ".dupondi.us:8080\\/\\2/' hudson.tasks.Mailer.xml\n",
+          "sed -i 's/\\(<projectUrl>\\).*\\(<\\/projectUrl>\\)/\\1https:\\/\\/github.com\\/", { "Ref" : "ProjectGithubUser" }, "\\/", { "Ref" : "ProjectName" } ,"\\2/' jobs/*/config.xml\n",
+          "sed -i 's/\\(<url>git@github.com:\\).*\\(<\\/url>\\)/\\1", { "Ref" : "ProjectGithubUser" } ,"\\/", { "Ref" : "ProjectName" } ,".git\\2/' jobs/*/config.xml\n",
+          "sed -i 's/\\(curl http:\\/\\/[^.]*\\.\\).*\\(\\.dupondi\\.us\\/status\\/heart_beat\\)/\\1", { "Ref" : "ProjectName" } ,"\\2/' jobs/*/config.xml\n",
+          "chown -R jenkins:jenkins /var/lib/jenkins\n",
+          "cd -\n",
 
           "# Install packages\n",
           "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r CIServer ",
@@ -139,12 +179,24 @@
         } ]
 
       }
+    },
+
+    "DNSRecord" : {
+      "Type" : "AWS::Route53::RecordSet",
+      "Properties" : {
+        "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "HostedZone"}, "." ]]},
+        "Comment" : "CNAME to ci instance.",
+        "Name" : { "Fn::Join" : [ "", ["ci", ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, "."]]},
+        "Type" : "CNAME",
+        "TTL" : "900",
+        "ResourceRecords" : [{ "Fn::GetAtt" : [ "CIServer", "PublicDnsName" ]}]
+      }
     }
   },
 
   "Outputs" : {
     "WebsiteURL" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "CIServer", "PublicDnsName" ]}, ":8080" ]] },
+      "Value" : { "Fn::Join" : ["", ["http://", "ci", ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, ":8080"]] },
       "Description" : "URL for newly created CI"
     }
   }

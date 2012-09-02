@@ -170,21 +170,14 @@
                 "owner" : "root",
                 "group" : "root"
               },
-              "/etc/default/route53" : {
+              "/etc/default/app" : {
                "content" : { "Fn::Join" : ["", [
                   "ENVIRONMENT_NAME=", { "Ref" : "EnvironmentName" }, "\n",
                   "PROJECT_NAME=", { "Ref" : "ProjectName" }, "\n",
                   "ZONE=", { "Ref" : "HostedZone" }, "\n",
                   "TTL=600\n",
                   "AWS_ACCESS_KEY_ID=", { "Ref" : "AwsAccessKey" }, "\n",
-                  "AWS_SECRET_ACCESS_KEY=", { "Ref" : "AwsSecretAccessKey" }, "\n"
-                  ]]},
-                "mode"  : "000644",
-                "owner" : "root",
-                "group" : "root"
-              },
-              "/etc/default/database" : {
-               "content" : { "Fn::Join" : ["", [
+                  "AWS_SECRET_ACCESS_KEY=", { "Ref" : "AwsSecretAccessKey" }, "\n",
                   "DB_NAME=", { "Ref" : "DBName" }, "\n",
                   "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
                   "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
@@ -229,6 +222,9 @@
                           { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
         "InstanceType"   : { "Ref" : "InstanceType" },
         "SecurityGroups" : [ {"Ref" : "FrontendGroup"} ],
+        "Tags" : [ {"Key" : "dupondius:project", "Value" : { "Ref" : "ProjectName"} },
+                   {"Key" : "dupondius:environment", "Value" : { "Ref" : "EnvironmentName"} }
+                 ],
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
           "yum update -y aws-cfn-bootstrap\n",
@@ -283,7 +279,7 @@
           "easy_install  -U boto\n",
           "easy_install  -U argparse\n",
           "easy_install  -U dnspython\n",
-          "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
+          "# echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
 
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Dashboard application setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
@@ -329,7 +325,7 @@
         "Comment" : "CNAME for the web instance.",
         "Name" : { "Fn::Join" : [ "", [{"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, "."]]},
         "Type" : "CNAME",
-        "TTL" : "900",
+        "TTL" : "600",
         "ResourceRecords" : [{ "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}]
       }
     }

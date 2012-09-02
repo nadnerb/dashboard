@@ -55,6 +55,7 @@ namespace :foreman do
   task :export, :roles => :app do
     run ["cd #{release_path}",
       # Setup application environment variables
+      #TODO This could be consolidated as instances are created with these variables
       "mkdir -p tmp/foreman",
       "echo \"RAILS_ENV=#{rails_env}\" > ./tmp/env",
       "echo \"PROJECT_NAME=#{ENV['PROJECT_NAME']}\" >> ./tmp/env",

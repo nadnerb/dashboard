@@ -60,14 +60,20 @@ module Dupondius; module Aws; module Stacks
 
   class Dashboard < Base
 
-    template :dashboard
-
     def self.create project_name, parameters
       super('dashboard', project_name, parameters)
     end
 
     def self.find project_name
       super('dashboard', project_name)
+    end
+
+    def self.as_json
+      template= JSON.parse(File.open(File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws', 'templates', "rails_single_instance.template")), 'rb').read)
+
+      user_data = template['Resources']['WebServer']['Properties']['UserData']['Fn::Base64']['Fn::Join'].last
+      user_data.insert((user_data.size) -4, "curl -L https://s3.amazonaws.com/dupondius/config/install-dashboard | bash \n")
+      JSON.pretty_generate(template)
     end
   end
 

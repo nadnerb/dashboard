@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# Standalone dashboard install script
+#
+
+# Make sure only root can run our script
+if [ "$(id -u)" != "0" ]; then
+echo "This script must be run as root" 1>&2
+    exit 1
+fi
+
+
+# Create a database
+source /etc/default/app
+export DB_NAME
+export DB_USERNAME
+export DB_PASSWORD
+export DB_SOCKET
+mysql --user=$DB_USERNAME --password=$DB_PASSWORD --execute="CREATE DATABASE $DB_NAME;"
+
+echo "UserKnownHostsFile /dev/null" >> /home/deployer/.ssh/config
+echo "StrictHostKeyChecking no" >> /home/deployer/.ssh/config
+chown deployer:deployer /home/deployer/.ssh/config
+su - deployer -c "chmod 600 /home/deployer/.ssh/config"
+su - deployer -c "mkdir -p /opt/app/dashboard/shared/log"
+su - deployer -c "mkdir -p /opt/app/dashboard/shared/pids"
+su - deployer -c "cd /opt/app/dashboard &&  git clone --depth 1 git@github.com:nadnerb/dashboard.git current"
+su - deployer -c "cd /opt/app/dashboard/current && bundle install --path vendor/bundle --deployment --without development test"
+su - deployer -c "cd /opt/app/dashboard/current && bundle exec rake RAILS_ENV=production RAILS_GROUPS=assets DB_NAME=$DB_NAME DB_USERNAME=$DB_USERNAME DB_PASSWORD=$DB_PASSWORD DB_SOCKET=$DB_SOCKET assets:precompile"
+su - deployer -c "cd /opt/app/dashboard/current && bundle exec rake RAILS_ENV=production DB_NAME=$DB_NAME DB_USERNAME=$DB_USERNAME DB_PASSWORD=$DB_PASSWORD DB_SOCKET=$DB_SOCKET db:migrate"
+
+# Tweak some runtime config
+echo "RAILS_ENV=production" >> /etc/default/app
+echo "ENABLE_LAUNCHPAD=false" >> /etc/default/app
+
+# Generate initd scripts
+su - deployer -c "cd /opt/app/dashboard/current && bundle exec foreman export initscript /tmp -e /etc/default/app -f ./Procfile.production -a dashboard -u deployer -l /opt/app/dashboard/current/log"
+mv /tmp/dashboard /etc/init.d
+chmod +x /etc/init.d/dashboard
+
+# Go
+/etc/init.d/dashboard restart
+

@@ -2,9 +2,9 @@ define([
     'vendor/base',
     'models/performance',
     'views/widget-view',
-    'text!templates/configure-newrelic.html.haml'
-    //'text!templates/performance.html.haml'
-], function (BackboneSuperView, Performance, WidgetView, template) {
+    'text!templates/configure-newrelic.html.haml',
+    'text!templates/performance.html.haml'
+], function (BackboneSuperView, Performance, WidgetView, configureTemplate, performanceTemplate) {
     return BackboneSuperView.extend({
 
         id: 'performance',
@@ -35,9 +35,9 @@ define([
             }).render();
 
             if (this.model.has('not_configured')) {
-                view.appendTemplate(template);
+              view.appendTemplate(configureTemplate);
             } else {
-                view.append('Loading...');
+              view.append('Loading...');
             }
 
             this.$el.html(view.el);
@@ -55,6 +55,12 @@ define([
         },
 
         renderMetrics: function () {
+          var view = new WidgetView({
+            heading: 'New Relic',
+          contentId: 'newrelic-widget'
+          }).render();
+          view.appendTemplate(performanceTemplate);
+          this.$el.html(view.el);
         }
     });
 });

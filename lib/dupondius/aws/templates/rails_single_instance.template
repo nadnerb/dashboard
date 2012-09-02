@@ -285,6 +285,10 @@
           "easy_install  -U dnspython\n",
           "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
 
+          "#add new relic server monitoring",
+          "rpm -uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm"
+          "yum install newrelic-sysmond"
+
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Dashboard application setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
         ]]}}

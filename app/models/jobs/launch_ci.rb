@@ -1,4 +1,3 @@
-require 'awesome_print'
 require 'yajl'
 
 class Jobs::LaunchCi
@@ -8,7 +7,6 @@ class Jobs::LaunchCi
   def initialize(project, params)
     @project = project
     @params = params
-    ap self
   end
 
   def run
@@ -20,7 +18,6 @@ class Jobs::LaunchCi
         ProjectGithubUser: user.to_s,
         ProjectType: tech_stack(params[:project][:tech_stack]).to_s
     }
-    ap options
     Dupondius::Aws::Stacks::ContinuousIntegration.create(@project.name, options)
     puts "LauchCi <---"
   end

@@ -9,6 +9,10 @@ define([
 
         id: 'performance',
 
+        events: {
+            'click .btn': 'configure'
+        },
+
         initialize: function (options) {
             this.model = new Performance();
             this.model.on('change', function () {
@@ -17,7 +21,7 @@ define([
         },
 
         postRender: function () {
-            if (this.model.has('metrics')) {
+            if (this.model.has('token')) {
                 this.renderMetrics();
             } else {
                 this.renderConfigureNewRelic();
@@ -37,6 +41,20 @@ define([
             }
 
             this.$el.html(view.el);
+        },
+
+        configure: function () {
+            var token = this.$('#newrelic-token').val();
+
+            this.model.unset('not_configured');
+            this.model.save({
+                token: token,
+            });
+
+            return false;
+        },
+
+        renderMetrics: function () {
         }
     });
 });

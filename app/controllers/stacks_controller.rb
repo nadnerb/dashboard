@@ -12,8 +12,11 @@ class StacksController < ApplicationController
     if stack
       respond_with(stack)
     else
-      redirect_to :status => 404
+      redirect :nothing => true, :status => 404
     end
   end
 
+  def update
+    render :nothing => true, :status => 404
+  end
 end

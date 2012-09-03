@@ -17,6 +17,7 @@ set :git_shallow_clone, 1
 set :use_sudo, false
 set :applicationdir, "/opt/app/#{application}"
 set :deploy_to, applicationdir
+set :keep_releases, 5
 
 # TODO: Make the key an env var
 ssh_options[:keys] = %w(../deployer.pem)
@@ -55,18 +56,14 @@ namespace :foreman do
   task :export, :roles => :app do
     run ["cd #{release_path}",
       # Setup application environment variables
-      #TODO This could be consolidated as instances are created with these variables
       "mkdir -p tmp/foreman",
       "echo \"RAILS_ENV=#{rails_env}\" > ./tmp/env",
-      "echo \"PROJECT_NAME=#{ENV['PROJECT_NAME']}\" >> ./tmp/env",
       "echo \"LAUNCHPAD_ENABLED=#{ENV['LAUNCHPAD_ENABLED']}\" >> ./tmp/env",
       "echo \"LAUNCHPAD_JOBS=#{ENV['LAUNCHPAD_JOBS']}\" >> ./tmp/env",
       "echo \"AWS_ENABLED=#{ENV['AWS_ENABLED']}\" >> ./tmp/env",
-      "echo \"AWS_ACCESS_KEY=#{ENV['AWS_ACCESS_KEY']}\" >> ./tmp/env",
-      "echo \"AWS_SECRET_ACCESS_KEY=#{ENV['AWS_SECRET_ACCESS_KEY']}\" >> ./tmp/env",
 
       # Push the database environment variables into the app
-      "cat /etc/default/database >> ./tmp/env",
+      "cat /etc/default/app >> ./tmp/env",
 
       # Move it to the common place
       "sudo mv tmp/env /etc/default/#{application}",

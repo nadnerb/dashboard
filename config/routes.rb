@@ -14,7 +14,7 @@ Dashboard::Application.routes.draw do
   namespace :dashboard do
     resource :stories, :only => [:create, :show]
     resource :performance, :only => [:create, :show], :controller => 'performance'
-    resources :stacks
+    resources :stacks, :constraints => { :id => /.*/ }
   end
 
   match '/status' => 'status#index'

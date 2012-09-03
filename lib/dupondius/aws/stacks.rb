@@ -49,6 +49,18 @@ module Dupondius; module Aws; module CloudFormation
     def start_ec2
     end
 
+    def to_json options={}
+      result = nil
+      AWS.memoize do
+        result = [:name, :description, :status, :creation_time, :last_updated_time,
+         :description].inject({}) do |result, attribute|
+            result[attribute] = self.send(attribute)
+            result
+        end
+        result[:resource_summaries] = self.resource_summaries.collect { |r| r}
+      end
+      result.to_json
+    end
   end
 
   class ContinuousIntegration < Stack

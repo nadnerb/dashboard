@@ -77,5 +77,7 @@ module Dashboard
 
     # To run the launchpad jobs for creating and pushing the project
     config.launchpad_jobs = ENV['LAUNCHPAD_JOBS'] && ENV['LAUNCHPAD_JOBS'].downcase == 'true' ? true : false
+
+    config.project_name = ENV['PROJECT_NAME']
   end
 end

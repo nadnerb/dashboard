@@ -14,12 +14,7 @@ Dashboard::Application.routes.draw do
   namespace :dashboard do
     resource :stories, :only => [:create, :show]
     resource :performance, :only => [:create, :show], :controller => 'performance'
-  end
-
-  resources :projects, :only => [:new, :create, :show]
-  resource :skeleton, :only => :create, :controller => 'skeleton'
-  resource :source, :only => :new do
-    get 'callback'
+    resources :stacks
   end
 
   match '/status' => 'status#index'

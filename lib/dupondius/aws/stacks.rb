@@ -1,84 +1,90 @@
-#require 'dupondius/aws/stacks/rails'
+module Dupondius; module Aws; module CloudFormation
 
-module Dupondius; module Aws; module Stacks
-
-  def self.cloudformation
+  def self.access
     @cfn ||= AWS::CloudFormation.new(:access_key_id => Dupondius::Aws::Config.access_key,
        :secret_access_key => Dupondius::Aws::Config.secret_access_key)
   end
 
-  class Base
-    attr_reader :stack
-
-    def initialize stack
-      @stack = stack
+  def self.summaries project_name, status = :create_complete
+    Dupondius::Aws::CloudFormation.access.stack_summaries.with_status(status).select do |s|
+      s if s[:stack_name] =~ /.*#{project_name}$/
     end
-    def self.template name
-       @template_name = name.to_s
-       self.class_eval("def template_name; '#{name}';end")
+  end
+
+  class Stack
+    def initialize subject
+      @subject = subject
     end
 
-    def self.find environment_name, project_name
-      stack = Dupondius::Aws::Stacks.cloudformation.stacks["#{environment_name}-#{project_name}"]
+    def method_missing(sym, *args, &block)
+      @subject.send sym, *args, &block
+    end
+
+    def self.find stack_name
+      stack = Dupondius::Aws::CloudFormation.access.stacks[stack_name]
       stack.exists? ? self.new(stack) : nil
     end
 
-    def self.create environment_name, project_name, parameters
-      Dupondius::Aws::Stacks.cloudformation.stacks.create("#{environment_name}-#{project_name}", as_json,
+    def self.create template_name, environment_name, project_name, parameters
+      Dupondius::Aws::CloudFormation.access.stacks.create("#{environment_name}-#{project_name}", load_template(template_name),
         :parameters => parameters.merge({HostedZone: Dupondius::Aws::Config.hosted_zone, ProjectName: project_name}))
     end
 
-    def self.template_params
-      puts Dupondius::Aws::Stacks.cloudformation.validate_template(self.as_json)
-      Dupondius::Aws::Stacks.cloudformation.validate_template(self.as_json)[:parameters].collect { |p| p[:parameter_key] }
+    def self.template_params template_name
+      puts Dupondius::Aws::CloudFormation.access.validate_template(load_template(template_name))
+      Dupondius::Aws::CloudFormation.access.validate_template(load_template(template_name))[:parameters].collect { |p| p[:parameter_key] }
     end
 
-    def self.as_json
-      @template_json ||= File.open(File.expand_path(File.join(
-        File.dirname(__FILE__), '..', 'aws', 'templates', "#{@template_name}.template")), 'rb').read
+    def self.load_template template_name
+      File.open(File.expand_path(File.join( File.dirname(__FILE__), '..', 'aws', 'templates', "#{template_name}.template")), 'rb').read
     end
 
     def complete?
-      @stack.status == 'CREATE_COMPLETE'
+      @subject.status == 'CREATE_COMPLETE'
+    end
+
+    def stop_ec2
+    end
+
+    def start_ec2
     end
 
   end
 
-  class ContinuousIntegration < Base
-
-    template :jenkins
+  class ContinuousIntegration < Stack
 
     def self.create project_name, parameters
-      super('ci', project_name, parameters)
+      super('jenkins', 'ci', project_name, parameters)
     end
 
     def self.find project_name
-      super('ci', project_name)
+      super("ci-#{project_name}")
     end
   end
 
 
-  class Dashboard < Base
+  class Dashboard < Stack
 
     def self.create project_name, parameters
-      super('dashboard', project_name, parameters)
+      super('rails_single_instance', 'dashboard', project_name, parameters)
     end
 
     def self.find project_name
-      super('dashboard', project_name)
+      super("dashboard-#{project_name}")
     end
 
-    def self.as_json
-      template= JSON.parse(File.open(File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws', 'templates', "rails_single_instance.template")), 'rb').read)
+    def self.template_params
+      super("rails_single_instance")
+    end
 
+    def self.load_json template_name
+      template= super(template_name)
+      JSON.parse(template)
+
+      # inject the dashboard install script into the user-data
       user_data = template['Resources']['WebServer']['Properties']['UserData']['Fn::Base64']['Fn::Join'].last
       user_data.insert((user_data.size) -4, "curl -L https://s3.amazonaws.com/dupondius/config/install-dashboard | bash \n")
       JSON.pretty_generate(template)
     end
-  end
-
-  class RailsSingleInstance < Base
-
-    template :rails_single_instance
   end
 end; end; end

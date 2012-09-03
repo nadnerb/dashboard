@@ -1,9 +1,10 @@
 %form.form-horizontal
     %legend New Relic Details
-    %div.control-group
+    %div#token.control-group
         %label.control-label Token
         %div.controls
             %input{id: 'newrelic-token', type: 'text', placeholder: 'Enter New Relic Token'}
+            %span.help-inline
     %div.control-group
         %div.controls
             %button{type: 'submit', class: 'btn'} Submit

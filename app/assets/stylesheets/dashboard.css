@@ -40,10 +40,13 @@ html, body {
   border-top: 1px solid #D5D5D5;
 }
 
+#performance {
+	text-align: center;
+}
+
 #stories, #performance {
 	padding: 10px;
 	margin: 0 auto;
-	text-align: center;
 	max-width: 900px;
 }
 

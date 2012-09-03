@@ -53,6 +53,28 @@ define([
                 dates.push(new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate()));
             }
             return dates;
+        },
+
+        validate: function (attrs) {
+            if (attrs.not_configured === true){
+                return;
+            }
+
+            var errors = [];
+
+            if (attrs.token === '') {
+                errors.push({name: 'token', message: 'You must provide a token'});
+            }
+
+            if (attrs.project_id === '') {
+                errors.push({name: 'project_id', message: 'You must provide a project id'});
+            }
+
+            if (_(errors).isEmpty()) {
+                return;
+            }
+
+            return errors;
         }
     });
 });

@@ -55,8 +55,18 @@ define([
             var token = this.$('#pivotal-tracker-token').val();
             var projectId = this.$('#pivotal-tracker-project').val();
 
-            this.model.unset('not_configured');
+            this.model.on('error', function (model, errors) {
+                _(errors).each(function (error) {
+                    this.$('#' + error.name).addClass('error');
+                    this.$('#' + error.name + ' .help-inline').text(error.message);
+                }, this);
+            }, this);
+
+            this.$('.control-group').removeClass('error');
+            this.$('.help-inline').empty();
+
             this.model.save({
+                not_configured: undefined,
                 token: token,
                 project_id: projectId
             });

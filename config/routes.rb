@@ -14,6 +14,9 @@ Dashboard::Application.routes.draw do
   namespace :dashboard do
     resource :stories, :only => [:create, :show]
     resource :performance, :only => [:create, :show], :controller => 'performance'
+
+    #TODO: potential duplication with aws/instances controller
+    resources :instances, :only => [:index]
   end
 
   namespace :aws do

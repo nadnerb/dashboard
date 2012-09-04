@@ -46,3 +46,20 @@ html, body {
 	max-width: 900px;
 }
 
+#index-view {
+  padding: 10px;
+  width: auto;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 900px;
+}
+
+#index-view .widget-content {
+  min-height: 200px;
+}
+
+#index-view .widget-content .spinner {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}

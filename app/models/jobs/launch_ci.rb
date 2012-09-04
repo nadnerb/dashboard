@@ -10,7 +10,6 @@ class Jobs::LaunchCi
   end
 
   def run
-    puts "---> LauchCi"
     user = Source::Commands.new(@project.token).user['login']
     options = {
         KeyName: 'team-brats',
@@ -19,7 +18,6 @@ class Jobs::LaunchCi
         ProjectType: tech_stack(params[:project][:tech_stack]).to_s
     }
     Dupondius::Aws::Stacks::ContinuousIntegration.create(@project.name, options)
-    puts "LauchCi <---"
   end
 
   def tech_stack(tech)

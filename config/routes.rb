@@ -16,6 +16,8 @@ Dashboard::Application.routes.draw do
     resource :performance, :only => [:create, :show], :controller => 'performance'
     resources :stacks, :constraints => { :id => /[a-zA-Z]+-[a-zA-Z]+/ },
         :only => [:index, :update, :show]
+    
+    resources :instances, :only => [:index]
   end
 
   match '/status' => 'status#index'

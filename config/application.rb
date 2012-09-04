@@ -65,7 +65,7 @@ module Dashboard
 
     # Setting thid to false to prevent the app from connecting to the database during asset precompile
     # as in our prod environments the environment variables are yet to be loaded
-    config.assets.initialize_on_precompile=false
+    #config.assets.initialize_on_precompile=false
 
     # Launchpad component can be enabled by a setting in the environment
     config.launchpad_enabled = ENV['LAUNCHPAD_ENABLED'] && ENV['LAUNCHPAD_ENABLED'].downcase == 'true' ? true : false

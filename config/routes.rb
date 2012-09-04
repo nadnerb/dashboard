@@ -14,10 +14,15 @@ Dashboard::Application.routes.draw do
   namespace :dashboard do
     resource :stories, :only => [:create, :show]
     resource :performance, :only => [:create, :show], :controller => 'performance'
-    resources :stacks, :constraints => { :id => /[a-zA-Z]+-[a-zA-Z]+/ },
-        :only => [:index, :update, :show]
   end
 
+  namespace :aws do
+    resources :stacks, :constraints => { :id => /[a-zA-Z]+-[a-zA-Z]+/ },
+        :only => [:index, :show]
+
+    resources :instances, :constraints => { :id => /i-\S[^\.\/]+/ },
+        :only => [:index, :show, :update]
+  end
   match '/status' => 'status#index'
   match '/status/heart_beat' => 'status#heart_beat'
 

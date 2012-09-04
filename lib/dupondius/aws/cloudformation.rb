@@ -1,3 +1,4 @@
+
 module Dupondius; module Aws; module CloudFormation
 
   def self.access
@@ -43,21 +44,24 @@ module Dupondius; module Aws; module CloudFormation
       @subject.status == 'CREATE_COMPLETE'
     end
 
-    def stop_ec2
-    end
-
-    def start_ec2
-    end
-
     def to_json options={}
-      result = nil
+      result = {}
       AWS.memoize do
         result = [:name, :description, :status, :creation_time, :last_updated_time,
          :description].inject({}) do |result, attribute|
             result[attribute] = self.send(attribute)
             result
         end
-        result[:resource_summaries] = self.resource_summaries.collect { |r| r}
+        result[:resource_summaries] = self.resource_summaries.collect do |r|
+          resource = [:resource_type, :logical_resource_id].inject({}) do |h, a|
+            h[a] = r[a]
+            h
+          end
+          if r[:resource_type] == 'AWS::EC2::Instance'
+            resource[:status] = :running
+          end
+          resource
+        end
       end
       result.to_json
     end

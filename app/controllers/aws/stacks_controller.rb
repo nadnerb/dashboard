@@ -1,5 +1,5 @@
 
-class StacksController < ApplicationController
+class Aws::StacksController < ApplicationController
 
   respond_to :json
 

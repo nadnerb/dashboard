@@ -9,10 +9,6 @@ define([
 
       template: template,
 
-      events: {
-        '.accordion-toggle click': 'toggleDetails'
-      },
-
       initialize: function (options) {
           this.collection = new InstancesCollection();
           this.bindTo(this.collection, 'reset', function () {
@@ -33,11 +29,11 @@ define([
             this.$('.widget-content .accordion').append(
               '<div class="accordion-group">' +
                   '<div class="accordion-heading">' +
-                    '<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#' + instance.get('name') + '">' +
+                    '<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#' + instance.get('id') + '">' +
                       instance.get('name') +
                     '</a>' +
                   '</div>' +
-                  '<div id="' + instance.get('name') + '" class="accordion-body collapse">' +
+                  '<div id="' + instance.get('id') + '" class="accordion-body collapse">' +
                     '<div class="accordion-inner">' +
                       instance.get('instance_name') +
                     '</div>' +
@@ -49,11 +45,6 @@ define([
 
       destroy: function () {
           WidgetView.prototype.destroy.call(this);
-      },
-
-      toggleDetails: function(event) {
-        event.preventDefault();
-        $(event.srcElement).collapse('toggle');
       }
 
     });

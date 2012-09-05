@@ -25,3 +25,5 @@ reports
 public/assets/
 deployer.pem
 .env
+
+.rbenv-version

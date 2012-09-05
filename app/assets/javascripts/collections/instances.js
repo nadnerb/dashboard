@@ -1,12 +1,11 @@
 define([
     'backbone',
-    'models/ec2-instance'
-], function (Backbone, Ec2Instance) {
+    'models/instance'
+], function (Backbone, Instance) {
     return Backbone.Collection.extend({
 
-        model: Ec2Instance,
+        model: Instance,
 
-        url: 'dashboard/instances'
-
+        url: 'aws/instances'
     });
 });

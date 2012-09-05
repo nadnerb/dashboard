@@ -45,7 +45,7 @@ define([
             if (this.model.has('not_configured')) {
                 view.appendTemplate(configurePivotalTemplate);    
             } else {
-                view.append('Loading...');
+                view.append('Meticulous Reticulationing...');
             }
 
             this.$el.html(view.el);

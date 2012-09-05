@@ -1,0 +1,32 @@
+.environments {
+    padding: 10px;
+    margin: 0 auto;
+    max-width: 900px;
+    text-align: center;
+}
+
+.environment {
+    width: 244px;
+    height: 220px;
+    padding: 0 10px 10px;
+    margin: 10px;
+    -webkit-border-radius: 9px;
+    border: 4px solid #ccc;
+    float: left;
+}
+
+.environment-heading {
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.environment-loading {
+    position: absolute;
+    margin-top: 40px;
+    margin-left: 67px;
+}
+
+.environment-information {
+    padding: 10px;
+}

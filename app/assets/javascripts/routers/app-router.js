@@ -50,7 +50,9 @@ define([
         },
 
         configure: function () {
-            this.dashboard.apply(new ConfigureView());
+            var view = new ConfigureView();
+            this.dashboard.apply(view)
+            view.collection.fetch();
         },
 
         stories: function () {

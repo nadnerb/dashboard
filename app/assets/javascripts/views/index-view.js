@@ -1,7 +1,7 @@
 define([
     'views/widget-view',
     'text!templates/index.html.haml',
-    'collections/instances'
+    'collections/ec2-instances'
 ], function (WidgetView, template, InstancesCollection) {
     return WidgetView.extend({
 

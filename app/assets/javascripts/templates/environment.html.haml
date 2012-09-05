@@ -1,0 +1,5 @@
+%div.environment-heading
+    %h3 = tags['aws:cloudformation:stack-name']
+%div{id: "loading-" + tags['aws:cloudformation:stack-name'], class: 'environment-loading'}
+%div.environment-information.hidden
+    %div.environment-status = 'Currently: ' + status

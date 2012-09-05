@@ -1,3 +1,5 @@
+require 'curl'
+
 class Dashboard::PerformanceController < ActionController::Base
 
   respond_to :json
@@ -12,7 +14,13 @@ class Dashboard::PerformanceController < ActionController::Base
 
   def newrelic
     @newrelic ||= begin
-                    Dashboard::NewrelicConfiguration.first
+                    nr = Dashboard::NewrelicConfiguration.first
+                    response = Curl::Easy.perform("https://api.newrelic.com/application_dashboard") do |curl|
+                      curl.headers["x-api-key"] = nr.token
+                    end
+                    nr.content = response.body_str
+                    p nr.content
+                    nr
                   end
   end
 end

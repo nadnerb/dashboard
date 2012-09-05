@@ -70,22 +70,25 @@ define([
           contentId: 'newrelic-widget'
           }).render();
 
-          _this = this;
-          X.ajax({
-            type: "GET",
-            //beforeSend: function(xhrObj){
-              //xhrObj.setRequestHeader("x-api-key",_this.model.get('token'));
+          console.log(this.model.get('content'));
+          view.append(this.model.get('content'));
+          this.$el.html(view.el);
+          //_this = this;
+          //X.ajax({
+            //type: "GET",
+            ////beforeSend: function(xhrObj){
+              ////xhrObj.setRequestHeader("x-api-key",_this.model.get('token'));
+            ////},
+            //headers: {
+              //"x-api-key":_this.model.get('token')
             //},
-            headers: {
-              "x-api-key":_this.model.get('token')
-            },
-            url: "https://api.newrelic.com/application_dashboard/",
-            success : function(response) {
-              console.log(response.responseText);
-              view.appendTemplate(response.responseText);
-              _this.$el.html(view.el);
-            }
-          });
+            //url: "https://api.newrelic.com/application_dashboard/",
+            //success : function(response) {
+              //console.log(response.responseText);
+              //view.appendTemplate(response.responseText);
+              //_this.$el.html(view.el);
+            //}
+          //});
 
         }
     });

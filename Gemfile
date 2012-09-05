@@ -18,7 +18,7 @@ gem 'omniauth-openid'
 gem 'omniauth-google-apps'
 gem 'devise'
 gem 'newrelic_rpm'
-gem 'newrelic_api'
+gem "curb", "~> 0.8.1"
 gem 'json'
 
 gem 'haml-rails'

@@ -9,7 +9,7 @@ class Aws::InstancesController < ApplicationController
   def update
     instance = Dupondius::Aws::Ec2::Instance.find(params[:id])
     instance.send(JSON.parse(request.body.read)['status'])
-    render :nothing => true, :status => 202
+    render :json => instance.to_h
   end
 end
 

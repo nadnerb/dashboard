@@ -16,7 +16,7 @@ module Dupondius; module Aws; module Ec2
     end
 
     def self.find id
-      Dupondius::Aws::Ec2.access.instances[id]
+      self.new(Dupondius::Aws::Ec2.access.instances[id])
     end
 
     def self.all project_name

@@ -1,5 +1,19 @@
 %div.environment-heading
-    %h3 = tags['aws:cloudformation:stack-name']
-%div{id: "loading-" + tags['aws:cloudformation:stack-name'], class: 'environment-loading'}
+    %h3 = tags['dupondius:environment']
+%div{id: "loading-" + tags['dupondius:environment'], class: 'environment-loading'}
 %div.environment-information.hidden
-    %div.environment-status = 'Currently: ' + status
+    %dl.dl-horizontal
+        %dt Currently:
+        %dd.status = status
+        %dt Size:
+        %dd.size = instance_type
+    %div.environment-actions
+        - if (status === 'stopped') {
+            %button.start.btn.btn-large.btn-success Start Environment
+        - if (status === 'stopping') {
+            %button.stop.btn.btn-large.btn-danger.disabled Stop Environment
+        - if (status === 'pending') {
+            %button.start.btn.btn-large.btn-success.disabled Start Environment
+        - if (status === 'running') {
+            %button.stop.btn.btn-large.btn-danger Stop Environment
+        %button.remove.btn.btn-small.btn-danger Remove

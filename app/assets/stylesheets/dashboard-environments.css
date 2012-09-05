@@ -13,6 +13,7 @@
     -webkit-border-radius: 9px;
     border: 4px solid #ccc;
     float: left;
+    position: relative;
 }
 
 .environment-heading {
@@ -28,5 +29,20 @@
 }
 
 .environment-information {
-    padding: 10px;
+    text-align: left;
+}
+
+.environment-actions {
+    position: absolute;
+    bottom: 10px;
+    width: 245px;
+}
+
+.environment-actions .stop,
+.environment-actions .start {
+    float: left;
+}
+.environment-actions .remove {
+    float: right;
+    margin-top: 5px;
 }

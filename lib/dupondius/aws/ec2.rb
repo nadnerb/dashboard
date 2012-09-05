@@ -6,15 +6,17 @@ module Dupondius; module Aws; module Ec2
   end
 
   class Instance
+    extend ::Forwardable
+
+    def_delegators :@subject, :id, :instance_type, :status, :launch_time, :tags
 
     def initialize subject
       @subject = subject
     end
 
-    def method_missing(sym, *args, &block)
-      @subject.send sym, *args, &block
-    end
+    def self.find id
 
+    end
     def self.all project_name
       Dupondius::Aws::Ec2::access.instances.filter("tag:dupondius:project", project_name).
         sort_by(&:launch_time).collect { |e| self.new(e) }
@@ -29,7 +31,7 @@ module Dupondius; module Aws; module Ec2
     def terminate
     end
 
-    def to_json options={}
+    def to_h
       result = {}
       AWS.memoize do
         result = [:id, :instance_type, :status, :launch_time].inject({}) do |result, attribute|
@@ -38,7 +40,7 @@ module Dupondius; module Aws; module Ec2
           result
         end
       end
-      result.to_json
+      result
     end
   end
 

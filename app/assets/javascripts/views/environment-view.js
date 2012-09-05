@@ -11,9 +11,11 @@ define([
             'click .remove': 'remove'
         },
 
-        className: 'environment',
+        className: 'environment span4',
 
         template: template,
+
+        interval: null,
 
         initialize: function () {
             this.bindTo(this.model, 'sync', function () {
@@ -51,6 +53,7 @@ define([
             }
             if (confirm("Are you sure you want to start this environment?")) {
                 this.fadeOut();
+                this.keepChecking();
                 this.model.save({
                     status: 'start'
                 });
@@ -65,6 +68,7 @@ define([
 
             if (confirm("Are you sure you want to stop this environment?")) {
                 this.fadeOut();
+                this.keepChecking();
                 this.model.save({
                     status: 'stop'
                 });
@@ -75,11 +79,26 @@ define([
         remove: function () {
             if (confirm("Are you sure you want to remove this environment?")) {
                 this.fadeOut();
+                this.keepChecking();
                 this.model.save({
                     status: 'terminate'
                 });
             }
             return false;
+        },
+
+        keepChecking: function () {
+            // this.bindTo(this.model, 'change', function () {
+            //     if (this.model.get('status') !== 'pending' && this.model.get('status') !== 'stopping') {
+            //         // this.render();
+            //         this.interval = null;
+            //     }
+            // });
+
+            // var view = this;
+            // this.interval = setInterval(function () {
+            //     view.model.fetch();
+            // }, 30000);
         }
     });
 })

@@ -6,13 +6,10 @@
 }
 
 .environment {
-    width: 244px;
     height: 220px;
     padding: 0 10px 10px;
-    margin: 10px;
     -webkit-border-radius: 9px;
     border: 4px solid #ccc;
-    float: left;
     position: relative;
 }
 

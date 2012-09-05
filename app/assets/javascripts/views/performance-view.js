@@ -71,18 +71,19 @@ define([
           }).render();
 
           _this = this;
-          $.ajax({
+          X.ajax({
             type: "GET",
             //beforeSend: function(xhrObj){
               //xhrObj.setRequestHeader("x-api-key",_this.model.get('token'));
             //},
             headers: {
-              "x-api-key":this.model.get('token')
+              "x-api-key":_this.model.get('token')
             },
             url: "https://api.newrelic.com/application_dashboard/",
             success : function(response) {
-              view.appendTemplate(response);
-              this.$el.html(view.el);
+              console.log(response.responseText);
+              view.appendTemplate(response.responseText);
+              _this.$el.html(view.el);
             }
           });
 

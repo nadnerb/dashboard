@@ -11,6 +11,8 @@ class Dashboard::PerformanceController < ActionController::Base
   end
 
   def newrelic
-    @newrelic ||= newrelic = Dashboard::NewrelicConfiguration.first
+    @newrelic ||= begin
+                    Dashboard::NewrelicConfiguration.first
+                  end
   end
 end

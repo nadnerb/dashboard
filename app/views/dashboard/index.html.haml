@@ -10,11 +10,13 @@
     %link{ :href => "/assets/dashboard-navigation.css", :rel => "stylesheet"}
     %link{ :href => "/assets/dashboard-builds.css", :rel => "stylesheet"}
     %link{ :href => "/assets/dashboard-stories.css", :rel => "stylesheet"}
+    %script{ :type => "text/javascript", :src => "/assets/vendor/jquery-1.7.2.js" }
     %script{ :type => "text/javascript", :src => "/assets/vendor/raphael.js" }
     %script{ :type => "text/javascript", :src => "/assets/vendor/raphael-linegraph.js" }
     %script{ :type => "text/javascript", :src => "/assets/vendor/raphael-popup.js" }
     %script{ :type => "text/javascript", :src => "/assets/vendor/raphael-spinner.js" }
     %script{ :type => "text/javascript", :src => "/assets/vendor/require.js" }
+    %script{ :type => "text/javascript", :src => "/assets/vendor/jquery.xdomainajax.js" }
     %script{ :type => "text/javascript", :src => "/assets/main.js" }
     :javascript
         var projectName = '#{params[:project_name]}';

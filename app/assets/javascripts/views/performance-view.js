@@ -69,8 +69,23 @@ define([
             heading: 'New Relic',
           contentId: 'newrelic-widget'
           }).render();
-          view.appendTemplate(performanceTemplate);
-          this.$el.html(view.el);
+
+          _this = this;
+          $.ajax({
+            type: "GET",
+            //beforeSend: function(xhrObj){
+              //xhrObj.setRequestHeader("x-api-key",_this.model.get('token'));
+            //},
+            headers: {
+              "x-api-key":this.model.get('token')
+            },
+            url: "https://api.newrelic.com/application_dashboard/",
+            success : function(response) {
+              view.appendTemplate(response);
+              this.$el.html(view.el);
+            }
+          });
+
         }
     });
 });

@@ -8,27 +8,20 @@ module Dupondius; module Aws; module Ec2
   class Instance
     extend ::Forwardable
 
-    def_delegators :@subject, :id, :instance_type, :status, :launch_time, :tags
+    def_delegators :@subject, :id, :instance_type, :status, :launch_time, :tags,
+      :stop, :start, :terminate, :reboot
 
     def initialize subject
       @subject = subject
     end
 
     def self.find id
-
+      Dupondius::Aws::Ec2.access.instances[id]
     end
+
     def self.all project_name
       Dupondius::Aws::Ec2::access.instances.filter("tag:dupondius:project", project_name).
         sort_by(&:launch_time).collect { |e| self.new(e) }
-    end
-
-    def start
-    end
-
-    def stop
-    end
-
-    def terminate
     end
 
     def to_h

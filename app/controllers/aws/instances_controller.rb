@@ -6,9 +6,10 @@ class Aws::InstancesController < ApplicationController
     respond_with(Dupondius::Aws::Ec2::Instance.all(Rails.configuration.project_name).collect(&:to_h))
   end
 
-
   def update
-    render :nothing => true, :status => 404
+    instance = Dupondius::Aws::Ec2::Instance.find(params[:id])
+    instance.send(JSON.parse(request.body.read)['status'])
+    render :nothing => true, :status => 202
   end
 end
 

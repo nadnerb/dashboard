@@ -19,7 +19,6 @@ class Dashboard::PerformanceController < ActionController::Base
                       curl.headers["x-api-key"] = nr.token
                     end
                     nr.content = response.body_str
-                    p nr.content
                     nr
                   end
   end

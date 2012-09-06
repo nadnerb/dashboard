@@ -24,6 +24,7 @@ module Dupondius; module Aws; module Ec2
         sort_by(&:launch_time).collect { |e| self.new(e) }
     end
 
+    #TODO: make this an as_json
     def to_h
       result = {}
       AWS.memoize do

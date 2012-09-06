@@ -13,6 +13,13 @@ module Dupondius; module Aws; module CloudFormation
   end
 
   class Stack
+
+    TEMPLATES = [
+      {id: 1, name: 'Rails Single Instance', template: 'rails_single_instance'},
+      {id: 2, name: 'Jenkins CI', template: 'ci'}
+    ]
+
+
     def initialize subject
       @subject = subject
     end
@@ -31,13 +38,20 @@ module Dupondius; module Aws; module CloudFormation
         :parameters => parameters.merge({HostedZone: Dupondius::Aws::Config.hosted_zone, ProjectName: project_name}))
     end
 
+    def self.validate_template id
+      Dupondius::Aws::CloudFormation.access.validate_template(load_template(lookup_template_name(id)))
+    end
+
     def self.template_params template_name
-      puts Dupondius::Aws::CloudFormation.access.validate_template(load_template(template_name))
       Dupondius::Aws::CloudFormation.access.validate_template(load_template(template_name))[:parameters].collect { |p| p[:parameter_key] }
     end
 
     def self.load_template template_name
       File.open(File.expand_path(File.join( File.dirname(__FILE__), '..', 'aws', 'templates', "#{template_name}.template")), 'rb').read
+    end
+
+    def self.lookup_template_name id
+      TEMPLATES.detect { |t| t[:id] = id }[:template]
     end
 
     def complete?

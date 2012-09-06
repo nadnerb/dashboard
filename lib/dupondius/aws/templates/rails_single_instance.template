@@ -118,6 +118,7 @@
               "yum" : {
                 "gcc-c++"      : [],
                 "make"         : [],
+                "libcurl-devel.x86_64" : [],
                 "ruby19-devel.x86_64" :[],
                 "rubygems19"     : [],
                 "libxml2"      : [],

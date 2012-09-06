@@ -10,14 +10,12 @@ define([
         id: 'performance',
 
         events: {
-            'click .btn': 'configure'
+            'click .btn': 'configure',
+            'click .killmenow': 'deleteConfig'
         },
 
         initialize: function (options) {
-            this.model = new Performance();
-            this.model.on('change', function () {
-                this.render();
-            }, this);
+          this.createModel();
         },
 
         postRender: function () {
@@ -67,11 +65,27 @@ define([
         renderMetrics: function () {
           var view = new WidgetView({
             heading: 'New Relic',
-          contentId: 'newrelic-widget'
+            contentId: 'newrelic-widget'
           }).render();
 
           view.append(this.model.get('content'));
+          view.append('<div>Set <a class="killmenow" href="#">new token</a></div>');
           this.$el.html(view.el);
+        },
+
+        deleteConfig: function (e) {
+          e.preventDefault();
+          this.model.destroy();
+          this.createModel();
+          this.model.fetch();
+        },
+
+        createModel: function() {
+          this.model = new Performance();
+          this.model.on('change', function () {
+            this.render();
+          }, this);
         }
+
     });
 });

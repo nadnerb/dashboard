@@ -3,7 +3,7 @@ define([
 ], function (Backbone) {
 
     return Backbone.Model.extend({
-        url: 'dashboard/performance',
+        urlRoot: 'dashboard/performance/',
 
         validate: function (attrs) {
             if (attrs.not_configured === true){

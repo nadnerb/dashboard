@@ -3,6 +3,6 @@ class Dashboard::NewrelicConfiguration < ActiveRecord::Base
   attr_accessor :content
 
   def as_json(options={})
-    { :token => self.token, :content => self.content }
+    { :token => self.token, :content => self.content, :id => self.id }
   end
 end

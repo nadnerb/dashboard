@@ -157,6 +157,16 @@ $(document).ready(function () {
             return true;
         }
     },{
+        id: '#aws-details',
+        validation: function () {
+            var account = "Default";
+            if ($('#aws-access-key-id').val().length > 0) {
+              account = $('#aws-access-key-id').val();
+            }
+            $('#summary-aws-account').text(account);
+            return account;
+        }
+    },{
         id: '#page2',
         validation: function () {
             $('#summary-technology-stack').text($('#tech-stack').selectableGrid().selected().text().trim());
@@ -223,7 +233,12 @@ $(document).ready(function () {
             github: $('#application-name').val().replace(/[^\w\s]/gi, '').replace(/ /g, '_'),
             tech_stack: $('#tech-stack').selectableGrid().selected().text().trim(),
             support: support,
-            environments: environments
+            environments: environments,
+            aws: {
+              accessKey: $("#aws-access-key-id").val(),
+              secretAccessKey: $("#aws-secret-access-key").val(),
+              privateKey: $("#aws-private-key").val()
+            }
         }};
 
         $.cookie('project_data', JSON.stringify(data));

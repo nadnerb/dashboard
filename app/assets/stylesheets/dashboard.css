@@ -57,9 +57,3 @@ html, body {
 #index-view .widget-content {
   min-height: 200px;
 }
-
-#index-view .widget-content .spinner {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-}

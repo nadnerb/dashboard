@@ -26,6 +26,7 @@
           <div class="container-fluid nav-collapse">
             <ul class="nav">
               <li id="nav-application-name"></li>
+              <li id="nav-application-aws"></li>
               <li id="nav-application-stack"></li>
               <li id="nav-application-support"></li>
               <li id="nav-application-envs"></li>
@@ -74,11 +75,11 @@
         </div>
     </div>
 
-    <div id="github-details" class="page hidden" data-step="true" data-submit="github-details-done" data-next="page2">
+    <div id="github-details" class="page hidden" data-step="true" data-submit="github-details-done" data-next="aws-details">
         <div class="page-container">
           <h1>Github repository</h1>
           <p>
-            Welcome to the Launchpad! From here you will be able to define your application, specifiying the exact technology and environments you want along the way.
+            From here you will be able to define your application, specifiying the exact technology and environments you want along the way.
           </p>
           <p>&nbsp;</p>
           <p>
@@ -95,6 +96,33 @@
               <i class="icon-arrow-down icon-white"></i> Awesome, lets continue!
             </a>
           </p>
+        </div>
+    </div>
+
+    <div id="aws-details" class="page hidden" data-step="true" data-submit="aws-done" data-next="page2" data-navigation="nav-application-aws">
+        <div class="page-container">
+            <h1>AWS Authorisation</h1>
+            <p>&nbsp;</p>
+            <p>
+              We also need to get your aws credentials that you want to create the new environment under.
+              You can <strong>leave them empty</strong> to use the default ones.
+            </p>
+            <form>
+              <div class="controls controls-row">
+                <input id="aws-access-key-id" class="input-xlarge span3" type="text" placeholder="Enter your aws access key id"/>
+                <input id="aws-secret-access-key" class="input-xlarge span5" type="text" placeholder="Enter your aws secret access key"/>
+              </div>
+              <p>
+                We also need a private key associated with these credentials. You can create a new key pair or see existing
+                ones on the <a href="https://console.aws.amazon.com/ec2/home?#s=KeyPairs" target="_blank">key pair section of the aws EC2 console</a>.
+              </p>
+              <textarea id="aws-private-key" class="span10" rows="5" placeholder="Enter your aws private key here"></textarea>
+            </form>
+            <p>
+              <a href="#" class="btn btn-primary btn-xlarge" id="aws-done">
+                <i class="icon-arrow-right icon-white"></i> Next step
+              </a>
+            </p>
         </div>
     </div>
 
@@ -209,6 +237,9 @@
           <dl class="dl-horizontal summary">
               <dt>Application Name:</dt>
               <dd id="summary-application-name"></dd>
+
+              <dt>AWS Account:</dt>
+              <dd id="summary-aws-account"></dd>
 
               <dt>Technology Stack:</dt>
               <dd id="summary-technology-stack"></dd>

@@ -1,6 +1,8 @@
 
 module Dupondius; module Aws; module CloudFormation
 
+  STACKS = [:dev, :test, :qa, :staging, :production]
+
   def self.access
     @cfn ||= AWS::CloudFormation.new(:access_key_id => Dupondius::Aws::Config.access_key,
        :secret_access_key => Dupondius::Aws::Config.secret_access_key)
@@ -58,7 +60,7 @@ module Dupondius; module Aws; module CloudFormation
       @subject.status == 'CREATE_COMPLETE'
     end
 
-    def to_json options={}
+    def as_json options={}
       result = {}
       AWS.memoize do
         result = [:name, :description, :status, :creation_time, :last_updated_time,
@@ -77,7 +79,7 @@ module Dupondius; module Aws; module CloudFormation
           resource
         end
       end
-      result.to_json
+      result
     end
   end
 

@@ -25,7 +25,9 @@ Dashboard::Application.routes.draw do
       post :start, :on => :member
     end
     resources :stacks, :constraints => { :id => /[a-zA-Z]+-[a-zA-Z]+/ },
-        :only => [:index, :show]
+        :only => [:index, :show] do
+      get :available, :on => :collection
+    end
 
     resources :instances, :constraints => { :id => /i-\S[^\.\/]+/ },
         :only => [:index, :show, :update]

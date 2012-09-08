@@ -29,6 +29,18 @@
       "Type" : "String",
       "Default" : "rails"
     },
+    "AccessKey" : {
+      "Description" : "The AWS Access Key",
+      "Type" : "String"
+    },
+    "SecretAccessKey" : {
+      "Description" : "The AWS Secret acess key",
+      "Type" : "String"
+    },
+    "PrivateKey" : {
+      "Description" : "The private key of a key pair stored in EC2",
+      "Type" : "String"
+    },
     "HostedZone" : {
       "Description" : "The DNS name of an existing Amazon Route 53 hosted zone",
       "Type" : "String",
@@ -126,7 +138,7 @@
           "service jenkins stop\n",
           "mkdir -p /var/lib/jenkins/\n",
           "rm -rf /var/lib/jenkins/*\n",
-          "su - deployer -c \"git clone -n git@github.com:uglyog/jenkins-config.git /var/tmp/git-tmp\"\n",
+          "su - deployer -c \"git clone -n --depth 1 git@github.com:uglyog/jenkins-config.git /var/tmp/git-tmp\"\n",
           "mv /var/tmp/git-tmp/.git /var/lib/jenkins/\n",
           "cd /var/lib/jenkins/\n",
           "git checkout ", { "Ref" : "ProjectType" } ,"\n",
@@ -134,6 +146,9 @@
           "sed -i 's/\\(<projectUrl>\\).*\\(<\\/projectUrl>\\)/\\1https:\\/\\/github.com\\/", { "Ref" : "ProjectGithubUser" }, "\\/", { "Ref" : "ProjectName" } ,"\\2/' jobs/*/config.xml\n",
           "sed -i 's/\\(<url>git@github.com:\\).*\\(<\\/url>\\)/\\1", { "Ref" : "ProjectGithubUser" } ,"\\/", { "Ref" : "ProjectName" } ,".git\\2/' jobs/*/config.xml\n",
           "sed -i 's/\\(curl http:\\/\\/[^.]*\\.\\).*\\(\\.dupondi\\.us\\/status\\/heart_beat\\)/\\1", { "Ref" : "ProjectName" } ,"\\2/' jobs/*/config.xml\n",
+          "sed -i 's/\\(<accessId>\\).*\\(<\\/accessId>\\)/\\1", { "Ref" : "AccessKey" }, "\\2/' config.xml\n",
+          "sed -i 's/\\(<secretKey>\\).*\\(<\\/secretKey>\\)/\\1", { "Ref" : "SecretAccessKey" }, "\\2/' config.xml\n",
+          "sed -i 's/\\(<privateKey>\\).*\\(<\\/privateKey>\\)/\\1", { "Ref" : "PrivateKey" }, "\\2/' config.xml\n",
           "chown -R jenkins:jenkins /var/lib/jenkins\n",
           "cd -\n",
 

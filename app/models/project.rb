@@ -8,10 +8,16 @@ class Project < ActiveRecord::Base
   def launch_dashboard
     # temporarily guard the creation of aws resources
     if Rails.configuration.aws_enabled
-      Dupondius::Aws::CloudFormation::Dashboard.create(self.name, {KeyName: 'team-brats',
-                                                           InstanceType: 'm1.small',
-                                                           AwsAccessKey: Dupondius::Aws::Config.access_key,
-                                                           AwsSecretAccessKey: Dupondius::Aws::Config.secret_access_key })
+      Dupondius::Aws::CloudFormation::Dashboard.create(self.name, {
+          KeyName: 'team-brats',
+          InstanceType: 'm1.small',
+          AwsAccessKey: Dupondius::Aws::Config.access_key,
+          AwsSecretAccessKey: Dupondius::Aws::Config.secret_access_key,
+          DBName: 'dashboard',
+          DBUsername: 'dashboard',
+          DBPassword: 'dashboard',
+          DBRootPassword: 'r00tr00t'
+      })
     end
   end
 

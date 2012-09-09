@@ -98,7 +98,7 @@ module Dupondius; module Aws; module CloudFormation
   class Dashboard < Stack
 
     def self.create project_name, parameters
-      super('rails_single_instance', 'dashboard', project_name, parameters)
+      super('rails_single_instance', 'dashboard', project_name, parameters.merge(EnvironmentName: 'dashboard'))
     end
 
     def self.find project_name

@@ -1,32 +1,48 @@
 define([
     'vendor/base',
     'models/instance',
+    'text!templates/create_environment.html.haml',
+    'text!templates/available_environment.html.haml',
     'text!templates/environment.html.haml'
-], function (BackboneSuperView, Instance, template) {
+], function (BackboneSuperView, Instance, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
     return BackboneSuperView.extend({
 
         events: {
             'click .start': 'start',
             'click .stop': 'stop',
-            'click .remove': 'remove'
+            'click .remove': 'remove',
+            'click .create': 'create'
         },
 
         className: 'environment span4',
 
-        template: template,
+        template: availableEnvironmentTemplate,
 
         interval: null,
 
         initialize: function () {
             this.bindTo(this.model, 'sync', function () {
-                this.render();
-                this.fadeIn();
+                this.render().fadeIn();
             });
         },
 
-        fetchInstance: function () {
-            spinner('loading-' + this.model.get('tags')['dupondius:environment'], 50, 45, 15, 3, '#888');
-            this.fadeIn();
+        renderEnvironment: function () {
+            this.template = template;
+            this.render();
+            return this;
+        },
+
+        renderCreateEnvironment: function () {
+            this.template = createEnvironmentTemplate;
+            this.render();
+            return this;
+        },
+
+        spinner: function () {
+            var name = this.model.get('name') || this.model.get('tags')['dupondius:environment'];
+            if (this.$('#loading-' + name).length === 0) {
+                spinner('loading-' + name, 50, 45, 15, 3, '#888');
+            }
         },
 
         fadeIn: function () {
@@ -38,6 +54,7 @@ define([
         },
 
         fadeOut: function () {
+            this.spinner();
             this.$('.environment-loading').fadeIn();
             this.$('.environment-information').fadeOut();
         },
@@ -48,57 +65,52 @@ define([
         },
 
         start: function () {
-            if (this.$('.start.disabled').length !== 0) {
-                return;
-            }
-            if (confirm("Are you sure you want to start this environment?")) {
-                this.fadeOut();
-                this.keepChecking();
-                this.model.save({
-                    status: 'start'
-                });
-            }
+            this.handleAction('start');
             return false;
         },
 
         stop: function () {
-            if (this.$('.stop.disabled').length !== 0) {
-                return;
-            }
-
-            if (confirm("Are you sure you want to stop this environment?")) {
-                this.fadeOut();
-                this.keepChecking();
-                this.model.save({
-                    status: 'stop'
-                });
-            }
+            this.handleAction('stop');
             return false;
         },
 
         remove: function () {
-            if (confirm("Are you sure you want to remove this environment?")) {
-                this.fadeOut();
-                this.keepChecking();
-                this.model.save({
-                    status: 'terminate'
-                });
-            }
+            this.handleAction('remove', 'terminate');
             return false;
         },
 
-        keepChecking: function () {
-            // this.bindTo(this.model, 'change', function () {
-            //     if (this.model.get('status') !== 'pending' && this.model.get('status') !== 'stopping') {
-            //         // this.render();
-            //         this.interval = null;
-            //     }
-            // });
+        create: function () {
+            // this.handleAction('create');
+            return false;
+        },
 
-            // var view = this;
-            // this.interval = setInterval(function () {
-            //     view.model.fetch();
-            // }, 30000);
+        handleAction: function (action, status) {
+            if (this.$('.' + action + '.disabled').length !== 0) {
+                return;
+            }
+
+            if (confirm("Are you sure you want to " + action + " this environment?")) {
+                this.fadeOut();
+                this.model.save({
+                    status: status || action
+                });
+                this.keepChecking();
+            }
+        },
+
+        keepChecking: function () {
+            var event = this.bindTo(this.model, 'change', function () {
+                this.render().fadeIn();
+                if (this.model.get('status') !== 'pending' && this.model.get('status') !== 'stopping') {
+                    clearInterval(this.interval);
+                    event.unbind();
+                }
+            });
+
+            var view = this;
+            this.interval = setInterval(function () {
+                view.model.fetch();
+            }, 10000);
         }
     });
 })

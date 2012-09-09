@@ -52,7 +52,7 @@ define([
         configure: function () {
             var view = new ConfigureView();
             this.dashboard.apply(view)
-            view.collection.fetch();
+            view.availableCollection.fetch();
         },
 
         stories: function () {

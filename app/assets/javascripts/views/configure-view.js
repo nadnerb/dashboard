@@ -1,18 +1,28 @@
 define([
     'vendor/base',
+    'collections/available',
     'collections/instances',
     'views/widget-view',
     'views/environment-view',
     'text!templates/environments.html.haml'
-], function (BackboneSuperView, InstancesCollection, WidgetView, EnvironmentView, template) {
+], function (BackboneSuperView, AvailableCollection, InstancesCollection, WidgetView, EnvironmentView, template) {
     return BackboneSuperView.extend({
 
         className: 'environments',
 
+        views: [],
+
         initialize: function () {
+            this.availableCollection = new AvailableCollection();
             this.collection = new InstancesCollection();
-            this.bindTo(this.collection, 'reset', function () {
+
+            this.bindTo(this.availableCollection, 'reset', function () {
                 this.$('.message').remove();
+                this.renderAvailableEnvironments();
+                this.collection.fetch();
+            });
+
+            this.bindTo(this.collection, 'reset', function () {
                 this.renderEnvironments();
             });
         },
@@ -27,14 +37,39 @@ define([
             this.$el.html(view.el);
         },
 
-        renderEnvironments: function () {
-            this.collection.each(this.renderEnvironment);
+        renderAvailableEnvironments: function () {
+            this.availableCollection.each(function (availableEnvironment) {
+                this.renderAvailableEnvironment(availableEnvironment);
+            }, this);
         },
 
-        renderEnvironment: function (environment) {
-            var view = new EnvironmentView({model: environment}).render();
+        renderEnvironments: function () {
+            this.collection.each(function (environment) {
+                this.bindEnvironment(environment);
+            }, this);
+
+            _(this.views).each(function (view) {
+                if (view.model.has('name')) { // needs to be created?
+                    view.renderCreateEnvironment().fadeIn();
+                } else {
+                    view.renderEnvironment().fadeIn(); 
+                }
+            }, this);
+        },
+
+        renderAvailableEnvironment: function (availableEnvironment) {
+            var view = new EnvironmentView({model: availableEnvironment}).render();
             this.$('.widget-content').append(view.el);
-            view.fetchInstance();
+            view.spinner();
+            this.views.push(view);
+        },
+
+        bindEnvironment: function (environment) {
+            var view = _(this.views).find(function (environmentView) {
+                return environmentView.model.get('name') === environment.get('tags')['dupondius:environment'];
+            });
+
+            view.model = environment;
         }
     });
 });

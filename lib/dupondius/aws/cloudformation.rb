@@ -1,7 +1,7 @@
 
 module Dupondius; module Aws; module CloudFormation
 
-  STACKS = [:ci, :dev, :test, :qa, :staging, :production]
+  STACKS = [:ci, :dev, :canary, :qa, :staging, :production]
 
   def self.access
     @cfn ||= AWS::CloudFormation.new(:access_key_id => Dupondius::Aws::Config.access_key,

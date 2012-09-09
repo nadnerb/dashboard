@@ -28,19 +28,17 @@ define([
 
         renderEnvironment: function () {
             this.template = template;
-            this.render();
-            return this;
+            return this.render();
         },
 
         renderCreateEnvironment: function () {
             this.template = createEnvironmentTemplate;
-            this.render();
-            return this;
+            return this.render();
         },
 
         spinner: function () {
             var name = this.model.get('name') || this.model.get('tags')['dupondius:environment'];
-            if (this.$('#loading-' + name).length === 0) {
+            if (this.$('#loading-' + name + ' svg').length === 0) {
                 spinner('loading-' + name, 50, 45, 15, 3, '#888');
             }
         },

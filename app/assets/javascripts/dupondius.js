@@ -244,7 +244,7 @@ $(document).ready(function () {
         $.cookie('project_data', JSON.stringify(data));
 
         var postSuccess = function(response) {
-            $.cookie('project_id', response.id, {expires: 365});
+            $.cookie('project_id', response.id, {expires: 1});
             inifiniteCheck(response.id);
         };
 

@@ -65,9 +65,17 @@ define([
         },
 
         bindEnvironment: function (environment) {
+            if (environment.get('status') === 'terminated') {
+                return; //Ignore these ones
+            }
+
             var view = _(this.views).find(function (environmentView) {
                 return environmentView.model.get('name') === environment.get('tags')['dupondius:environment'];
             });
+
+            if (view === undefined) {
+                debugger;
+            }
 
             view.model = environment;
         }

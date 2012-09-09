@@ -8,7 +8,7 @@ define([
 
         firstInPipeline: null,
 
-        url: 'http://ci.dupondius.dupondi.us:8080/api/json?depth=1',
+        url: 'http://ci.' + projectName + '.dupondi.us:8080/api/json?depth=1',
 
         parse: function(response) {
             return response.jobs;

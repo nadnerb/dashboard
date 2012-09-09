@@ -15,7 +15,9 @@ class Source::Commands < SimpleDelegator
   def create_repo(name)
     #create(name, {private: 'false'}).to_json
     #doesn't like the private flag even though i have used it in the past wtf its too late my head hurts just pretend i don't care blah blahbbbb
-    create(name).to_json
+    create_result = create(name)
+    p add_collaborator("#{@user['login']}/#{name}", "dupondius")
+    create_result.to_json
   end
 
   private

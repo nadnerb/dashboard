@@ -3,6 +3,7 @@ require "base64"
 require 'openssl'
 require 'digest/sha2'
 require 'httparty'
+require 'ap'
 
 class Jobs::LaunchCi
 
@@ -29,6 +30,7 @@ class Jobs::LaunchCi
         SecretAccessKey: encrypt(string_value(params[:project][:aws][:secretAccessKey], Dupondius::Aws::Config.secret_access_key)),
         PrivateKey: encrypt(string_value(params[:project][:aws][:privateKey], PKEY))
     }
+    ap options
     Dupondius::Aws::CloudFormation::ContinuousIntegration.create(@project.name, tech_stack, options)
   end
 
@@ -55,7 +57,9 @@ class Jobs::LaunchCi
       encrypted_data << aes.update(block)
       encrypted_data << aes.final if block.length < 16
     end
-    Base64.encode64(encrypted_data.join)
+    result = Base64.encode64(encrypted_data.join).gsub(/\n/, '')
+    puts "ENCRYPT: #{data} --> #{result}"
+    result
   end
 
   def string_value(value, default)

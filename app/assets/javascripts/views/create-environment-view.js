@@ -17,6 +17,9 @@ define([
             ModalView.prototype.initialize.call(this);
 
             this.model = new Stack();
+            this.bindTo(this.model, 'change', function () {
+                this.populateForm();
+            });
 
             this.stackTemplate = new StackTemplate();
             this.bindTo(this.stackTemplate, 'change', function () {
@@ -32,6 +35,14 @@ define([
                 var formField = haml.compileHaml({source: formFieldTemplate})(parameter);
                 this.$('.form-horizontal').append(formField);
             }, this);
+
+            this.$('#EnvironmentName').val(this.options.name);
+        },
+
+        populateForm: function () {
+            _(this.model.get('parameters')).each(function (value, key) {
+                this.$('#' + key).val(value);
+            }, this);  
         },
 
         confirm: function () {

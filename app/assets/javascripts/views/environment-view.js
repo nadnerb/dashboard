@@ -12,7 +12,8 @@ define([
             'click .start': 'start',
             'click .stop': 'stop',
             'click .remove': 'remove',
-            'click .create': 'create'
+            'click .create': 'create',
+            'click .edit': 'edit'
         },
 
         className: 'environment span4',
@@ -82,8 +83,23 @@ define([
 
         create: function () {
             if (this.view === null) {
-                this.view = new CreateEnvironmentView().render();
+                this.view = new CreateEnvironmentView({name: this.model.get('name')}).render();
+                this.bindTo(this.view.model, 'success error', function () {
+                    this.view.hide();
+                    this.fadeOut();
+                    this.keepChecking();
+                });
+            }
+            
+            this.view.show();
+            return false;
+        },
 
+        edit: function () {
+            if (this.view === null) {
+                this.view = new CreateEnvironmentView().render();
+                this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']});
+                this.view.model.fetch();
                 this.bindTo(this.view.model, 'success error', function () {
                     this.view.hide();
                     this.fadeOut();

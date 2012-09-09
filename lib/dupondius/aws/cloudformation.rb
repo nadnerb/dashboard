@@ -64,7 +64,7 @@ module Dupondius; module Aws; module CloudFormation
       result = {}
       AWS.memoize do
         result = [:name, :description, :status, :creation_time, :last_updated_time,
-         :description].inject({}) do |result, attribute|
+         :description, :parameters].inject({}) do |result, attribute|
             result[attribute] = self.send(attribute)
             result
         end

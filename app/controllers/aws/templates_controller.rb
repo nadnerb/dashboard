@@ -14,8 +14,4 @@ class Aws::TemplatesController < ApplicationController
     end
     respond_with(template)
   end
-
-  def start
-    render :nothing => true
-  end
 end

@@ -21,11 +21,9 @@ Dashboard::Application.routes.draw do
   end
 
   namespace :aws do
-    resources :templates do
-      post :start, :on => :member
-    end
+    resources :templates, :only => [:index, :show]
     resources :stacks, :constraints => { :id => /[a-zA-Z]+-[a-zA-Z]+/ },
-        :only => [:index, :show] do
+        :only => [:index, :show, :update, :create] do
       get :available, :on => :collection
     end
 

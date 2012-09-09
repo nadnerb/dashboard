@@ -35,6 +35,14 @@
     text-align: left;
 }
 
+.environment-description {
+    padding: 10px;
+}
+
+.not-created {
+    background-color: #f8f8f8;
+}
+
 .environment-actions {
     position: absolute;
     bottom: 10px;

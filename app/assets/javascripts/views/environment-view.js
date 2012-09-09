@@ -37,6 +37,7 @@ define([
 
         renderCreateEnvironment: function () {
             this.template = createEnvironmentTemplate;
+            this.$el.addClass('not-created');
             return this.render();
         },
 

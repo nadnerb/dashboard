@@ -1,10 +1,11 @@
 define([
     'vendor/base',
     'models/instance',
+    'views/create-environment-view',
     'text!templates/create_environment.html.haml',
     'text!templates/available_environment.html.haml',
     'text!templates/environment.html.haml'
-], function (BackboneSuperView, Instance, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
+], function (BackboneSuperView, Instance, CreateEnvironmentView, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
     return BackboneSuperView.extend({
 
         events: {
@@ -19,6 +20,8 @@ define([
         template: availableEnvironmentTemplate,
 
         interval: null,
+
+        view: null,
 
         initialize: function () {
             this.bindTo(this.model, 'sync', function () {
@@ -78,7 +81,17 @@ define([
         },
 
         create: function () {
-            // this.handleAction('create');
+            if (this.view === null) {
+                this.view = new CreateEnvironmentView().render();
+
+                this.bindTo(this.view.model, 'success error', function () {
+                    this.view.hide();
+                    this.fadeOut();
+                    this.keepChecking();
+                });
+            }
+            
+            this.view.show();
             return false;
         },
 

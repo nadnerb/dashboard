@@ -8,7 +8,7 @@ class Jobs::Skeleton
 
   def run
     p "building: #{resting_place} for project: #{project.name}"
-    p `cd #{resting_place} && scrolls new #{project.name} -s capistrano unicorn rspec git 2>&1`
+    p `cd #{resting_place} && scrolls new #{project.name} -s capistrano unicorn rspec git rubyracer 2>&1`
     #`git init`
     #`git add .`
     #`git commit -m 'Initial commit'`

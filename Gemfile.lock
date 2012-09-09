@@ -7,9 +7,9 @@ GIT
 
 GIT
   remote: git@github.com:nadnerb/appscrolls.git
-  revision: a3eb6c9cdd0751acb5e594e551d05b3318c7005d
+  revision: 8cb142cb7107e6dfbdd6e69a6bbe2cf807024fb2
   specs:
-    appscrolls (0.8.5)
+    appscrolls (0.8.6)
       activesupport (~> 3.0)
       i18n
       json (~> 1.7.0)
@@ -318,7 +318,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  appscrolls!
+  appscrolls (= 0.8.6)!
   awesome_print
   aws-s3
   aws-sdk

@@ -16,8 +16,9 @@
             %button.start.btn.btn-large.btn-success.disabled Start Environment
         - if (status === 'running') {
             %button.stop.btn.btn-large.btn-danger Stop Environment
-        %button.edit.btn.btn-small.btn-primary Edit
-        - if (status === 'stopping' || status === 'pending') {
+        - if (status !== 'shutting_down') {
+            %button.edit.btn.btn-small.btn-primary Edit
+        - if (status === 'stopping' || status === 'pending' || status === 'shutting_down') {
             %button.remove.btn.btn-small.btn-danger.disabled Remove
         - else {
             %button.remove.btn.btn-small.btn-danger Remove

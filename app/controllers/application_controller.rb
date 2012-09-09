@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
     headers['X-Refspec'] = Dupondius::Version.refspec
   }
 
+  def project_name
+    Rails.configuration.project_name
+  end
+
   private
 
   def bad_aws_credentials

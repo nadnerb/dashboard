@@ -4,7 +4,7 @@ class Aws::StacksController < ApplicationController
   respond_to :json
 
   def index
-    respond_with(Dupondius::Aws::CloudFormation.summaries(Rails.configuration.project_name))
+    respond_with(Dupondius::Aws::CloudFormation.summaries(project_name))
   end
 
   def show
@@ -21,7 +21,16 @@ class Aws::StacksController < ApplicationController
   end
 
   def create
-    render :nothing => true, :status => 404
+
+    # TODO: Move these system level parameter setup somewhere else
+    stack_params = params[:stack].merge('AwsAccessKey' => Dupondius::Aws::Config.access_key,
+                 'AwsSecretAccessKey' => Dupondius::Aws::Config.secret_access_key,
+                 'KeyName' => 'team-brats')
+    stack_params.delete('random')
+    result = Dupondius::Aws::CloudFormation::Stack.create('rails_single_instance',
+                                                     params[:EnvironmentName],
+                                                     project_name,
+                                                     stack_params)
   end
 
   def available

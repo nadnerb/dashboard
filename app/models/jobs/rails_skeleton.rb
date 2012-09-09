@@ -9,6 +9,6 @@ class Jobs::RailsSkeleton
 
   def run
     p "building rails environment: #{resting_place} for project: #{project.name}"
-    p `cd #{resting_place} && scrolls new #{project.name} -s capistrano unicorn rspec git 2>&1`
+    p `cd #{resting_place} && scrolls new #{project.name} -s capistrano unicorn rspec git rubyracer 2>&1`
   end
 end

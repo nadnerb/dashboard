@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :name, :token
+  attr_accessible :name, :token, :tech_stack
 
   validates_presence_of :name
 

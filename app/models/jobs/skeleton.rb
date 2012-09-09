@@ -1,14 +1,14 @@
 class Jobs::Skeleton
 
-  attr_reader :project, :type
+  attr_reader :project
 
-  def initialize(project_id, type)
+  def initialize(project_id)
     @project = Project.find(project_id)
-    @type = type
   end
 
   def run
-    RailsSkeleton.new(project, resting_place).run
+    p project
+    project.tech_stack == 'Grails' ? GrailsSkeleton.new(project, resting_place).run : RailsSkeleton.new(project, resting_place).run
     Jobs::GithubCreate.new(project.id, resting_place).run
   end
 

@@ -13,7 +13,8 @@ define([
             'click .stop': 'stop',
             'click .remove': 'remove',
             'click .create': 'create',
-            'click .edit': 'edit'
+            'click .edit': 'edit',
+            'click .reboot': 'reboot'
         },
 
         className: 'environment span4',
@@ -79,6 +80,11 @@ define([
 
         remove: function () {
             this.handleAction('remove', 'terminate');
+            return false;
+        },
+
+        reboot: function () {
+            this.handleAction('reboot');
             return false;
         },
 

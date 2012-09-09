@@ -92,13 +92,17 @@ define([
             }
             
             this.view.show();
+            var self = this;
+            setTimeout(function () {
+                self.view.spinner();
+            }, 300);
             return false;
         },
 
         edit: function () {
             if (this.view === null) {
                 this.view = new CreateEnvironmentView().render();
-                this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']});
+                this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']}, {silent: true});
                 this.view.model.fetch();
                 this.bindTo(this.view.model, 'success error', function () {
                     this.view.hide();
@@ -108,6 +112,10 @@ define([
             }
             
             this.view.show();
+            var self = this;
+            setTimeout(function () {
+                self.view.spinner();
+            }, 300);
             return false;
         },
 

@@ -5,7 +5,11 @@ define([
 
         className: 'modal hide fade in',
 
+        random: null,
+
         initialize: function () {
+            this.random = Math.round(Math.random() * 1000);
+
             this.$el.modal({
                 keyboard: true,
                 show: false
@@ -30,7 +34,7 @@ define([
         },
 
         spinner: function () {
-            spinner('loading-fields', 50, 45, 15, 3, '#888');
+            spinner('loading-fields-' + this.random, 50, 45, 15, 3, '#888');
         }
     });
 });

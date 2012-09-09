@@ -16,7 +16,7 @@ define([
         initialize: function (options) {
             ModalView.prototype.initialize.call(this);
 
-            this.model = new Stack();
+            this.model = new Stack({random: this.random});
             this.bindTo(this.model, 'change', function () {
                 this.populateForm();
             });
@@ -29,20 +29,28 @@ define([
         },
 
         renderFormFromTemplate: function () {
-            this.$('#loading-fields').empty();
-
             _(this.stackTemplate.get('parameters')).each(function (parameter) {
                 var formField = haml.compileHaml({source: formFieldTemplate})(parameter);
                 this.$('.form-horizontal').append(formField);
             }, this);
 
-            this.$('#EnvironmentName').val(this.options.name);
+            if (this.model.isNew()) {
+                this.fadeIn();
+                this.$('#EnvironmentName').val(this.options.name);
+            }
+        },
+
+        fadeIn: function () {
+            this.$('#loading-fields-' + this.random).fadeOut();
+            this.$('.form-horizontal').css('visibility', 'visible').fadeIn();
         },
 
         populateForm: function () {
             _(this.model.get('parameters')).each(function (value, key) {
                 this.$('#' + key).val(value);
             }, this);  
+
+            this.fadeIn();
         },
 
         confirm: function () {

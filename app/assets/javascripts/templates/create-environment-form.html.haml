@@ -1,8 +1,8 @@
 %div.modal-header
     %h3 Environment Details
 %div.modal-body
-    %div#loading-fields
-    %form.form-horizontal
+    %div.loading-fields{id: 'loading-fields-' + random}
+    %form.form-horizontal.hidden
 %div.modal-footer
     %a.cancel.btn-small Cancel
     %a.confirm.btn.btn-primary Create

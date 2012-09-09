@@ -85,8 +85,8 @@ module Dupondius; module Aws; module CloudFormation
 
   class ContinuousIntegration < Stack
 
-    def self.create project_name, parameters
-      super('jenkins', 'ci', project_name, parameters)
+    def self.create project_name, tech_stack, parameters
+      super('jenkins-' + tech_stack, 'ci', project_name, parameters)
     end
 
     def self.find project_name

@@ -1,10 +1,10 @@
 {
     "id" : "<%= @project.id %>",
-    "status" : "<%= @project.dashboard.stack.status unless @project.dashboard.nil?%>",
+    "status" : "<%= @project.dashboard.status unless @project.dashboard.nil?%>",
     <% if @project.dashboard && @project.dashboard.complete?  %>
       "output" : {
-        "key" : "<%= @project.dashboard.stack.outputs.first.key%>",
-        "value" : "<%= @project.dashboard.stack.outputs.first.value%>"
+        "key" : "<%= @project.dashboard.outputs.first.key%>",
+        "value" : "<%= @project.dashboard.outputs.first.value%>"
       },
     <% end %>
     "name" : "<%= @project.name %>"

@@ -23,7 +23,7 @@
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="brand" href="#">dupondi.us Launchpad</a>
-          <div class="container-fluid nav-collapse">
+          <div class="container-fluid nav-collapse pull-left">
             <ul class="nav">
               <li id="nav-application-name"></li>
               <li id="nav-application-aws"></li>
@@ -33,6 +33,7 @@
               <li id="nav-application-github"></li>
             </ul>
           </div>
+          <div class="version-label pull-right"><%= Dupondius::Version.version %></div>
         </div>
       </div>
     </div>

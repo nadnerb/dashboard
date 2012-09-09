@@ -67,6 +67,10 @@ p {
 	padding-bottom: 0;
 }
 
+.navbar .version-label {
+  margin-top: 10px;
+}
+
 /*
  * Button styles
  */

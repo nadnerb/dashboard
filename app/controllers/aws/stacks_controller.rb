@@ -20,6 +20,10 @@ class Aws::StacksController < ApplicationController
     render :nothing => true, :status => 404
   end
 
+  def create
+    render :nothing => true, :status => 404
+  end
+
   def available
     stacks = Dupondius::Aws::CloudFormation::STACKS
     respond_with(stacks.map { | name | { :name => name } })

@@ -1,18 +1,14 @@
 class Jobs::Skeleton
 
-  attr_reader :project
+  attr_reader :project, :type
 
-  def initialize(project_id)
+  def initialize(project_id, type)
     @project = Project.find(project_id)
+    @type = type
   end
 
   def run
-    p "building: #{resting_place} for project: #{project.name}"
-    p `cd #{resting_place} && scrolls new #{project.name} -s capistrano unicorn rspec git rubyracer 2>&1`
-    #`git init`
-    #`git add .`
-    #`git commit -m 'Initial commit'`
-    # will move this to super job associated with a project
+    RailsSkeleton.new(project, resting_place).run
     Jobs::GithubCreate.new(project.id, resting_place).run
   end
 

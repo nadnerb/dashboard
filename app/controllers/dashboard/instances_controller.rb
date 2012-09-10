@@ -1,5 +1,3 @@
-require 'awesome_print'
-
 class Dashboard::InstancesController < ApplicationController
 
   respond_to :json

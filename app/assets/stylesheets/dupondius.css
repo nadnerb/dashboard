@@ -23,6 +23,23 @@
   src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3bO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
 }
 
+.dupon {
+  font-family: Planer-Regular;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 32px !important;
+  text-transform: none;
+}
+
+.dius {
+  font-family: Planer-DemiBold;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 32px !important;
+  text-transform: none;
+  color: #d80b17;
+}
+
 html, body {
 	position: relative;
 	width: 100%;
@@ -139,23 +156,23 @@ p {
 	color: #424242;
 }
 
-.page-container:before, .page-container:after 
+.page-container:before, .page-container:after
 {
-  z-index: -1; 
-  position: absolute; 
+  z-index: -1;
+  position: absolute;
   content: "";
   bottom: 14px;
   left: 10px;
-  width: 60%; 
+  width: 60%;
   top: 80%;
   max-width:300px;
-  background: rgba(0, 0, 0, 0.7); 
-  -webkit-box-shadow: 0 15px 10px rgba(0,0,0, 0.6);   
-  -webkit-transform: rotate(-2deg); 
-  padding: 0 100px;   
+  background: rgba(0, 0, 0, 0.7);
+  -webkit-box-shadow: 0 15px 10px rgba(0,0,0, 0.6);
+  -webkit-transform: rotate(-2deg);
+  padding: 0 100px;
 }
 
-.page-container:after 
+.page-container:after
 {
   -webkit-transform: rotate(2deg);
   right: 10px;

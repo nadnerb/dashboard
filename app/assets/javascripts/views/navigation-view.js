@@ -37,6 +37,6 @@ define([
             this.$('.nav li').removeClass('active');
             this.$(event.currentTarget).parent().addClass('active');
             location.hash = $(this).attr("href");
-        } 
+        }
     });
 });

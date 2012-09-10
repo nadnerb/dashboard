@@ -29,6 +29,8 @@
   font-style: normal;
   font-size: 32px !important;
   text-transform: none;
+  color: #999;
+  padding-right: 1px;
 }
 
 .dius {

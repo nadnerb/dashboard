@@ -35,7 +35,12 @@ base: &base
   database: <%= ENV['DB_NAME'] %>
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
+  <% if ENV['DB_SOCKET'] %>
   socket: <%= ENV['DB_SOCKET'] %>
+  <% else %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
+  <% end %>
 
 production:
   <<: *base

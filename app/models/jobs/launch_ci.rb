@@ -57,8 +57,8 @@ class Jobs::LaunchCi
       encrypted_data << aes.update(block)
       encrypted_data << aes.final if block.length < 16
     end
-    result = Base64.encode64(encrypted_data.join).gsub(/\n/, '')
-    puts "ENCRYPT: #{data} --> #{result}"
+    result = Base64.encode64(encrypted_data.join).gsub(/\n/, '').gsub(/\\/, '\\').gsub(/\//, '\/')
+    Rails.logger.info "ENCRYPT: #{data} --> #{result}"
     result
   end
 

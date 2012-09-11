@@ -65,8 +65,4 @@ Dashboard::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  config.aws_credential_file = ENV['aws_credential_file']
-
-  config.github_client_id = 'bacdc0747b0175015bd9'
-  config.github_secret = '1fc790af87ad8f248dce004d8a52b4d3fe60997f'
 end

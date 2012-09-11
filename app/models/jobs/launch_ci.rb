@@ -26,8 +26,8 @@ class Jobs::LaunchCi
         InstanceType: 'm1.small',
         ProjectGithubUser: user.to_s,
         ProjectType: tech_stack,
-        AccessKey: string_value(params[:project][:aws][:accessKey], Dupondius::Aws::Config.access_key),
-        SecretAccessKey: encrypt(string_value(params[:project][:aws][:secretAccessKey], Dupondius::Aws::Config.secret_access_key)),
+        AccessKey: string_value(params[:project][:aws][:accessKey], Dupondius.config.access_key),
+        SecretAccessKey: encrypt(string_value(params[:project][:aws][:secretAccessKey], Dupondius.config.secret_access_key)),
         PrivateKey: encrypt(string_value(params[:project][:aws][:privateKey], PKEY))
     }
     ap options

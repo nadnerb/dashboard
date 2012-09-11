@@ -2,7 +2,7 @@ require 'yajl'
 
 class Source::Security
 
-  def initialize(client_id = Dashboard::Application.config.github_client_id, secret = Dashboard::Application.config.github_secret)
+  def initialize(client_id = Dupondius.config.github_client_id, secret = Dupondius.config.github_secret)
     @client_id = client_id
     @secret = secret
   end

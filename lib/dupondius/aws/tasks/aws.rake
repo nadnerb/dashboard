@@ -11,8 +11,10 @@ namespace :dupondius do
   namespace :aws do
 
     task :environment => :dotenv do
-      Dupondius::Aws::Config.access_key = ENV['AWS_ACCESS_KEY']
-      Dupondius::Aws::Config.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+      Dupondius.configure do |config|
+        config.access_key = ENV['AWS_ACCESS_KEY']
+        config.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+      end
     end
 
     desc 'Creates a new stack'

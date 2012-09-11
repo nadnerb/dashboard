@@ -11,8 +11,8 @@ class Project < ActiveRecord::Base
       Dupondius::Aws::CloudFormation::Dashboard.create(self.name, {
           KeyName: 'team-brats',
           InstanceType: 'm1.small',
-          AwsAccessKey: Dupondius::Aws::Config.access_key,
-          AwsSecretAccessKey: Dupondius::Aws::Config.secret_access_key,
+          AwsAccessKey: Dupondius.config.access_key,
+          AwsSecretAccessKey: Dupondius.config.secret_access_key,
           DBName: 'dashboard',
           DBUsername: 'dashboard',
           DBPassword: 'dashboard',

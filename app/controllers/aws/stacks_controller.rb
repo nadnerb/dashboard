@@ -23,8 +23,8 @@ class Aws::StacksController < ApplicationController
   def create
 
     # TODO: Move these system level parameter setup somewhere else
-    stack_params = params[:stack].merge('AwsAccessKey' => Dupondius::Aws::Config.access_key,
-                 'AwsSecretAccessKey' => Dupondius::Aws::Config.secret_access_key,
+    stack_params = params[:stack].merge('AwsAccessKey' => Dupondius.config.access_key,
+                 'AwsSecretAccessKey' => Dupondius.config.secret_access_key,
                  'KeyName' => 'team-brats')
     stack_params.delete('random')
     result = Dupondius::Aws::CloudFormation::Stack.create('rails_single_instance',

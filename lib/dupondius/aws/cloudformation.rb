@@ -4,8 +4,8 @@ module Dupondius; module Aws; module CloudFormation
   STACKS = [:ci, :dev, :canary, :qa, :staging, :production]
 
   def self.access
-    @cfn ||= AWS::CloudFormation.new(:access_key_id => Dupondius::Aws::Config.access_key,
-       :secret_access_key => Dupondius::Aws::Config.secret_access_key)
+    @cfn ||= AWS::CloudFormation.new(:access_key_id => Dupondius.config.access_key,
+       :secret_access_key => Dupondius.config.secret_access_key)
   end
 
   def self.summaries project_name, status = :create_complete
@@ -37,7 +37,7 @@ module Dupondius; module Aws; module CloudFormation
 
     def self.create template_name, environment_name, project_name, parameters
       Dupondius::Aws::CloudFormation.access.stacks.create("#{environment_name}-#{project_name}", load_template(template_name),
-        :parameters => parameters.merge({HostedZone: Dupondius::Aws::Config.hosted_zone, ProjectName: project_name}))
+        :parameters => parameters.merge({HostedZone: Dupondius.config.hosted_zone, ProjectName: project_name}))
     end
 
     def self.validate_template id

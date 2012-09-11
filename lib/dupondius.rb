@@ -1,9 +1,15 @@
 require 'aws-sdk'
-require 'dupondius/aws/config'
+require 'dupondius/config'
 require 'dupondius/aws/cloudformation'
 require 'dupondius/aws/ec2'
 
 module Dupondius
+extend self
+
+  def configure
+    block_given? ? yield(Dupondius::Config) : Dupondius::Config
+  end
+  alias :config :configure
 
   class Version
 

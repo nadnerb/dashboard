@@ -1,8 +1,8 @@
 module Dupondius; module Aws; module Ec2
 
   def self.access
-    @ec2 ||= AWS::EC2.new(:access_key_id => Dupondius::Aws::Config.access_key,
-       :secret_access_key => Dupondius::Aws::Config.secret_access_key)
+    @ec2 ||= AWS::EC2.new(:access_key_id => Dupondius.config.access_key,
+       :secret_access_key => Dupondius.config.secret_access_key)
   end
 
   class Instance

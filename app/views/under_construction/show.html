@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="/assets/bootstrap_and_overrides.css" rel="stylesheet">
+    <link href="/assets/planar.css" rel="stylesheet">
     <script src="/assets/vendor/jquery-1.7.2.js" type="text/javascript"></script>
     <script src="/assets/vendor/jquery.countdown.js"></script>
     <script src="/assets/vendor/jquery.cookie.js"></script>
@@ -33,13 +34,19 @@
       }
 
       .big {
+        font-family: Planer-Regular;
         font-size: 140px;
         line-height: 140px;
         font-weight: 400;
       }
 
-      .dius {
+      .dius_large {
+        font-family: Planer-Regular;
+        font-weight: normal;
+        font-style: normal;
         font-weight: 600;
+        text-transform: none;
+        color: #d80b17;
       }
 
       .arriving {
@@ -47,8 +54,8 @@
         font-size: 20px;
         color: #888;
         position: relative;
-        left: 190px;
-        bottom: 35px;
+        left: 180px;
+        bottom: 70px;
       }
 
       #countdown {
@@ -58,7 +65,7 @@
    </head>
 <body>
 <header>
-    <h1 class="big">dupon<span class="dius">di.us</span></h1>
+    <h1 class="big">dupon<span class="dius_large">di.us</span></h1>
     <p>&nbsp;</p>
     <p class="arriving">
       <span>Killing Iteration Zero in: </span><span id="countdown"></span>
@@ -67,7 +74,7 @@
       </script>
     </p>
 </header>
-    
+
 
 </body>
 </html>

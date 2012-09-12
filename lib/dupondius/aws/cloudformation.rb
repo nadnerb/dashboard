@@ -8,7 +8,7 @@ module Dupondius; module Aws; module CloudFormation
        :secret_access_key => Dupondius.config.secret_access_key)
   end
 
-  def self.summaries project_name, status = :create_complete
+  def self.summaries project_name= Dupondius.config.project_name, status = :create_complete
     Dupondius::Aws::CloudFormation.access.stack_summaries.with_status(status).select do |s|
       s if s[:stack_name] =~ /.*#{project_name}$/
     end
@@ -38,7 +38,11 @@ module Dupondius; module Aws; module CloudFormation
 
     def self.create template_name, environment_name, project_name, parameters
       Dupondius::Aws::CloudFormation.access.stacks.create("#{environment_name}-#{project_name}", load_template(template_name),
-        :parameters => parameters.merge({HostedZone: Dupondius.config.hosted_zone, ProjectName: project_name}))
+        :parameters => {HostedZone: Dupondius.config.hosted_zone,
+                        ProjectName: project_name,
+                        AwsAccessKey: Dupondius.config.access_key,
+                        AwsSecretAccessKey: Dupondius.config.secret_access_key,
+                        KeyName: Dupondius.config.key_name}.merge(parameters))
     end
 
     def self.validate_template id
@@ -55,6 +59,14 @@ module Dupondius; module Aws; module CloudFormation
 
     def self.lookup_template_name id
       TEMPLATES.detect { |t| t[:id] = id }[:template]
+    end
+
+    def template_name
+      self.description.match(/\w+$/).to_s
+    end
+
+    def update params
+      super({template: Stack.load_template(template_name), parameters: self.parameters.merge(params)})
     end
 
     def complete?

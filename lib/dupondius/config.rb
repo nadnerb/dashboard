@@ -5,6 +5,14 @@ module Dupondius
   module Config
     extend self
 
+    def key_name= name
+      @key_name = name
+    end
+
+    def key_name
+      @key_name
+    end
+
     def project_name= name
       @project_name = name
     end

@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Dupondi.us. Single instance Rails stack using with nginx, a local MySQL database. ",
+  "Description" : "Dupondi.us. Single instance Rails stack using with nginx, a local MySQL database. rails_single_instance",
 
   "Parameters" : {
 
@@ -48,7 +48,6 @@
     },
 
     "DBUsername": {
-      "NoEcho": "true",
       "Description" : "Username for MySQL database access",
       "Type": "String",
       "MinLength": "1",
@@ -58,7 +57,6 @@
     },
 
     "DBPassword": {
-      "NoEcho": "true",
       "Description" : "Password MySQL database access",
       "Type": "String",
       "MinLength": "1",
@@ -68,7 +66,6 @@
     },
 
     "DBRootPassword": {
-      "NoEcho": "true",
       "Description" : "Root password for MySQL",
       "Type": "String",
       "MinLength": "1",
@@ -112,6 +109,7 @@
     "WebServer": {
       "Type": "AWS::EC2::Instance",
       "Metadata" : {
+        "dupondius::template" : "rails_single_instance",
         "AWS::CloudFormation::Init" : {
           "config" : {
             "packages" : {

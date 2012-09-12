@@ -19,7 +19,7 @@ module Dupondius; module Aws; module Ec2
       self.new(Dupondius::Aws::Ec2.access.instances[id])
     end
 
-    def self.all project_name
+    def self.all project_name= Dupondius.config.project_name
       Dupondius::Aws::Ec2::access.instances.filter("tag:dupondius:project", project_name).
         sort_by(&:launch_time).collect { |e| self.new(e) }
     end

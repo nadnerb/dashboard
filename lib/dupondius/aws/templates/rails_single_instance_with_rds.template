@@ -49,7 +49,6 @@
     },
 
     "DBUsername": {
-      "NoEcho": "true",
       "Description" : "Username for MySQL database access",
       "Type": "String",
       "MinLength": "1",
@@ -59,7 +58,6 @@
     },
 
     "DBPassword": {
-      "NoEcho": "true",
       "Description" : "Password MySQL database access",
       "Type": "String",
       "MinLength": "1",

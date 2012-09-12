@@ -3,7 +3,7 @@ class Aws::InstancesController < ApplicationController
   respond_to :json
 
   def index
-    respond_with(Dupondius::Aws::Ec2::Instance.all(Rails.configuration.project_name))
+    respond_with(Dupondius::Aws::Ec2::Instance.all)
   end
 
   def show

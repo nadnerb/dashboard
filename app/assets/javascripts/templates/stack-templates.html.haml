@@ -1,0 +1,6 @@
+%div.control-group
+    %label.control-label{for: 'stack-templates'} Choose the type of stack to create:
+    %div.controls
+        %select{id: 'stack-templates'}
+            - _(stackTemplates).each(function (stackTemplate) {
+                %option{value: stackTemplate.id} = stackTemplate.name

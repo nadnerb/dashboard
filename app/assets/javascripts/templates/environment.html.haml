@@ -19,6 +19,8 @@
         %br
         - if (status !== 'shutting_down') {
             %button.edit.btn.btn-small.btn-primary Edit
+        - if (instances.size() > 0) {
+            %button.instances.btn.btn-primary Instances
         %button.reboot.btn.btn-small.btn-primary Reboot
         - if (status === 'stopping' || status === 'pending' || status === 'shutting_down') {
             %button.remove.btn.btn-small.btn-danger.disabled Remove

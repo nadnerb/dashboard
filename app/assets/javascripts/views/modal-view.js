@@ -15,10 +15,10 @@ define([
                 show: false
             });
 
-            // var view = this;
-            // this.$el.on('shown', function () {
-            //     view.spinner();
-            // });
+            var view = this;
+            this.$el.on('hidden', function () {
+                view.destroy();
+            });
         },
 
         show: function () {

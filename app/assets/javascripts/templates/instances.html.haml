@@ -1,0 +1,21 @@
+%div.modal-header
+    %h3 Instances
+%div.modal-body
+    %div.loading-fields{id: 'loading-fields-' + random}
+    %table.table.table-hover
+        %tr
+            %th Name
+            %th Actions
+        - _(collection).each(function (instance) {
+            %tr
+                %td = instance.tags['dupondius:environment']
+                %td 
+                    %button.edit.btn.btn-small.btn-primary Edit
+                    %button.remove.btn.btn-small.btn-danger Remove
+                    %button.reboot.btn.btn-small.btn-primary Reboot
+                    - if (instance.status === 'stopped') {
+                        %button.start.btn.btn-success Start Environment
+                    - if (instance.status === 'running') {
+                        %button.stop.btn.btn-danger Stop Environment
+%div.modal-footer
+    %a.cancel.btn.btn-primary Close

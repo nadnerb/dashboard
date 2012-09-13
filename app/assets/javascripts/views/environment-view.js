@@ -2,10 +2,11 @@ define([
     'vendor/base',
     'models/instance',
     'views/create-environment-view',
+    'views/instances-view',
     'text!templates/create_environment.html.haml',
     'text!templates/available_environment.html.haml',
     'text!templates/environment.html.haml'
-], function (BackboneSuperView, Instance, CreateEnvironmentView, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
+], function (BackboneSuperView, Instance, CreateEnvironmentView, InstancesView, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
     return BackboneSuperView.extend({
 
         events: {
@@ -14,7 +15,8 @@ define([
             'click .remove': 'remove',
             'click .create': 'create',
             'click .edit': 'edit',
-            'click .reboot': 'reboot'
+            'click .reboot': 'reboot',
+            'click .instances': 'instances'
         },
 
         className: 'environment span4',
@@ -89,20 +91,14 @@ define([
         },
 
         create: function () {
-            if (this.view === null) {
-                this.view = new CreateEnvironmentView({name: this.model.get('name')}).render();
-                this.bindTo(this.view.model, 'success error', function () {
-                    this.view.hide();
-                    this.fadeOut();
-                    this.keepChecking();
-                });
-            }
-            
+            this.view = new CreateEnvironmentView({name: this.model.get('name')}).render();
+            this.bindTo(this.view.model, 'success error', function () {
+                this.view.hide();
+                this.fadeOut();
+                this.keepChecking();
+            });
             this.view.show();
-            var self = this;
-            setTimeout(function () {
-                self.view.spinner();
-            }, 300);
+
             return false;
         },
 
@@ -123,6 +119,20 @@ define([
             setTimeout(function () {
                 self.view.spinner();
             }, 300);
+            return false;
+        },
+
+        instances: function () {
+            if (this.view === null) {
+                this.view = new InstancesView({collection: this.model.get('instances')}).render();
+                this.bindTo(this.view.collection, 'success error', function () {
+                    this.view.hide();
+                    this.fadeOut();
+                    this.keepChecking();
+                });
+            }
+            
+            this.view.show();
             return false;
         },
 

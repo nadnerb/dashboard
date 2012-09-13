@@ -65,19 +65,19 @@ define([
         },
 
         bindEnvironment: function (environment) {
-            if (environment.get('status') === 'terminated') {
-                return; //Ignore these ones
-            }
-
             var view = _(this.views).find(function (environmentView) {
                 return environmentView.model.get('name') === environment.get('tags')['dupondius:environment'];
             });
 
-            if (view === undefined) {
-                debugger;
+            if (view.model.has('name')){ 
+                view.model = environment;
+            } 
+
+            if (view.model.get('instances') === undefined) {
+                view.model.set('instances', new InstancesCollection());
             }
 
-            view.model = environment;
+            view.model.get('instances').add(environment);
         }
     });
 });

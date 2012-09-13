@@ -90,6 +90,7 @@
                 "make"         : [],
                 "ruby-devel"   : [],
                 "rubygems"     : [],
+                "Xvfb"         : [],
                 "git.x86_64"   : []
               }
             },

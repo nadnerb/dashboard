@@ -19,8 +19,8 @@
         %br
         - if (status !== 'shutting_down') {
             %button.edit.btn.btn-small.btn-primary Edit
-        - if (instances.size() > 0) {
-            %button.instances.btn.btn-primary Instances
+        - if (instances.size() > 0 && tags['dupondius:environment'] === 'dev') {
+            %button.instances.btn.btn-primary View Instances
         %button.reboot.btn.btn-small.btn-primary Reboot
         - if (status === 'stopping' || status === 'pending' || status === 'shutting_down') {
             %button.remove.btn.btn-small.btn-danger.disabled Remove

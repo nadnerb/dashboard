@@ -34,7 +34,7 @@ class Aws::StacksController < ApplicationController
   end
 
   def available
-    stacks = Dupondius::Aws::CloudFormation::STACKS
+    stacks = Dupondius::Aws::CloudFormation::ENVIRONMENTS
     respond_with(stacks.map { | name | { :name => name } })
   end
 

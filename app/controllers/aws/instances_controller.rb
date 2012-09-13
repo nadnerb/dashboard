@@ -15,5 +15,10 @@ class Aws::InstancesController < ApplicationController
     instance.send(JSON.parse(request.body.read)['status'])
     respond_with(instance)
   end
+
+  def regions
+    respond_with(Dupondius::Aws::Ec2::REGIONS)
+  end
+
 end
 

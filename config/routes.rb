@@ -28,19 +28,21 @@ Dashboard::Application.routes.draw do
     end
 
     resources :instances, :constraints => { :id => /i-\S[^\.\/]+/ },
-        :only => [:index, :show, :update]
+        :only => [:index, :show, :update] do
+      get :regions, :on => :collection
+    end
   end
   match '/status' => 'status#index'
   match '/status/heart_beat' => 'status#heart_beat'
 
   get "home/index"
 
-
   if Rails.configuration.launchpad_enabled
     root :to => 'under_construction#show'
   else
     root :to => 'dashboard#index'
   end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

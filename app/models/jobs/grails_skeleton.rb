@@ -14,6 +14,7 @@ class Jobs::GrailsSkeleton
     tar xfz grails.tar.gz;\
     mv \`ls -d -- */\` #{project.name};\
     cd #{project.name};\
+    sed -i s/\\(app.name=\\).*/\\1#{project.name}/ application.properties
     git init;\
     git add .;\
     git commit -m 'Initial commit'`

@@ -4,9 +4,7 @@
     %div.control-group    
         %label.control-label{for: parameter_key} = parameter_key
         %div.controls
-            - if (parameter_key === 'DBPassword' || parameter_key === 'DBRootPassword') {
-                %input{type: 'password', id: parameter_key, placeholder: description}
-            - else if (parameter_key === 'InstanceType') {
+            - if (parameter_key === 'InstanceType') {
                 %select{id: parameter_key}
                     %option{value: 't1.micro'} t1.micro 
                     %option{value: 'm1.small'} m1.small 

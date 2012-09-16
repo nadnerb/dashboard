@@ -76,21 +76,6 @@ p {
 }
 
 /*
- * Navigation styles
- */
-.btn-toolbar {
-	margin: 0;
-}
-
-.navbar .btn-group {
-	padding-bottom: 0;
-}
-
-.navbar .version-label {
-  margin-top: 10px;
-}
-
-/*
  * Button styles
  */
 .btn-xlarge {
@@ -132,7 +117,7 @@ p {
     top:0;
     left:0;
     right:0;
-    margin-top: 100px;
+    margin-top: 125px;
 }
 
  .page {

@@ -46,7 +46,11 @@ define([
         renderFormFromTemplate: function () {
             this.$('.form-horizontal').empty();
 
-            if (this.options.name === undefined) { //hack because i know only dev will have this situation
+            if (this.options.name === undefined) { // yeh...i know...
+                this.options.name = 'dev'
+            }
+
+            if (this.options.name === 'dev') { 
                 var formField = haml.compileHaml({source: formFieldTemplate})({
                     parameter_key: 'UniqueName',
                     description: 'Unique name'

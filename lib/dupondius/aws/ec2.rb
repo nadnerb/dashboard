@@ -1,17 +1,9 @@
 module Dupondius; module Aws; module Ec2
 
-  REGIONS = [
-    { name: 'US East (Virginia)', az: ['us-east-1a', 'us-east-1b', 'us-east-1c',  'us-east-1d']},
-    { name: 'US West (North California)', az: ['us-west-1a', 'us-west-1b', 'us-west-1c']},
-    { name: 'EU West (Ireland)', az:  ['eu-west-1a',  'eu-west-1b', 'eu-west-1c']},
-    { name: 'Asia Pacific (Singapore)', az: ['ap-southeast-1a', 'ap-southeast-1b']},
-    { name: 'Asia Pacific (Tokyo)', az: ['ap-northeast-1a', 'ap-northeast-1b']}
-  ]
-
-
   def self.access
     @ec2 ||= AWS::EC2.new(:access_key_id => Dupondius.config.access_key,
        :secret_access_key => Dupondius.config.secret_access_key)
+    @ec2.regions[Dupondius::Config.aws_region]
   end
 
   class Instance

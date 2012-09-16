@@ -16,9 +16,5 @@ class Aws::InstancesController < ApplicationController
     respond_with(instance)
   end
 
-  def regions
-    respond_with(Dupondius::Aws::Ec2::REGIONS)
-  end
-
 end
 

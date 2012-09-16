@@ -2,6 +2,7 @@ require 'dupondius'
 
 Dupondius.configure do |config|
   config.key_name = 'team-brats'
+  config.aws_region = ENV['AWS_REGION']
   config.access_key = ENV['AWS_ACCESS_KEY_ID']
   config.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
   config.project_name = ENV['PROJECT_NAME']

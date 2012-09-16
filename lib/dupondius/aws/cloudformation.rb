@@ -3,9 +3,20 @@ module Dupondius; module Aws; module CloudFormation
 
   ENVIRONMENTS = [:ci, :dev, :canary, :qa, :staging, :production]
 
-  def self.access
-    @cfn ||= AWS::CloudFormation.new(:access_key_id => Dupondius.config.access_key,
-       :secret_access_key => Dupondius.config.secret_access_key)
+  REGIONS = {
+     'us-east-1' =>  {name: 'US East (Virginia)', endpoint: 'cloudformation.us-east-1.amazonaws.com'},
+     'us-west-1' => {name: 'US West (North California)', endpoint: 'cloudformation.us-west-1.amazonaws.com'},
+     'us-west-2' => {name: 'US West (Oregon)', endpoint: 'cloudformation.us-west-2.amazonaws.com'},
+     'eu-west-1' => {name: 'EU West (Ireland)', endpoint:  'cloudformation.eu-west-1.amazonaws.com'},
+     'ap-southeast-1' => {name: 'Asia Pacific (Singapore)', endpoint: 'cloudformation.ap-southeast-1.amazonaws.com'},
+     'ap-northeast-1' => {name: 'Asia Pacific (Tokyo)', endpoint: 'cloudformation.ap-northeast-1.amazonaws.com'},
+     'sa-east-1' => {name: 'South Amercia (Sao Paulo)', endpoint: 'cloudformation.sa-east-1.amazonaws.com'}
+  }
+
+  def self.access(region = Dupondius.config.aws_region)
+    AWS::CloudFormation.new(:access_key_id => Dupondius.config.access_key,
+       :secret_access_key => Dupondius.config.secret_access_key,
+       :cloud_formation_endpoint => REGIONS[region][:endpoint])
   end
 
   def self.summaries project_name= Dupondius.config.project_name, status = :create_complete
@@ -21,7 +32,6 @@ module Dupondius; module Aws; module CloudFormation
       {id: 2, name: 'Rails Single Instance with MySQL RDS Instance', template: 'rails_single_instance_with_rds'},
       {id: 3, name: 'Jenkins CI', template: 'ci'}
     ]
-
 
     def initialize subject
       @subject = subject
@@ -107,28 +117,37 @@ module Dupondius; module Aws; module CloudFormation
     end
   end
 
-
   class Dashboard < Stack
 
-    def self.create project_name, parameters
-      super('rails_single_instance', 'dashboard', project_name, parameters.merge(EnvironmentName: 'dashboard'))
+    def initialize project_name, tech_stack, aws_region, parameters
+      @project_name, @tech_stack, @aws_region, @parameters = project_name, tech_stack, aws_region, parameters
     end
 
-    def self.find project_name
-      super("dashboard-#{project_name}")
+    def create
+      Dupondius::Aws::CloudFormation.access(@aws_region).stacks.create("dashboard-#{@project_name}", load_template,
+        :parameters => {HostedZone: Dupondius.config.hosted_zone,
+                        ProjectName: @project_name,
+                        EnvironmentName: 'dashboard' ,
+                        AwsAccessKey: Dupondius.config.access_key,
+                        AwsSecretAccessKey: Dupondius.config.secret_access_key,
+                        KeyName: Dupondius.config.key_name}.merge(@parameters))
+    end
+
+    def self.find project_name, aws_region
+      stack = Dupondius::Aws::CloudFormation.access(aws_region).stacks["dashboard-#{project_name}"]
+      stack.exists? ? Stack.new(stack) : nil
     end
 
     def self.template_params
       super("rails_single_instance")
     end
 
-    def self.load_json template_name
-      template= super(template_name)
-      JSON.parse(template)
+    def load_template
+      template= JSON.parse(Stack.load_template('rails_single_instance'))
 
       # inject the dashboard install script into the user-data
       user_data = template['Resources']['WebServer']['Properties']['UserData']['Fn::Base64']['Fn::Join'].last
-      user_data.insert((user_data.size) -4, "curl -L https://s3.amazonaws.com/dupondius/config/install-dashboard | bash \n")
+      user_data.insert((user_data.size) -4, "curl -L https://s3.amazonaws.com/dupondius/config/install-dashboard #{@tech_stack} #{@aws_region} | bash \n")
       JSON.pretty_generate(template)
     end
   end

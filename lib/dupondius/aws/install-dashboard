@@ -10,6 +10,19 @@ echo "This script must be run as root" 1>&2
 fi
 
 
+usage() {
+  echo ""
+  echo "Usage: $0 tech_stack aws_region"
+  exit 1
+}
+
+if [ -z "$2" ]; then
+  usage
+fi
+
+tech_stack=$1
+aws_region=$2
+
 # Create a database
 source /etc/default/app
 export DB_NAME
@@ -32,6 +45,8 @@ su - deployer -c "cd /opt/app/dashboard/current && bundle exec rake RAILS_ENV=pr
 # Tweak some runtime config
 echo "RAILS_ENV=production" >> /etc/default/app
 echo "ENABLE_LAUNCHPAD=false" >> /etc/default/app
+echo "TECH_STACK=$tech_stack" >> /etc/default/app
+echo "AWS_REGION=$aws_region" >> /etc/default/app
 
 # Generate initd scripts
 su - deployer -c "cd /opt/app/dashboard/current && bundle exec foreman export initscript /tmp -e /etc/default/app -f ./Procfile.production -a dashboard -u deployer -l /opt/app/dashboard/current/log"

@@ -45,8 +45,6 @@ base: &base
 production:
   <<: *base
 
-staging:
-  <<: *base
 qa:
   <<: *base
 

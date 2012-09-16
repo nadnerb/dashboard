@@ -13,6 +13,14 @@ module Dupondius
       @key_name
     end
 
+    def aws_region= region
+      @aws_region = region
+    end
+
+    def aws_region
+      @aws_region
+    end
+
     def project_name= name
       @project_name = name
     end

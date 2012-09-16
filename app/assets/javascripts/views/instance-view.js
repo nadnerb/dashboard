@@ -35,18 +35,18 @@ define([
         },
 
         fadeIn: function () {
-            this.$('#loading-' + this.model.get('tags')['dupondius:dev-name']).css('visibility', 'visible').fadeOut();
+            this.$('#loading-' + this.model.get('tags')['aws:cloudformation:stack-name']).css('visibility', 'visible').fadeOut();
             this.$('.buttons').fadeIn();
         },
 
         fadeOut: function () {
             this.spinner();
-            this.$('#loading-' + this.model.get('tags')['dupondius:dev-name']).css('visibility', 'visible').fadeIn();
+            this.$('#loading-' + this.model.get('tags')['aws:cloudformation:stack-name']).css('visibility', 'visible').fadeIn();
             this.$('.buttons').fadeOut();
         },
 
         spinner: function () {
-            var name = this.model.get('tags')['dupondius:dev-name'];
+            var name = this.model.get('tags')['aws:cloudformation:stack-name'];
             if (this.$('#loading-' + name + ' svg').length === 0) {
                 spinner('loading-' + name, 9, 8, 10, 3, '#888');
             }

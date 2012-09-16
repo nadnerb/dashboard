@@ -1,7 +1,7 @@
-%td = tags['dupondius:dev-name']
+%td = tags['aws:cloudformation:stack-name']
 %td.status = status
 %td.actions 
-    %div.loading.hidden{id: "loading-" + tags['dupondius:dev-name']}
+    %div.loading.hidden{id: "loading-" + tags['aws:cloudformation:stack-name']}
     %div.buttons
         - if (status === 'running') {
             %button.reboot.btn.btn-small.btn-primary Reboot

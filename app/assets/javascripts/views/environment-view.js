@@ -38,11 +38,11 @@ define([
             if (instances !== undefined) {
                 instances = instances.toJSON();
             }
-            var ret = {
+            
+            return {
                 model: this.model.toJSON(),
                 instances: instances
             };
-            return ret;
         },
 
         renderEnvironment: function () {

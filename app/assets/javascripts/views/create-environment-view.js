@@ -18,7 +18,7 @@ define([
         initialize: function (options) {
             ModalView.prototype.initialize.call(this);
 
-            this.model = new Stack({random: this.random});
+            this.model = new Stack();
             this.bindTo(this.model, 'change', function () {
                 this.populateForm();
             });
@@ -30,6 +30,13 @@ define([
             this.stackTemplates.fetch();
         },
 
+        serialize: function () {
+            return {
+                model: this.model,
+                random: this.random
+            }
+        },
+
         renderStackTemplates: function () {
             var markup = haml.compileHaml({source: stackTemplatesTemplate})({ stackTemplates: this.stackTemplates.toJSON() });
             this.$('.form-horizontal').html(markup);
@@ -38,6 +45,15 @@ define([
 
         renderFormFromTemplate: function () {
             this.$('.form-horizontal').empty();
+
+            if (this.options.name === undefined) { //hack because i know only dev will have this situation
+                var formField = haml.compileHaml({source: formFieldTemplate})({
+                    parameter_key: 'UniqueName',
+                    description: 'Unique name'
+                });
+                this.$('.form-horizontal').append(formField);
+            }
+
             _(this.stackTemplate.get('parameters')).each(function (parameter) {
                 var formField = haml.compileHaml({source: formFieldTemplate})(parameter);
                 this.$('.form-horizontal').append(formField);
@@ -82,7 +98,11 @@ define([
                     attrs[parameter.parameter_key] = this.$('#'+ parameter.parameter_key).val();
                 }, this);
 
-                // this.model.save(attrs);
+                if (this.$('#UniqueName').length !== 0) {
+                    attrs['UniqueName'] = this.$('#UniqueName').val();
+                }
+
+                this.model.save(attrs);
             }
 
             return false;

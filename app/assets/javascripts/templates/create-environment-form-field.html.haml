@@ -1,20 +1,25 @@
-%div.control-group
-    %label.control-label{for: parameter_key} = parameter_key
-    %div.controls
-        - if (parameter_key === 'InstanceType') {
-            %select{id: parameter_key}
-                %option{value: 't1.micro'} t1.micro 
-                %option{value: 'm1.small'} m1.small 
-                %option{value: 'm1.medium'} m1.medium 
-                %option{value: 'm1.large'} m1.large 
-                %option{value: 'm1.xlarge'} m1.xlarge 
-                %option{value: 'c1.medium'} c1.medium 
-                %option{value: 'c1.xlarge'} c1.xlarge 
-                %option{value: 'm2.xlarge'} m2.xlarge 
-                %option{value: 'm2.2xlarge'} m2.2xlarge 
-                %option{value: 'm2.4xlarge'} m2.4xlarge 
-                %option{value: 'cc1.4xlarge'} cc1.4xlarge 
-                %option{value: 'cc1.8xlarge'} cc1.8xlarge 
-                %option{value: 'cg1.4xlarge'} cg1.4xlarge
-        - else {
-            %input{type: 'text', id: parameter_key, placeholder: description}
+- if (parameter_key === 'EnvironmentName') {
+    %input{type: 'hidden', id: parameter_key, placeholder: description}
+- else {
+    %div.control-group    
+        %label.control-label{for: parameter_key} = parameter_key
+        %div.controls
+            - if (parameter_key === 'DBPassword' || parameter_key === 'DBRootPassword') {
+                %input{type: 'password', id: parameter_key, placeholder: description}
+            - else if (parameter_key === 'InstanceType') {
+                %select{id: parameter_key}
+                    %option{value: 't1.micro'} t1.micro 
+                    %option{value: 'm1.small'} m1.small 
+                    %option{value: 'm1.medium'} m1.medium 
+                    %option{value: 'm1.large'} m1.large 
+                    %option{value: 'm1.xlarge'} m1.xlarge 
+                    %option{value: 'c1.medium'} c1.medium 
+                    %option{value: 'c1.xlarge'} c1.xlarge 
+                    %option{value: 'm2.xlarge'} m2.xlarge 
+                    %option{value: 'm2.2xlarge'} m2.2xlarge 
+                    %option{value: 'm2.4xlarge'} m2.4xlarge 
+                    %option{value: 'cc1.4xlarge'} cc1.4xlarge 
+                    %option{value: 'cc1.8xlarge'} cc1.8xlarge 
+                    %option{value: 'cg1.4xlarge'} cg1.4xlarge
+            - else {
+                %input{type: 'text', id: parameter_key, placeholder: description}

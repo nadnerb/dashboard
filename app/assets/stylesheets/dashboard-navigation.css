@@ -32,11 +32,7 @@
 .navbar-inner .nav .active {
 	background: none;
 }
-/*
-.navbar .btn-navbar {
-	margin-top: 27px;
-}
-*/
+
 .navbar-inner .nav li {
 	position: relative;
 	cursor: pointer;
@@ -57,18 +53,13 @@
 	font-size: 32px !important;
 	text-transform: uppercase;
 	margin-left: 0 !important;
-}
-
-.brand_right {
-  padding: 30px 0 12px 0 !important;
-  font-size: 32px !important;
-  text-transform: uppercase;
-  margin-left: 0 !important;
-  float: right;
-}
-
-.dashboard-brand {
-	padding-left: 0px !important;
 	padding-right: 25px !important;
-	font-weight: bold !important;
+}
+
+.brand.right {
+	float: right;
+}
+
+.brand span {
+	float: left;
 }

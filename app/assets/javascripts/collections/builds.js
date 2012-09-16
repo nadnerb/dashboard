@@ -16,7 +16,7 @@ define([
 
         pipeline: function () {
             this.each(function (build) {
-                if (build.get('upstreamProjects').length === 0) {
+                if (build.get('upstreamProjects').length === 0 && build.get('downstreamProjects').length !== 0) {
                     this.firstInPipeline = build;
                 }
 

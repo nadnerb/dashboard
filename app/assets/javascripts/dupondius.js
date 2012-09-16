@@ -173,39 +173,42 @@ $(document).ready(function () {
 
             return $('#tech-stack').selectableGrid().selected().text().trim() || null;
         }
-    },{
-        id: '#page4',
-        validation: function () {
-            var text = [];
-            $('#support-technologies').selectableGrid().selected().each(function (index, element) {
-                text.push($(element).text().trim());
-            });
+    },
+    // {
+    //     id: '#page4',
+    //     validation: function () {
+    //         var text = [];
+    //         $('#support-technologies').selectableGrid().selected().each(function (index, element) {
+    //             text.push($(element).text().trim());
+    //         });
 
-            if (text.length === 0) {
-                return null;
-            }
+    //         if (text.length === 0) {
+    //             return null;
+    //         }
 
-            $('#summary-support-technology').text(text.join(', '));
+    //         $('#summary-support-technology').text(text.join(', '));
 
-            return text.join(', ');
-        }
-    },{
-        id: '#page5',
-        validation: function () {
-            var text = [];
-            $('#envs').selectableGrid().selected().each(function (index, element) {
-                text.push($(element).text().trim());
-            });
+    //         return text.join(', ');
+    //     }
+    // },
+    // {
+    //     id: '#page5',
+    //     validation: function () {
+    //         var text = [];
+    //         $('#envs').selectableGrid().selected().each(function (index, element) {
+    //             text.push($(element).text().trim());
+    //         });
 
-            if (text.length === 0) {
-                return null;
-            }
+    //         if (text.length === 0) {
+    //             return null;
+    //         }
 
-            $('#summary-environments').text(text.join(', '));
+    //         $('#summary-environments').text(text.join(', '));
 
-            return text.join(', ');
-        }
-    },{
+    //         return text.join(', ');
+    //     }
+    // },
+    {
         id: '#summary',
         validation: function () {
             return true;
@@ -215,6 +218,12 @@ $(document).ready(function () {
         id: '#waiting',
         validation: function () {
             return true;
+        }
+    },{
+        id: '#region',
+        validation: function () {
+            $('#summary-aws-region').text($('#aws-region').val());
+            return $('#aws-region').val();
         }
     }], function () {
         var support = [];
@@ -232,6 +241,7 @@ $(document).ready(function () {
             token: $('#application-token').val(),
             github: $('#application-name').val().replace(/[^\w\s]/gi, '').replace(/ /g, '_'),
             tech_stack: $('#tech-stack').selectableGrid().selected().text().trim(),
+            region: $('#aws-region').val(),
             support: support,
             environments: environments,
             aws: {

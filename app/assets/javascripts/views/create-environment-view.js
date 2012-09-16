@@ -82,7 +82,7 @@ define([
                     attrs[parameter.parameter_key] = this.$('#'+ parameter.parameter_key).val();
                 }, this);
 
-                this.model.save(attrs);
+                // this.model.save(attrs);
             }
 
             return false;

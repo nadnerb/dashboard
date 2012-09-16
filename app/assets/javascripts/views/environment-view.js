@@ -33,6 +33,18 @@ define([
             });
         },
 
+        serialize: function () {
+            var instances = this.model.instances;
+            if (instances !== undefined) {
+                instances = instances.toJSON();
+            }
+            var ret = {
+                model: this.model.toJSON(),
+                instances: instances
+            };
+            return ret;
+        },
+
         renderEnvironment: function () {
             this.template = template;
             return this.render();
@@ -124,7 +136,7 @@ define([
 
         instances: function () {
             if (this.view === null) {
-                this.view = new InstancesView({collection: this.model.get('instances')}).render();
+                this.view = new InstancesView({collection: this.model.instances}).render();
                 this.bindTo(this.view.collection, 'success error', function () {
                     this.view.hide();
                     this.fadeOut();

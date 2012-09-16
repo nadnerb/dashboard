@@ -1,28 +1,35 @@
 %div.environment-heading
-    %h3 = tags['dupondius:environment']
-%div{id: "loading-" + tags['dupondius:environment'], class: 'environment-loading'}
+    %h3 = model.tags['dupondius:environment']
+%div{id: "loading-" + model.tags['dupondius:environment'], class: 'environment-loading'}
 %div.environment-information.hidden
     %dl.dl-horizontal
         %dt Currently:
-        %dd.status = status
+        %dd.status = model.status
         %dt Size:
-        %dd.size = instance_type
+        %dd.size = model.instance_type
     %div.environment-actions
-        - if (status === 'stopped') {
-            %button.start.btn.btn-large.btn-success Start Environment
-        - if (status === 'stopping') {
-            %button.stop.btn.btn-large.btn-danger.disabled Stop Environment
-        - if (status === 'pending') {
-            %button.start.btn.btn-large.btn-success.disabled Start Environment
-        - if (status === 'running') {
-            %button.stop.btn.btn-large.btn-danger Stop Environment
-        %br
-        - if (status !== 'shutting_down') {
-            %button.edit.btn.btn-small.btn-primary Edit
-        - if (instances.size() > 0 && tags['dupondius:environment'] === 'dev') {
-            %button.instances.btn.btn-primary View Instances
-        %button.reboot.btn.btn-small.btn-primary Reboot
-        - if (status === 'stopping' || status === 'pending' || status === 'shutting_down') {
-            %button.remove.btn.btn-small.btn-danger.disabled Remove
+        - if (model.tags['dupondius:environment'] === 'dev') {
+            %button.create.btn.btn-large.btn-primary Create Environment
+            - if (model.status === 'stopped') {
+                %button.start.btn.btn-large.btn-success Start Environment
+            - if (model.status === 'running') {
+                %button.stop.btn.btn-large.btn-danger Stop Environment
+            - if (instances.length > 0) {
+                %button.instances.btn.btn-primary View Instances
         - else {
-            %button.remove.btn.btn-small.btn-danger Remove
+            - if (model.status === 'stopped') {
+                %button.start.btn.btn-large.btn-success Start Environment
+            - if (model.status === 'stopping') {
+                %button.stop.btn.btn-large.btn-danger.disabled Stop Environment
+            - if (model.status === 'pending') {
+                %button.start.btn.btn-large.btn-success.disabled Start Environment
+            - if (model.status === 'running') {
+                %button.stop.btn.btn-large.btn-danger Stop Environment
+            %br
+            - if (model.status !== 'shutting_down') {
+                %button.edit.btn.btn-small.btn-primary Edit
+            %button.reboot.btn.btn-small.btn-primary Reboot
+            - if (model.status === 'stopping' || model.status === 'pending' || model.status === 'shutting_down') {
+                %button.remove.btn.btn-small.btn-danger.disabled Remove
+            - else {
+                %button.remove.btn.btn-small.btn-danger Remove

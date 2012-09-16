@@ -73,11 +73,11 @@ define([
                 view.model = environment;
             } 
 
-            if (view.model.get('instances') === undefined) {
-                view.model.set('instances', new InstancesCollection());
+            if (view.model.instances === undefined) {
+                view.model.instances = new InstancesCollection();
             }
 
-            view.model.get('instances').add(environment);
+            view.model.instances.add(environment);
         }
     });
 });

@@ -31,6 +31,7 @@
               <li id="nav-application-stack"></li>
               <li id="nav-application-support"></li>
               <li id="nav-application-envs"></li>
+              <li id="nav-region-selected"></li>
               <li id="nav-application-github"></li>
             </ul>
           </div>
@@ -128,7 +129,7 @@
         </div>
     </div>
 
-    <div id="page2" class="page hidden" data-step="true" data-submit="page-two-done" data-next="page4" data-navigation="nav-application-stack">
+    <div id="page2" class="page hidden" data-step="true" data-submit="page-two-done" data-next="region" data-navigation="nav-application-stack">
         <div class="page-container">
           <h1>Select the technology stack for the application</h1>
           <p>
@@ -140,14 +141,14 @@
                 <img src="/assets/rails_trans.png"/>
                 <span>Ruby on Rails</span>
               </div>
+              <div class="selectable-grid-column">
+                <img src="/assets/grails.png"/>
+                <span>Grails</span>
+              </div>
               <div class="selectable-grid-column" data-disabled="true">
                 <img src="/assets/java_trans.png"/>
                 <span>Java</span>
                 <div class="claim">Coming Soon</div>
-              </div>
-              <div class="selectable-grid-column">
-                <img src="/assets/grails.png"/>
-                <span>Grails</span>
               </div>
               <div class="selectable-grid-column" data-disabled="true">
                 <img src="/assets/ios.png"/>
@@ -164,7 +165,32 @@
         </div>
     </div>
 
-    <div id="page4" class="page hidden" data-step="true" data-submit="page-four-done" data-next="page5" data-navigation="nav-application-support">
+    <div id="region" class="page hidden" data-step="true" data-submit="region-selected" data-next="summary" data-navigation="nav-region-selected">
+        <div class="page-container">
+          <h1>Select the AWS region for the application</h1>
+          <p>
+            Select an AWS region which meets your needs in terms of cost and availability
+          </p>
+          <div>
+            <select id="aws-region" class="span6">
+              <option value="us-east-1" selected="selected">US East (Virginia)</option>
+              <option value="us-west-1">US West (North California)</option>
+              <option value="us-west-2">US West (Oregon)</option>
+              <option value="eu-west-1">EU West (Ireland)</option>
+              <option value="ap-southeast-1">Asia Pacific (Singapore)</option>
+              <option value="ap-northeast-1">Asia Pacific (Tokyo)</option>
+              <option value="sa-east-1">South Amercia (Sao Paulo)</option>
+            </select>
+          </div>
+          <p>
+            <a href="#" class="btn btn-primary btn-xlarge" id="region-selected">
+              <i class="icon-arrow-down icon-white"></i> Good! But before we start creating stuff...
+            </a>
+          </p>
+        </div>
+    </div>
+
+    <!-- <div id="page4" class="page hidden" data-step="true" data-submit="page-four-done" data-next="page5" data-navigation="nav-application-support">
         <div class="page-container">
           <h1>Select other tools to support the application</h1>
           <p>
@@ -193,9 +219,9 @@
             </a>
           </p>
         </div>
-    </div>
+    </div> -->
 
-    <div id="page5" class="page hidden" data-step="true" data-submit="page-five-done" data-next="summary" data-navigation="nav-application-envs">
+    <!-- <div id="page5" class="page hidden" data-step="true" data-submit="page-five-done" data-next="summary" data-navigation="nav-application-envs">
         <div class="page-container">
           <h1>Select environments to create for the application</h1>
           <p>
@@ -227,7 +253,7 @@
             </a>
           </p>
         </div>
-    </div>
+    </div> -->
 
     <div id="summary" class="page hidden" data-step="true" data-submit="summary-done" data-next="waiting">
         <div class="page-container">
@@ -235,7 +261,6 @@
           <p>
             Please review the following information. You may go back and change any selections if you wish to.
           </p>
-          <p>&nbsp;</p>
           <dl class="dl-horizontal summary">
               <dt>Application Name:</dt>
               <dd id="summary-application-name"></dd>
@@ -246,13 +271,17 @@
               <dt>Technology Stack:</dt>
               <dd id="summary-technology-stack"></dd>
 
-              <dt>Support Technology:</dt>
-              <dd id="summary-support-technology"></dd>
+              <dt>AWS Region:</dt>
+              <dd id="summary-aws-region"></dd>
 
-              <dt>Environments:</dt>
-              <dd id="summary-environments"></dd>
+              <!-- <dt>Support Technology:</dt>
+              <dd id="summary-support-technology"></dd> -->
+
+              <!-- <dt>Environments:</dt>
+              <dd id="summary-environments"></dd> -->
           </dl>
           <p>&nbsp;</p>
+          <p>Initially a dashboard will be created. From there you will be able to configure the environments further.</p>
           <p>
             <a href="#" class="btn btn-success btn-xlarge" id="summary-done">
               <i class="icon-ok icon-white"></i> Great, now lets create some environments!

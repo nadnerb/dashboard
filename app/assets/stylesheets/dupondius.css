@@ -237,6 +237,12 @@ p {
 	float: right;
 }
 
+#region select {
+    height: 50px;
+    font-size: 20px;
+    margin: 115px 0;
+}
+
 .selectable-grid {
 	width: 660px !important;
 }

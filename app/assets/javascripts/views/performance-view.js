@@ -19,7 +19,7 @@ define([
         },
 
         postRender: function () {
-            if (this.model.has('token')) {
+            if (this.model.has('iframe')) {
                 this.renderMetrics();
             } else {
                 this.renderConfigureNewRelic();
@@ -42,7 +42,7 @@ define([
         },
 
         configure: function () {
-            var token = this.$('#newrelic-token').val();
+            var iframe = this.$('#iframe').val();
 
             this.model.on('error', function (model, errors) {
                 _(errors).each(function (error) {
@@ -56,7 +56,7 @@ define([
 
             this.model.save({
                 not_configured: undefined,
-                token: token,
+                iframe: iframe,
             });
 
             return false;
@@ -68,8 +68,8 @@ define([
             contentId: 'newrelic-widget'
           }).render();
 
-          view.append(this.model.get('content'));
-          view.append('<div>Set <a class="killmenow" href="#">new token</a></div>');
+          view.append(this.model.get('iframe'));
+          view.append('<div><a class="killmenow" href="#">Change Graph</a></div>');
           this.$el.html(view.el);
         },
 

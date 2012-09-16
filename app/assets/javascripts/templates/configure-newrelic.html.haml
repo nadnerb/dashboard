@@ -1,13 +1,13 @@
 %form.form-horizontal
-    %legend New Relic Details
-    %div.control-group
-      To use the API in any way, you'll need to activate API access and get your API key from your account settings once you're logged into our site: click your [Account Name] in the upper-middle right, and select "Account Settings", then select the "Data Sharing" tab, then select the "API access" sub-tab, enable API access, and then make note of your API key.
+    %legend New Relic Graphs
     %div.control-group
       To start receiving New Relic statics you need to have deployed your app to production using the jenkins pipeline
     %div.control-group
-        %label.control-label Token
+      Add iframes you have exported in new relic below
+    %div.control-group
+        %label.control-label iframe
         %div.controls
-            %input{id: 'newrelic-token', type: 'text', placeholder: 'Enter New Relic Token'}
+            %input{id: 'iframe', type: 'text', placeholder: 'Enter an iframe'}
             %span.help-inline
     %div.control-group
         %div.controls

@@ -5,17 +5,6 @@ GIT
     foreman-export-initscript (0.0.1)
       foreman
 
-GIT
-  remote: git@github.com:nadnerb/appscrolls.git
-  revision: 8cb142cb7107e6dfbdd6e69a6bbe2cf807024fb2
-  specs:
-    appscrolls (0.8.6)
-      activesupport (~> 3.0)
-      i18n
-      json (~> 1.7.0)
-      rails (~> 3.2.2)
-      thor
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -318,7 +307,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  appscrolls (= 0.8.6)!
   awesome_print
   aws-s3
   aws-sdk

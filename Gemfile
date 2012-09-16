@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.7'
 gem 'bigdecimal'
-gem 'appscrolls', '0.8.6', :git => 'git@github.com:nadnerb/appscrolls.git'
 gem 'foreman-export-initscript', :git => 'git://github.com/Draiken/foreman-export-initscript.git'
 gem 'pivotal-tracker'
 

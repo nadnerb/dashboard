@@ -34,7 +34,7 @@ define([
         },
 
         serialize: function () {
-            var instances = this.model.instances;
+            var instances = this.instancesCollection;
             if (instances !== undefined) {
                 instances = instances.toJSON();
             }
@@ -115,16 +115,14 @@ define([
         },
 
         edit: function () {
-            if (this.view === null) {
-                this.view = new CreateEnvironmentView().render();
-                this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']}, {silent: true});
-                this.view.model.fetch();
-                this.bindTo(this.view.model, 'success error', function () {
-                    this.view.hide();
-                    this.fadeOut();
-                    this.keepChecking();
-                });
-            }
+            this.view = new CreateEnvironmentView().render();
+            this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']}, {silent: true});
+            this.view.model.fetch();
+            this.bindTo(this.view.model, 'success error', function () {
+                this.view.hide();
+                this.fadeOut();
+                this.keepChecking();
+            });
             
             this.view.show();
             var self = this;
@@ -135,14 +133,12 @@ define([
         },
 
         instances: function () {
-            if (this.view === null) {
-                this.view = new InstancesView({collection: this.model.instances}).render();
-                this.bindTo(this.view.collection, 'success error', function () {
-                    this.view.hide();
-                    this.fadeOut();
-                    this.keepChecking();
-                });
-            }
+            this.view = new InstancesView({collection: this.instancesCollection}).render();
+            this.bindTo(this.view.collection, 'success error', function () {
+                this.view.hide();
+                this.fadeOut();
+                this.keepChecking();
+            });
             
             this.view.show();
             return false;

@@ -3,17 +3,17 @@
 %div{id: "loading-" + model.tags['dupondius:environment'], class: 'environment-loading'}
 %div.environment-information.hidden
     %dl.dl-horizontal
-        %dt Currently:
-        %dd.status = model.status
-        %dt Size:
-        %dd.size = model.instance_type
+        - if (model.tags['dupondius:environment'] === 'dev') {
+            %dt Instance Count:
+            %dd.status = instances.length
+        - else {
+            %dt Currently:
+            %dd.status = model.status
+            %dt Size:
+            %dd.size = model.instance_type
     %div.environment-actions
         - if (model.tags['dupondius:environment'] === 'dev') {
             %button.create.btn.btn-large.btn-primary Create Environment
-            - if (model.status === 'stopped') {
-                %button.start.btn.btn-large.btn-success Start Environment
-            - if (model.status === 'running') {
-                %button.stop.btn.btn-large.btn-danger Stop Environment
             - if (instances.length > 0) {
                 %button.instances.btn.btn-primary View Instances
         - else {
@@ -28,7 +28,8 @@
             %br
             - if (model.status !== 'shutting_down') {
                 %button.edit.btn.btn-small.btn-primary Edit
-            %button.reboot.btn.btn-small.btn-primary Reboot
+            - if (model.status === 'running') {
+                %button.reboot.btn.btn-small.btn-primary Reboot
             - if (model.status === 'stopping' || model.status === 'pending' || model.status === 'shutting_down') {
                 %button.remove.btn.btn-small.btn-danger.disabled Remove
             - else {

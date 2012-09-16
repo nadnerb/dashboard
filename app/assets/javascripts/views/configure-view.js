@@ -65,19 +65,31 @@ define([
         },
 
         bindEnvironment: function (environment) {
+            if (environment.get('status') === 'terminated') {
+                return;
+            }
+
             var view = _(this.views).find(function (environmentView) {
-                return environmentView.model.get('name') === environment.get('tags')['dupondius:environment'];
+                if (environmentView.model.has('name')) {
+                    return environmentView.model.get('name') === environment.get('tags')['dupondius:environment'];
+                } else {
+                    return environmentView.model.get('tags')['dupondius:environment'] === environment.get('tags')['dupondius:environment'];
+                }
             });
 
-            if (view.model.has('name')){ 
+            if (view === undefined) {
+                return; // foreign instance that we dont care about
+            }
+
+            if (view.model.has('name')) { 
                 view.model = environment;
             } 
 
-            if (view.model.instances === undefined) {
-                view.model.instances = new InstancesCollection();
+            if (view.instancesCollection === undefined) {
+                view.instancesCollection = new InstancesCollection();
             }
 
-            view.model.instances.add(environment);
+            view.instancesCollection.push(environment);
         }
     });
 });

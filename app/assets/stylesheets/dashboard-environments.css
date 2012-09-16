@@ -58,6 +58,14 @@
     position: absolute;
 }
 
+.actions {
+    position: relative;
+}
+
+.actions .loading {
+    position: absolute;
+}
+
 .modal-body {
     min-height:155px;
 }

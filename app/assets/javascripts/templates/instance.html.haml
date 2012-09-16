@@ -1,0 +1,12 @@
+%td = tags['dupondius:dev-name']
+%td.status = status
+%td.actions 
+    %div.loading.hidden{id: "loading-" + tags['dupondius:dev-name']}
+    %div.buttons
+        - if (status === 'running') {
+            %button.reboot.btn.btn-small.btn-primary Reboot
+        %button.remove.btn.btn-small.btn-danger Remove
+        - if (status === 'stopped') {
+            %button.start.btn.btn-success Start Environment
+        - if (status === 'running') {
+            %button.stop.btn.btn-danger Stop Environment

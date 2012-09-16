@@ -2,6 +2,10 @@ html, body {
 	background-color: #E9E9E9;
 }
 
+body {
+    padding: 0;
+}
+
 .widget-header {
 	text-align: center;
 	height: 40px;

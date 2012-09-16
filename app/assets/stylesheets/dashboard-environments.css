@@ -35,6 +35,10 @@
     text-align: left;
 }
 
+.environment-information .dl-horizontal {
+    padding-left: 10px;
+}
+
 .environment-description {
     padding: 10px;
 }

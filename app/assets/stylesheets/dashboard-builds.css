@@ -6,10 +6,6 @@
 	max-width: 900px;
 }
 
-.builds .widget-content {
-    padding-left: 50px;
-}
-
 .builds .build {
     position: relative;
 	margin: 15px 0px;
@@ -20,7 +16,6 @@
 
 .builds .build .build-button {
     display: inline-block;
-    width: 250px;
     position: relative;
 }
 
@@ -103,4 +98,24 @@
 .builds .build-information * {
     line-height: 40px;
     margin-left: 0;
+}
+
+@media (max-width: 767px) {
+    .builds .widget-content {
+        padding-left: 15px;
+    }
+
+    .builds .build .build-button {
+        width: 230px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .builds .widget-content {
+        padding-left: 50px;
+    }
+
+    .builds .build .build-button {
+        width: 250px;
+    }
 }

@@ -1,0 +1,203 @@
+---
+us-east-1:
+  linux:
+    t1.micro: '0.02'
+    m1.small: '0.08'
+    m1.medium: '0.16'
+    c1.medium: '0.165'
+    m1.large: '0.32'
+    m2.xlarge: '0.45'
+    m1.xlarge: '0.64'
+    c1.xlarge: '0.66'
+    m2.2xlarge: '0.90'
+    m2.4xlarge: '1.80'
+    cc1.4xlarge: '1.30'
+    cc2.8xlarge: '2.40'
+    cg1.4xlarge: '2.10'
+  windows:
+    t1.micro: '0.02'
+    m1.small: '0.115'
+    m1.medium: '0.23'
+    c1.medium: '0.285'
+    m1.large: '0.46'
+    m2.xlarge: '0.57'
+    m1.xlarge: '0.92'
+    c1.xlarge: '1.14'
+    m2.2xlarge: '1.14'
+    m2.4xlarge: '2.28'
+    cc1.4xlarge: '1.61'
+    cc2.8xlarge: '2.97'
+    cg1.4xlarge: '2.60'
+us-west-2:
+  linux:
+    t1.micro: '0.02'
+    m1.small: '0.08'
+    m1.medium: '0.16'
+    c1.medium: '0.165'
+    m1.large: '0.32'
+    m2.xlarge: '0.45'
+    m1.xlarge: '0.64'
+    c1.xlarge: '0.66'
+    m2.2xlarge: '0.90'
+    m2.4xlarge: '1.80'
+    cc1.4xlarge: NA
+    cc2.8xlarge: NA
+    cg1.4xlarge: NA
+  windows:
+    t1.micro: '0.02'
+    m1.small: '0.115'
+    m1.medium: '0.23'
+    c1.medium: '0.285'
+    m1.large: '0.46'
+    m2.xlarge: '0.57'
+    m1.xlarge: '0.92'
+    c1.xlarge: '1.14'
+    m2.2xlarge: '1.14'
+    m2.4xlarge: '2.28'
+    cc1.4xlarge: NA
+    cc2.8xlarge: NA
+    cg1.4xlarge: NA
+us-west-1:
+  linux:
+    t1.micro: '0.025'
+    m1.small: '0.090'
+    m1.medium: '0.18'
+    c1.medium: '0.186'
+    m1.large: '0.36'
+    m2.xlarge: '0.506'
+    m1.xlarge: '0.72'
+    c1.xlarge: '0.744'
+    m2.2xlarge: '1.012'
+    m2.4xlarge: '2.024'
+    cc1.4xlarge: NA
+    cc2.8xlarge: NA
+    cg1.4xlarge: NA
+  windows:
+    t1.micro: '0.035'
+    m1.small: '0.125'
+    m1.medium: '0.25'
+    c1.medium: '0.306'
+    m1.large: '0.5'
+    m2.xlarge: '0.626'
+    m1.xlarge: '1.0'
+    c1.xlarge: '1.224'
+    m2.2xlarge: '1.252'
+    m2.4xlarge: '2.504'
+    cc1.4xlarge: NA
+    cc2.8xlarge: NA
+    cg1.4xlarge: NA
+eu-west-1:
+  linux:
+    t1.micro: '0.02'
+    m1.small: '0.085'
+    m1.medium: '0.17'
+    c1.medium: '0.186'
+    m1.large: '0.34'
+    m2.xlarge: '0.506'
+    m1.xlarge: '0.68'
+    c1.xlarge: '0.744'
+    m2.2xlarge: '1.012'
+    m2.4xlarge: '2.024'
+    cc1.4xlarge: NA
+    cc2.8xlarge: '2.7'
+    cg1.4xlarge: NA
+  windows:
+    t1.micro: '0.02'
+    m1.small: '0.115'
+    m1.medium: '0.23'
+    c1.medium: '0.285'
+    m1.large: '0.46'
+    m2.xlarge: '0.57'
+    m1.xlarge: '0.92'
+    c1.xlarge: '1.14'
+    m2.2xlarge: '1.14'
+    m2.4xlarge: '2.28'
+    cc1.4xlarge: NA
+    cc2.8xlarge: '2.97'
+    cg1.4xlarge: NA
+ap-southeast-1:
+  linux:
+    t1.micro: '0.02'
+    m1.small: '0.085'
+    m1.medium: '0.17'
+    c1.medium: '0.186'
+    m1.large: '0.34'
+    m2.xlarge: '0.506'
+    m1.xlarge: '0.68'
+    c1.xlarge: '0.744'
+    m2.2xlarge: '1.012'
+    m2.4xlarge: '2.024'
+    cc1.4xlarge: NA
+    cc2.8xlarge: NA
+    cg1.4xlarge: NA
+  windows:
+    t1.micro: '0.02'
+    m1.small: '0.115'
+    m1.medium: '0.23'
+    c1.medium: '0.285'
+    m1.large: '0.46'
+    m2.xlarge: '0.57'
+    m1.xlarge: '0.92'
+    c1.xlarge: '1.14'
+    m2.2xlarge: '1.14'
+    m2.4xlarge: '2.28'
+    cc1.4xlarge: NA
+    cc2.8xlarge: NA
+    cg1.4xlarge: NA
+ap-northeast-1:
+  linux:
+    t1.micro: '0.027'
+    m1.small: '0.092'
+    m1.medium: '0.184'
+    c1.medium: '0.19'
+    m1.large: '0.368'
+    m2.xlarge: '0.518'
+    m1.xlarge: '0.736'
+    c1.xlarge: '0.76'
+    m2.2xlarge: '1.036'
+    m2.4xlarge: '2.072'
+    cc1.4xlarge: NA
+    cc2.8xlarge: NA
+    cg1.4xlarge: NA
+  windows:
+    t1.micro: '0.035'
+    m1.small: '0.115'
+    m1.medium: '0.23'
+    c1.medium: '0.285'
+    m1.large: '0.46'
+    m2.xlarge: '0.57'
+    m1.xlarge: '0.92'
+    c1.xlarge: '1.14'
+    m2.2xlarge: '1.14'
+    m2.4xlarge: '2.28'
+    cc1.4xlarge: NA
+    cc2.8xlarge: NA
+    cg1.4xlarge: NA
+sa-east-1:
+  linux:
+    t1.micro: '0.027'
+    m1.small: '0.115'
+    m1.medium: '0.23'
+    c1.medium: '0.23'
+    m1.large: '0.46'
+    m2.xlarge: '0.68'
+    m1.xlarge: '0.92'
+    c1.xlarge: '0.92'
+    m2.2xlarge: '1.36'
+    m2.4xlarge: '2.72'
+    cc1.4xlarge: NA
+    cc2.8xlarge: NA
+    cg1.4xlarge: NA
+  windows:
+    t1.micro: '0.037'
+    m1.small: '0.30'
+    c1.medium: '0.35'
+    m1.large: '0.60'
+    m2.xlarge: '0.80'
+    m1.xlarge: '1.20'
+    c1.xlarge: '1.40'
+    m2.2xlarge: '1.60'
+    m2.4xlarge: '3.20'
+    cc1.4xlarge: NA
+    cc2.8xlarge: NA
+    cg1.4xlarge: NA

@@ -22,14 +22,14 @@ Dashboard::Application.routes.draw do
 
   namespace :aws do
     resources :templates, :only => [:index, :show]
-    resources :stacks, :constraints => { :id => /[a-zA-Z]+-[a-zA-Z]+/ },
+    resources :stacks, :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/ },
         :only => [:index, :show, :update, :create] do
       get :available, :on => :collection
     end
 
     resources :instances, :constraints => { :id => /i-\S[^\.\/]+/ },
         :only => [:index, :show, :update] do
-      get :regions, :on => :collection
+      get :cost, :on => :collection
     end
   end
   match '/status' => 'status#index'

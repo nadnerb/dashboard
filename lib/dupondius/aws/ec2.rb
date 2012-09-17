@@ -1,3 +1,4 @@
+require 'yaml'
 module Dupondius; module Aws; module Ec2
 
   def self.access
@@ -6,11 +7,15 @@ module Dupondius; module Aws; module Ec2
     @ec2.regions[Dupondius::Config.aws_region]
   end
 
+  def self.cost_table
+    @cost_table ||= YAML.load_file(File.expand_path(File.join(File.dirname(__FILE__), 'ec2-cost.yml')))
+  end
   class Instance
     extend ::Forwardable
 
+    attr_reader :subject
     def_delegators :@subject, :id, :instance_type, :status, :launch_time, :tags,
-      :availability_zone, :stop, :start, :terminate, :reboot
+      :availability_zone, :stop, :start, :terminate, :reboot, :platform
 
     def initialize subject
       @subject = subject
@@ -25,6 +30,12 @@ module Dupondius; module Aws; module Ec2
         sort_by(&:launch_time).collect { |e| self.new(e) }
     end
 
+    def cost
+      AWS.memoize do
+        platform = self.platform ? self.platform : 'linux'
+        Dupondius::Aws::Ec2.cost_table[Dupondius.config.aws_region][platform][self.instance_type].to_f * 24
+      end
+    end
     def as_json options = {}
       result = {}
       AWS.memoize do

@@ -30,16 +30,16 @@ module Dupondius; module Aws; module Ec2
         sort_by(&:launch_time).collect { |e| self.new(e) }
     end
 
-    def cost
+    def cost multiplier = 1
       AWS.memoize do
         platform = self.platform ? self.platform : 'linux'
-        Dupondius::Aws::Ec2.cost_table[Dupondius.config.aws_region][platform][self.instance_type].to_f * 24
+        Dupondius::Aws::Ec2.cost_table[Dupondius.config.aws_region][platform][self.instance_type].to_f * multiplier
       end
     end
     def as_json options = {}
       result = {}
       AWS.memoize do
-        result = [:id, :instance_type, :status, :availability_zone, :launch_time].inject({}) do |result, attribute|
+        result = [:id, :instance_type, :status, :availability_zone, :launch_time, :cost].inject({}) do |result, attribute|
           result[attribute] = self.send(attribute)
           result[:tags] = self.tags.to_h
           result

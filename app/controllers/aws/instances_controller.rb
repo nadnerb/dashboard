@@ -17,7 +17,7 @@ class Aws::InstancesController < ApplicationController
   end
 
   def cost
-    per_day = Dupondius::Aws::Ec2::Instance.all.inject(0.0) {|sum, i| sum + i.cost }
+    per_day = Dupondius::Aws::Ec2::Instance.all.inject(0.0) {|sum, i| sum + i.cost(24) }
     respond_with(:cost_per_day => "%.2f" % per_day, :estimated_monthly_cost => "%.2f" % (per_day * 28.0))
   end
 end

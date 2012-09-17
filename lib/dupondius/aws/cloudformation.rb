@@ -127,7 +127,7 @@ module Dupondius; module Aws; module CloudFormation
       Dupondius::Aws::CloudFormation.access(@aws_region).stacks.create("dashboard-#{@project_name}", load_template,
         :parameters => {HostedZone: Dupondius.config.hosted_zone,
                         ProjectName: @project_name,
-                        EnvironmentName: 'dashboard' ,
+                        EnvironmentName: 'dashboard',
                         AwsAccessKey: Dupondius.config.access_key,
                         AwsSecretAccessKey: Dupondius.config.secret_access_key,
                         KeyName: Dupondius.config.key_name}.merge(@parameters))

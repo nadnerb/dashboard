@@ -12,7 +12,7 @@ class Aws::StacksController < ApplicationController
     if stack
       respond_with(stack)
     else
-      redirect :nothing => true, :status => 404
+      redirect_to :nothing => true, :status => 404
     end
   end
 
@@ -26,11 +26,15 @@ class Aws::StacksController < ApplicationController
     #TODO: Stop the ui from passing 'random' in the payload
     stack_params = params[:stack]
     stack_params.delete('random')
+
+    full_name = stack_params[:EnvironmentName]
+    full_name.concat("-#{stack_params[:UniqueName]}") if stack_params[:EnvironmentName] == 'dev'
+    stack_params.delete(:UniqueName)
     result = Dupondius::Aws::CloudFormation::Stack.create('rails_single_instance',
-                                                     params[:EnvironmentName],
+                                                     full_name,
                                                      Dupondius.config.project_name,
                                                      stack_params)
-    respond_with(result)
+    render :nothing => true, :status => 200
   end
 
   def available

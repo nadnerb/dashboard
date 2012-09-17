@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120916042656) do
+ActiveRecord::Schema.define(:version => 20120916074457) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -30,9 +30,9 @@ ActiveRecord::Schema.define(:version => 20120916042656) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "newrelic_configurations", :force => true do |t|
-    t.string   "token"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "iframe"
   end
 
   create_table "pivotal_tracker_configurations", :force => true do |t|
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20120916042656) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "token"
+    t.string   "stack_type"
     t.string   "tech_stack"
     t.string   "region"
   end

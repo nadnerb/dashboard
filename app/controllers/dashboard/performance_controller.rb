@@ -22,17 +22,7 @@ class Dashboard::PerformanceController < ActionController::Base
   end
 
   def newrelic
-    @newrelic ||= begin
-                    nr = Dashboard::NewrelicConfiguration.first
-                    return nil if nr.nil?
-                    response = Curl::Easy.perform("https://api.newrelic.com/application_dashboard") do |curl|
-                      curl.headers["x-api-key"] = nr.token
-                    end
-                    nr.content = response.body_str
-                  rescue => e
-                    nr.content = "We could not query the new relic api, please make sure you are connected to the internet and have entered the correct api token"
-                  ensure
-                    return nr
-                  end
+    # allow multiple
+    @newrelic ||= Dashboard::NewrelicConfiguration.last
   end
 end

@@ -1,7 +1,7 @@
 
 module Dupondius; module Aws; module CloudFormation
 
-  ENVIRONMENTS = [:ci, :dev, :canary, :qa, :staging, :production]
+  ENVIRONMENTS = [:ci, :dev, :canary, :qa, :performance, :production]
 
   REGIONS = {
      'us-east-1' =>  {name: 'US East (Virginia)', endpoint: 'cloudformation.us-east-1.amazonaws.com'},

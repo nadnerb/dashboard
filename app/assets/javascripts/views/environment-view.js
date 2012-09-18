@@ -96,7 +96,7 @@ define([
         remove: function () {
             if (confirm("Are you sure you want to remove this environment?")) {
                 this.fadeOut();
-                var stack = new Stack({id: this.model.get('tags')['aws:cloudformation:stack-name']}});
+                var stack = new Stack({id: this.model.get('tags')['aws:cloudformation:stack-name']});
                 stack.destroy();
             }
 

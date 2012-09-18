@@ -139,7 +139,8 @@ define([
                     attrs['UniqueName'] = this.$('#UniqueName').val();
                 }
 
-                this.model.save(attrs);
+                this.model.set({parameters: attrs}, {silent: true});
+                this.model.save();
             }
 
             return false;

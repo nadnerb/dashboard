@@ -186,6 +186,16 @@
           "    --secret-key n/je/rv5XRcvm8Z7PI7Tj2nge+R9me0IAuveUxB5",
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
 
+          "# Tools to support automated DNS update using Route53\n",
+          "easy_install  -U boto\n",
+          "easy_install  -U argparse\n",
+          "easy_install  -U dnspython\n",
+          "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
+
+          "#add new relic server monitoring\n",
+          "rpm -uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
+          "yum install newrelic-sysmond\n",
+
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Jenkins CI application setup\" '", { "Ref" : "WaitHandle" }, "'\n"
         ]]}}

@@ -28,10 +28,10 @@ module Dupondius; module Aws; module CloudFormation
   class Stack
 
     TEMPLATES = [
-      {id: 1, name: 'Rails Single Instance', template: 'rails_single_instance'},
-      {id: 2, name: 'Rails Single Instance with MySQL RDS Instance', template: 'rails_single_instance_with_rds'},
-      {id: 3, name: 'Jenkins CI', template: 'ci'},
-      {id: 4, name: 'Grails Single Instance', template: 'grails_single_instance'},
+      {id: 'rails_single_instance', name: 'Rails Single Instance' },
+      {id: 'rails_single_instance_with_rds', name: 'Rails Single Instance with MySQL RDS Instance' },
+      {id: 'ci', name: 'Jenkins CI'},
+      {id: 'grails_single_instance', name: 'Grails Single Instance'}
     ]
 
     def initialize subject
@@ -56,20 +56,18 @@ module Dupondius; module Aws; module CloudFormation
                         KeyName: Dupondius.config.key_name}.merge(parameters))
     end
 
-    def self.validate_template id
-      Dupondius::Aws::CloudFormation.access.validate_template(load_template(lookup_template_name(id)))
+    def self.validate_template template_name
+      Dupondius::Aws::CloudFormation.access.validate_template(load_template(template_name))
     end
 
     def self.template_params template_name
-      Dupondius::Aws::CloudFormation.access.validate_template(load_template(template_name))[:parameters].collect { |p| p[:parameter_key] }
+      params = Dupondius::Aws::CloudFormation.access.validate_template(load_template(template_name))[:parameters].collect do |p|
+        p[:parameter_key]
+      end
     end
 
     def self.load_template template_name
       File.open(File.expand_path(File.join( File.dirname(__FILE__), '..', 'aws', 'templates', "#{template_name}.template")), 'rb').read
-    end
-
-    def self.lookup_template_name id
-      TEMPLATES.detect { |t| t[:id] = id }[:template]
     end
 
     def template_name
@@ -88,9 +86,12 @@ module Dupondius; module Aws; module CloudFormation
       result = {}
       AWS.memoize do
         result = [:name, :description, :status, :creation_time, :last_updated_time,
-         :description, :parameters].inject({}) do |result, attribute|
+         :description, :parameters, :template_name].inject({}) do |result, attribute|
             result[attribute] = self.send(attribute)
             result
+        end
+        result[:parameters].reject! do |p, v|
+          ['ProjectName', 'HostedZone', 'AwsAccessKey', 'AwsSecretAccessKey', 'KeyName'].include? p
         end
         result[:resource_summaries] = self.resource_summaries.collect do |r|
           resource = [:resource_type, :logical_resource_id].inject({}) do |h, a|

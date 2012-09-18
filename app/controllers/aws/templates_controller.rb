@@ -8,7 +8,7 @@ class Aws::TemplatesController < ApplicationController
   end
 
   def show
-    template = Dupondius::Aws::CloudFormation::Stack.validate_template(params[:id].to_i)
+    template = Dupondius::Aws::CloudFormation::Stack.validate_template(params[:id])
     template[:parameters].reject! do |p|
       ['ProjectName', 'HostedZone', 'AwsAccessKey', 'AwsSecretAccessKey', 'KeyName'].include? p[:parameter_key]
     end

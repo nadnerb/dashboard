@@ -18,7 +18,7 @@ class Aws::StacksController < ApplicationController
 
   def update
     stack = Dupondius::Aws::CloudFormation::Stack.find(params[:id])
-    stack.update(params[:stack])
+    stack.update(params[:parameters])
     respond_with(stack)
   end
 
@@ -34,6 +34,11 @@ class Aws::StacksController < ApplicationController
                                                      full_name,
                                                      Dupondius.config.project_name,
                                                      stack_params)
+    render :nothing => true, :status => 200
+  end
+
+  def destroy
+    Dupondius::Aws::CloudFormation::Stack.find(params[:id]).delete
     render :nothing => true, :status => 200
   end
 

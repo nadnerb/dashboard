@@ -21,7 +21,7 @@ Dashboard::Application.routes.draw do
   end
 
   namespace :aws do
-    resources :templates, :only => [:index, :show]
+    resources :templates, :only => [:index, :show], :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/ }
     resources :stacks, :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/ },
         :only => [:index, :show, :update, :create] do
       get :available, :on => :collection

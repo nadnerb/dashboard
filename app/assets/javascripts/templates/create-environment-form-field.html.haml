@@ -19,5 +19,7 @@
                     %option{value: 'cc1.4xlarge'} cc1.4xlarge 
                     %option{value: 'cc1.8xlarge'} cc1.8xlarge 
                     %option{value: 'cg1.4xlarge'} cg1.4xlarge
+            - else if (parameter_key === 'TemplateName') {
+                %input{type: 'text', disabled: 'disabled', id: parameter_key}
             - else {
                 %input{type: 'text', id: parameter_key, placeholder: description}

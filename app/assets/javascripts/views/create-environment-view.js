@@ -20,7 +20,14 @@ define([
 
             this.model = new Stack();
             this.bindTo(this.model, 'change', function () {
-                this.populateForm();
+                if (!this.stackTemplate) {
+                    this.stackTemplate = new StackTemplate({ id: this.model.get('template_name') });
+                    this.bindTo(this.stackTemplate, 'change', function () {
+                        this.renderFormFromTemplate();
+                        this.populateForm();
+                    });
+                    this.stackTemplate.fetch();
+                }
             });
 
             this.bindTo(this.model, 'error', function (model, errors) {
@@ -52,14 +59,21 @@ define([
         renderFormFromTemplate: function () {
             this.$('.form-horizontal').empty();
 
-            if (this.options.name === undefined) { // yeh...i know...
-                this.options.name = 'dev'
-            }
+            // if (this.options.name === undefined) { // yeh...i know...
+            //     this.options.name = 'dev'
+            // }
 
             if (this.options.name === 'dev') { 
                 var formField = haml.compileHaml({source: formFieldTemplate})({
                     parameter_key: 'UniqueName',
                     description: 'Unique name'
+                });
+                this.$('.form-horizontal').append(formField);
+            }
+
+            if (!this.model.isNew()) {
+                var formField = haml.compileHaml({source: formFieldTemplate})({
+                    parameter_key: 'TemplateName'
                 });
                 this.$('.form-horizontal').append(formField);
             }
@@ -87,6 +101,8 @@ define([
         },
 
         populateForm: function () {
+            this.$('#TemplateName').val(this.model.get('template_name'));
+
             _(this.model.get('parameters')).each(function (value, key) {
                 this.$('#' + key).val(value);
             }, this);  
@@ -99,9 +115,9 @@ define([
             this.$('.control-group .controls .help-inline').remove();
 
             _(errors).each(function (error) {
-                var $controlGroup = this.$('#' + error).closest('.control-group');
+                var $controlGroup = this.$('#' + error.field).closest('.control-group');
                 $controlGroup.addClass('error');
-                $controlGroup.find('.controls').append(this.make('span', {'class': 'help-inline'}, 'Required')); 
+                $controlGroup.find('.controls').append(this.make('span', {'class': 'help-inline'}, error.message)); 
             }, this);
         },
 
@@ -123,7 +139,8 @@ define([
                     attrs['UniqueName'] = this.$('#UniqueName').val();
                 }
 
-                this.model.save(attrs);
+                this.model.set({parameters: attrs}, {silent: true});
+                this.model.save();
             }
 
             return false;

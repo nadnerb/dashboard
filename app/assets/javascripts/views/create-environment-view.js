@@ -115,9 +115,9 @@ define([
             this.$('.control-group .controls .help-inline').remove();
 
             _(errors).each(function (error) {
-                var $controlGroup = this.$('#' + error).closest('.control-group');
+                var $controlGroup = this.$('#' + error.field).closest('.control-group');
                 $controlGroup.addClass('error');
-                $controlGroup.find('.controls').append(this.make('span', {'class': 'help-inline'}, 'Required')); 
+                $controlGroup.find('.controls').append(this.make('span', {'class': 'help-inline'}, error.message)); 
             }, this);
         },
 

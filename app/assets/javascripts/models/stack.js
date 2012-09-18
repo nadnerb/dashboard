@@ -9,7 +9,10 @@ define([
 
             _(attrs).each(function (value, field) {
                 if (value === '') {
-                    errors.push(field);
+                    errors.push({
+                        field: field,
+                        message: 'Required'
+                    });
                 }
             });
 

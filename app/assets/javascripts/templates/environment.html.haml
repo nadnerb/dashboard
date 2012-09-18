@@ -11,6 +11,8 @@
             %dd.status = model.status
             %dt Size:
             %dd.size = model.instance_type
+            %dt Cost:
+            %dd.size = model.cost
     %div.environment-actions
         - if (model.tags['dupondius:environment'] === 'dev') {
             %button.create.btn.btn-large.btn-primary Create Environment

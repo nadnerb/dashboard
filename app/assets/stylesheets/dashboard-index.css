@@ -1,0 +1,8 @@
+#total-cost-widget-wrapper {
+    width: 200px;
+}
+
+#total-cost-widget {
+    min-height: 0 !important;
+    height: 110px;
+}

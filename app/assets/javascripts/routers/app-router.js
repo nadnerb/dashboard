@@ -40,7 +40,9 @@ define([
         },
 
         index: function () {
-            this.dashboard.apply(new IndexView());
+            var view = new IndexView();
+            this.dashboard.apply(view);
+            view.spinner();
         },
 
         performance: function () {

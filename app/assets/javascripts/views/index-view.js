@@ -1,51 +1,44 @@
 define([
+    'vendor/base',
     'views/widget-view',
-    'text!templates/index.html.haml',
-    'collections/ec2-instances'
-], function (WidgetView, template, InstancesCollection) {
-    return WidgetView.extend({
+    'models/cost',
+    'text!templates/total-cost.html.haml',
+    'text!templates/index.html.haml'
+], function (BackboneSuperView, WidgetView, Cost, totalCostTemplate, template) {
+    return BackboneSuperView.extend({
 
-      id: 'index-view',
+        id: 'index-view',
 
-      template: template,
+        template: template,
 
-      initialize: function (options) {
-          this.collection = new InstancesCollection();
-          this.bindTo(this.collection, 'reset', function () {
-              this.renderEnvironment();
-          });
-          WidgetView.prototype.initialize.call(this, {heading: 'Your Environment'});
-      },
+        totalCostView: null,
 
-      postRender: function () {
-          WidgetView.prototype.postRender.call(this);
-//          spinner('spinner', 16, 15, 15, 3, '#fff');
-          this.collection.fetch();
-      },
+        initialize: function (options) {
+            this.costModel = new Cost();
+            this.bindTo(this.costModel, 'change', function () {
+                this.renderTotalCost();
+            });
+            this.costModel.fetch();
+        },
 
-      renderEnvironment: function () {
-          this.collection.each(function (instance) {
-            this.$('.widget-content ul').append("<li>" + instance.get('name') + " (" + instance.get('instance_name') + ")</li>");
-            this.$('.widget-content .accordion').append(
-              '<div class="accordion-group">' +
-                  '<div class="accordion-heading">' +
-                    '<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#' + instance.get('id') + '">' +
-                      instance.get('name') +
-                    '</a>' +
-                  '</div>' +
-                  '<div id="' + instance.get('id') + '" class="accordion-body collapse">' +
-                    '<div class="accordion-inner">' +
-                      instance.get('instance_name') +
-                    '</div>' +
-                  '</div>' +
-                '</div>' +
-              '</div>');
-          });
-      },
+        postRender: function () {
+            this.totalCostView = new WidgetView({
+                 heading: 'Total Cost',
+                 contentId: 'total-cost-widget'
+            }).render();
+            this.totalCostView.append('<div id="loading-total-cost"></div>');
+            this.$el.append(this.totalCostView.el);
+        },
 
-      destroy: function () {
-          WidgetView.prototype.destroy.call(this);
-      }
+        spinner: function () {
+            if (this.totalCostView.$('#loading-total-cost svg').length === 0) {
+                spinner('loading-total-cost', 50, 45, 15, 3, '#888');
+            }
+        },
 
+        renderTotalCost: function () {
+            this.totalCostView.empty();
+            this.totalCostView.appendTemplate(totalCostTemplate, this.costModel);
+        }
     });
 });

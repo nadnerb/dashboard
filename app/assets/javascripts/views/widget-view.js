@@ -14,6 +14,7 @@ define([
         },
 
         postRender: function () {
+            this.$el.attr('id', this.options.contentId + '-wrapper');
             this.$('.widget-content').attr('id', this.options.contentId);
         },
 
@@ -21,8 +22,13 @@ define([
             this.$('.widget-content').append(content);
         },
 
-        appendTemplate: function (content) {
-            this.append(haml.compileHaml({source: content})());
+        appendTemplate: function (content, model) {
+            var obj;
+            if (model) {
+                obj = model.toJSON();
+            }
+
+            this.append(haml.compileHaml({source: content})(obj));
         },
 
         empty: function () {

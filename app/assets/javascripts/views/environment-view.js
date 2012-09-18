@@ -104,7 +104,7 @@ define([
 
         create: function () {
             this.view = new CreateEnvironmentView({name: this.model.get('name')}).render();
-            this.bindTo(this.view.model, 'success error', function () {
+            this.bindTo(this.view.model, 'success', function () {
                 this.view.hide();
                 this.fadeOut();
                 this.keepChecking();
@@ -118,7 +118,7 @@ define([
             this.view = new CreateEnvironmentView().render();
             this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']}, {silent: true});
             this.view.model.fetch();
-            this.bindTo(this.view.model, 'success error', function () {
+            this.bindTo(this.view.model, 'success', function () {
                 this.view.hide();
                 this.fadeOut();
                 this.keepChecking();

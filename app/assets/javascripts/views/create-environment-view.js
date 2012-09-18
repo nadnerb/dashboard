@@ -23,11 +23,17 @@ define([
                 this.populateForm();
             });
 
-            this.stackTemplates = new StackTemplates();
-            this.bindTo(this.stackTemplates, 'reset', function () {
-                this.renderStackTemplates();
+            this.bindTo(this.model, 'error', function (model, errors) {
+                this.populateFormWithErrors(errors);
             });
-            this.stackTemplates.fetch();
+
+            if (options && options.name !== undefined) {
+                this.stackTemplates = new StackTemplates();
+                this.bindTo(this.stackTemplates, 'reset', function () {
+                    this.renderStackTemplates();
+                });
+                this.stackTemplates.fetch();
+            }
         },
 
         serialize: function () {
@@ -86,6 +92,17 @@ define([
             }, this);  
 
             this.fadeIn();
+        },
+
+        populateFormWithErrors: function (errors) {
+            this.$('.control-group').removeClass('error');
+            this.$('.control-group .controls .help-inline').remove();
+
+            _(errors).each(function (error) {
+                var $controlGroup = this.$('#' + error).closest('.control-group');
+                $controlGroup.addClass('error');
+                $controlGroup.find('.controls').append(this.make('span', {'class': 'help-inline'}, 'Required')); 
+            }, this);
         },
 
         confirm: function () {

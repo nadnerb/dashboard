@@ -1,12 +1,13 @@
 define([
     'vendor/base',
     'models/instance',
+    'models/stack',
     'views/create-environment-view',
     'views/instances-view',
     'text!templates/create_environment.html.haml',
     'text!templates/available_environment.html.haml',
     'text!templates/environment.html.haml'
-], function (BackboneSuperView, Instance, CreateEnvironmentView, InstancesView, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
+], function (BackboneSuperView, Instance, Stack, CreateEnvironmentView, InstancesView, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
     return BackboneSuperView.extend({
 
         events: {
@@ -93,7 +94,12 @@ define([
         },
 
         remove: function () {
-            this.handleAction('remove', 'terminate');
+            if (confirm("Are you sure you want to remove this environment?")) {
+                this.fadeOut();
+                var stack = new Stack({id: this.model.get('tags')['aws:cloudformation:stack-name']}});
+                stack.destroy();
+            }
+
             return false;
         },
 

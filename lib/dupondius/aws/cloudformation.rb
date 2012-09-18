@@ -30,7 +30,8 @@ module Dupondius; module Aws; module CloudFormation
     TEMPLATES = [
       {id: 1, name: 'Rails Single Instance', template: 'rails_single_instance'},
       {id: 2, name: 'Rails Single Instance with MySQL RDS Instance', template: 'rails_single_instance_with_rds'},
-      {id: 3, name: 'Jenkins CI', template: 'ci'}
+      {id: 3, name: 'Jenkins CI', template: 'ci'},
+      {id: 4, name: 'Grails Single Instance', template: 'grails_single_instance'},
     ]
 
     def initialize subject

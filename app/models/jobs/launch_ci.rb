@@ -25,9 +25,8 @@ class Jobs::LaunchCi
         InstanceType: 'm1.small',
         ProjectGithubUser: user.to_s,
         ProjectType: tech_stack,
-        AccessKey: string_value(params[:project][:aws][:accessKey], Dupondius.config.access_key),
-        SecretAccessKey: encrypt(string_value(params[:project][:aws][:secretAccessKey], Dupondius.config.secret_access_key)),
-        PrivateKey: encrypt(string_value(params[:project][:aws][:privateKey], PKEY))
+        SecretAccessKeyEnc: encrypt(string_value(params[:project][:aws][:secretAccessKey], Dupondius.config.secret_access_key)),
+        PrivateKeyEnc: encrypt(string_value(params[:project][:aws][:privateKey], PKEY))
     }
     Dupondius::Aws::CloudFormation::ContinuousIntegration.create(@project.name, tech_stack, options)
   end
@@ -53,10 +52,9 @@ class Jobs::LaunchCi
       aes.encrypt
       aes.key = key
       encrypted_data << aes.update(block)
-#      encrypted_data << aes.final if block.length < 16
     end
-    encrypted_data << aes.final #if block.length < 16
-    result = Base64.encode64(encrypted_data.join).gsub(/\n/, '') #.gsub(/\\/, '\\').gsub(/\//, '\/')
+    encrypted_data << aes.final
+    result = Base64.encode64(encrypted_data.join).gsub(/\n/, '').gsub(/\\/, '\\').gsub(/\//, '\/')
     Rails.logger.info "ENCRYPT: #{data} --> #{result}"
     result
   end

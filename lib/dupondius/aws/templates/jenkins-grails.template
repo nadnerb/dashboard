@@ -29,15 +29,19 @@
       "Type" : "String",
       "Default" : "grails"
     },
-    "AccessKey" : {
+    "AwsAccessKey" : {
       "Description" : "The AWS Access Key",
       "Type" : "String"
     },
-    "SecretAccessKey" : {
+    "AwsSecretAccessKey" : {
       "Description" : "The AWS Secret acess key",
       "Type" : "String"
     },
-    "PrivateKey" : {
+    "SecretAccessKeyEnc" : {
+      "Description" : "The AWS Secret acess key (encrypted)",
+      "Type" : "String"
+    },
+    "PrivateKeyEnc" : {
       "Description" : "The private key of a key pair stored in EC2",
       "Type" : "String"
     },
@@ -90,8 +94,21 @@
                 "make"         : [],
                 "ruby-devel"   : [],
                 "rubygems"     : [],
-                "Xvfb"         : [],
                 "git.x86_64"   : []
+              }
+            },
+            "files" : {
+              "/usr/local/bin/cli53" : {
+                "source" : "https://raw.github.com/barnybug/cli53/master/scripts/cli53",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
+              "/usr/sbin/update-route53-dns" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/update-route53-dns",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
               }
             },
             "services" : {
@@ -135,7 +152,7 @@
           "# Install Jenkins\n",
           "wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo\n",
           "rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key\n",
-          "yum install -y jenkins git\n",
+          "yum install -y jenkins git Xvfb\n",
 
           "service jenkins stop\n",
           "mkdir -p /var/lib/jenkins/\n",
@@ -147,10 +164,10 @@
           "sed -i 's/\\(<hudsonUrl>\\).*\\(<\\/hudsonUrl>\\)/\\1http:\\/\\/ci.", { "Ref" : "ProjectName" }, ".dupondi.us:8080\\/\\2/' hudson.tasks.Mailer.xml\n",
           "sed -i 's/\\(<projectUrl>\\).*\\(<\\/projectUrl>\\)/\\1https:\\/\\/github.com\\/", { "Ref" : "ProjectGithubUser" }, "\\/", { "Ref" : "ProjectName" } ,"\\2/' jobs/*/config.xml\n",
           "sed -i 's/\\(<url>git@github.com:\\).*\\(<\\/url>\\)/\\1", { "Ref" : "ProjectGithubUser" } ,"\\/", { "Ref" : "ProjectName" } ,".git\\2/' jobs/*/config.xml\n",
-          "sed -i 's/\\(curl http:\\/\\/[^.]*\\.\\).*\\(\\.dupondi\\.us\\/status\\/heart_beat\\)/\\1", { "Ref" : "ProjectName" } ,"\\2/' jobs/*/config.xml\n",
-          "sed -i 's/\\(<accessId>\\).*\\(<\\/accessId>\\)/\\1", { "Ref" : "AccessKey" }, "\\2/' config.xml\n",
-          "sed -i 's/\\(<secretKey>\\).*\\(<\\/secretKey>\\)/\\1", { "Ref" : "SecretAccessKey" }, "\\2/' config.xml\n",
-          "sed -i 's/\\(<privateKey>\\).*\\(<\\/privateKey>\\)/\\1", { "Ref" : "PrivateKey" }, "\\2/' config.xml\n",
+          "sed -i 's/\\(http:\\/\\/[^.]*\\.\\).*\\(\\.dupondi\\.us\\)/\\1", { "Ref" : "ProjectName" } ,"\\2/' jobs/*/config.xml\n",
+          "sed -i 's/\\(<accessId>\\).*\\(<\\/accessId>\\)/\\1", { "Ref" : "AwsAccessKey" }, "\\2/' config.xml\n",
+          "sed -i 's/\\(<secretKey>\\).*\\(<\\/secretKey>\\)/\\1", { "Ref" : "SecretAccessKeyEnc" }, "\\2/' config.xml\n",
+          "sed -i 's/\\(<privateKey>\\).*\\(<\\/privateKey>\\)/\\1", { "Ref" : "PrivateKeyEnc" }, "\\2/' config.xml\n",
           "chown -R jenkins:jenkins /var/lib/jenkins\n",
           "cd -\n",
 

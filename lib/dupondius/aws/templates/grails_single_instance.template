@@ -96,6 +96,18 @@
               }
             },
             "files" : {
+              "/usr/local/bin/cli53" : {
+                "source" : "https://raw.github.com/barnybug/cli53/master/scripts/cli53",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
+              "/usr/sbin/update-route53-dns" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/update-route53-dns",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
               "/etc/tomcat7/tomcat7.conf" : {
                 "content" : { "Fn::Join" : ["", [
                    "# System-wide configuration file for tomcat services\n",

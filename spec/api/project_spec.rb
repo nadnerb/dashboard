@@ -24,7 +24,7 @@ describe "project", :type => :api do
     end
 
     it "unsuccessful as JSON" do
-      post "#{url}.json", :project => {:github => :what}
+      post "#{url}.json", :project => {:github_account => :what}
 
       last_response.status.should eql(422)
       errors = {"errors" => {"name" => ["can't be blank"]}}.to_json

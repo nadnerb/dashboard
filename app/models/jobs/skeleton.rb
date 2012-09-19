@@ -7,7 +7,6 @@ class Jobs::Skeleton
   end
 
   def run
-    p project
     project.tech_stack == 'Grails' ? Jobs::GrailsSkeleton.new(project, resting_place).run : Jobs::RailsSkeleton.new(project, resting_place).run
     Jobs::GithubCreate.new(project.id, resting_place).run
   end

@@ -12,7 +12,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    project = Project.create(params[:project].except(:github, :support, :environments, :aws))
+    project = Project.create(params[:project].except(:support, :environments, :aws))
     Jobs::Skeleton.new(project.id).run if Rails.configuration.launchpad_jobs
     if Rails.configuration.aws_enabled
       Jobs::LaunchCi.new(project, params).run

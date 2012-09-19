@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :name, :token, :tech_stack, :region
+  attr_accessible :name, :token, :tech_stack, :region, :github_account, :github_project
 
   validates_presence_of :name
 

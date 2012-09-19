@@ -239,7 +239,8 @@ $(document).ready(function () {
         var data = {project: {
             name: $('#application-name').val(),
             token: $('#application-token').val(),
-            github: $('#application-name').val().replace(/[^\w\s]/gi, '').replace(/ /g, '_'),
+            github_account: $('#github-account').val(),
+            github_project: $('#application-name').val().replace(/[^\w\s]/gi, '').replace(/ /g, '_'),
             tech_stack: $('#tech-stack').selectableGrid().selected().text().trim(),
             region: $('#aws-region').val(),
             support: support,

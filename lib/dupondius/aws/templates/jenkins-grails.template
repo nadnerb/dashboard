@@ -92,7 +92,8 @@
               "yum" : {
                 "gcc-c++"      : [],
                 "make"         : [],
-                "ruby-devel"   : [],
+                "java-1.6.0-openjdk"   : [],
+                "java-1.6.0-openjdk-devel"   : [],
                 "rubygems"     : [],
                 "git.x86_64"   : []
               }
@@ -129,6 +130,9 @@
                           { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
         "InstanceType"   : { "Ref" : "InstanceType" },
         "SecurityGroups" : [ {"Ref" : "FrontendGroup"} ],
+        "Tags" : [ {"Key" : "dupondius:project", "Value" : { "Ref" : "ProjectName"} },
+                   {"Key" : "dupondius:environment", "Value" : "ci" }
+                 ],
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
           "yum update -y aws-cfn-bootstrap\n",
@@ -155,12 +159,11 @@
           "yum install -y jenkins git Xvfb\n",
 
           "service jenkins stop\n",
-          "mkdir -p /var/lib/jenkins/\n",
-          "rm -rf /var/lib/jenkins/*\n",
+
           "mkdir -p /var/lib/jenkins/.ssh\n",
-          "echo '|1|S9OzrsLIsEmPGfAFSXPYP/zdSzI=|n2DBnWINeDk/NV8KMgDhSwp8CDI= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' > /var/lib/jenkins/.ssh/known_hosts\n",
+          "cp /home/deployer/.ssh/id_rsa /var/lib/jenkins/.ssh\n",
           "chown -R jenkins:jenkins /var/lib/jenkins/.ssh\n",
-          "chmod 600 /var/lib/jenkins/.ssh/id_rsa\n",
+          "sudo -u jenkins ssh -o StrictHostKeyChecking=no git@github.com\n",
           "su - deployer -c \"git clone -n --depth 1 git@github.com:uglyog/jenkins-config.git /var/tmp/git-tmp\"\n",
           "mv /var/tmp/git-tmp/.git /var/lib/jenkins/\n",
           "cd /var/lib/jenkins/\n",
@@ -169,6 +172,7 @@
           "sed -i 's/\\(<projectUrl>\\).*\\(<\\/projectUrl>\\)/\\1https:\\/\\/github.com\\/", { "Ref" : "ProjectGithubUser" }, "\\/", { "Ref" : "ProjectName" } ,"\\2/' jobs/*/config.xml\n",
           "sed -i 's/\\(<url>git@github.com:\\).*\\(<\\/url>\\)/\\1", { "Ref" : "ProjectGithubUser" } ,"\\/", { "Ref" : "ProjectName" } ,".git\\2/' jobs/*/config.xml\n",
           "sed -i 's/\\([^.]*\\.\\).*\\(\\.dupondi\\.us\\)/\\1", { "Ref" : "ProjectName" } ,"\\2/' jobs/*/config.xml\n",
+          "sed -i 's/dupondius-grails-skeleton/", { "Ref" : "ProjectName" } ,"/' jobs/*/config.xml\n",
           "sed -i 's/\\(<accessId>\\).*\\(<\\/accessId>\\)/\\1", { "Ref" : "AwsAccessKey" }, "\\2/' config.xml\n",
           "sed -i 's/\\(<secretKey>\\).*\\(<\\/secretKey>\\)/\\1", { "Ref" : "SecretAccessKeyEnc" }, "\\2/' config.xml\n",
           "sed -i 's/\\(<privateKey>\\).*\\(<\\/privateKey>\\)/\\1", { "Ref" : "PrivateKeyEnc" }, "\\2/' config.xml\n",

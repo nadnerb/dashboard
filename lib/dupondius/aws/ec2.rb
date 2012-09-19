@@ -31,9 +31,13 @@ module Dupondius; module Aws; module Ec2
     end
 
     def cost multiplier = 1
-      AWS.memoize do
-        platform = self.platform ? self.platform : 'linux'
-        Dupondius::Aws::Ec2.cost_table[Dupondius.config.aws_region][platform][self.instance_type].to_f * multiplier
+      if self.status == :running
+        AWS.memoize do
+          platform = self.platform ? self.platform : 'linux'
+          Dupondius::Aws::Ec2.cost_table[Dupondius.config.aws_region][platform][self.instance_type].to_f * multiplier
+        end
+      else
+        0.0
       end
     end
     def as_json options = {}

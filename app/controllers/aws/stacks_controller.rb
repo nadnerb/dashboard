@@ -23,17 +23,13 @@ class Aws::StacksController < ApplicationController
   end
 
   def create
-    #TODO: Stop the ui from passing 'random' in the payload
-    stack_params = params[:stack]
-    stack_params.delete('random')
-
-    full_name = stack_params[:EnvironmentName]
+    full_name = params[:parameters][:EnvironmentName]
     full_name.concat("-#{stack_params[:UniqueName]}") if stack_params[:EnvironmentName] == 'dev'
     stack_params.delete(:UniqueName)
     result = Dupondius::Aws::CloudFormation::Stack.create('rails_single_instance',
                                                      full_name,
                                                      Dupondius.config.project_name,
-                                                     stack_params)
+                                                     params[:parameters])
     render :nothing => true, :status => 200
   end
 

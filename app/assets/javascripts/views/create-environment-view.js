@@ -63,7 +63,7 @@ define([
             //     this.options.name = 'dev'
             // }
 
-            if (this.options.name === 'dev') { 
+            if (this.options.name === 'dev') {
                 var formField = haml.compileHaml({source: formFieldTemplate})({
                     parameter_key: 'UniqueName',
                     description: 'Unique name'
@@ -105,7 +105,7 @@ define([
 
             _(this.model.get('parameters')).each(function (value, key) {
                 this.$('#' + key).val(value);
-            }, this);  
+            }, this);
 
             this.fadeIn();
         },
@@ -117,7 +117,7 @@ define([
             _(errors).each(function (error) {
                 var $controlGroup = this.$('#' + error.field).closest('.control-group');
                 $controlGroup.addClass('error');
-                $controlGroup.find('.controls').append(this.make('span', {'class': 'help-inline'}, error.message)); 
+                $controlGroup.find('.controls').append(this.make('span', {'class': 'help-inline'}, error.message));
             }, this);
         },
 
@@ -139,6 +139,7 @@ define([
                     attrs['UniqueName'] = this.$('#UniqueName').val();
                 }
 
+                this.model.set({templateName: this.stackTemplate.get('id')}, {silent: true});
                 this.model.set({parameters: attrs}, {silent: true});
                 this.model.save();
             }

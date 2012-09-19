@@ -20,7 +20,7 @@ module Dupondius; module Aws; module CloudFormation
   end
 
   def self.summaries project_name= Dupondius.config.project_name, status = :create_complete
-    Dupondius::Aws::CloudFormation.access.stack_summaries.with_status(status).select do |s|
+    Dupondius::Aws::CloudFormation.access.stack_summaries.select do |s|
       s if s[:stack_name] =~ /.*#{project_name}$/
     end
   end
@@ -30,6 +30,7 @@ module Dupondius; module Aws; module CloudFormation
     TEMPLATES = [
       {id: 'rails_single_instance', name: 'Rails Single Instance' },
       {id: 'rails_single_instance_with_rds', name: 'Rails Single Instance with MySQL RDS Instance' },
+      {id: 'rails_multi_az', name: 'Create a highly available, scalable Ruby on Rails stack' },
       {id: 'ci', name: 'Jenkins CI'},
       {id: 'grails_single_instance', name: 'Grails Single Instance'}
     ]

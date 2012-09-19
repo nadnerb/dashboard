@@ -26,7 +26,7 @@ class Aws::StacksController < ApplicationController
     full_name = params[:parameters][:EnvironmentName]
     full_name.concat("-#{params[:parameters][:UniqueName]}") if params[:parameters][:EnvironmentName] == 'dev'
     params[:parameters].delete(:UniqueName)
-    result = Dupondius::Aws::CloudFormation::Stack.create('rails_single_instance',
+    result = Dupondius::Aws::CloudFormation::Stack.create(params[:templateName],
                                                      full_name,
                                                      Dupondius.config.project_name,
                                                      params[:parameters])

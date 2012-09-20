@@ -1,5 +1,6 @@
 %div.environment-heading
-    %h3 = model.tags['dupondius:environment']
+    %button.info.btn.btn-small.btn-info Info
+    %a.environment-name{href: 'http://' + model.tags['dupondius:environment'] + '.' + model.tags['dupondius:project'] + '.dupondi.us/'}= model.tags['dupondius:environment']
 %div{id: "loading-" + model.tags['dupondius:environment'], class: 'environment-loading'}
 %div.environment-information.hidden
     %dl.dl-horizontal

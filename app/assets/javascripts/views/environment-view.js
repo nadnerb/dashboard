@@ -3,11 +3,12 @@ define([
     'models/instance',
     'models/stack',
     'views/create-environment-view',
+    'views/show-environment-view',
     'views/instances-view',
     'text!templates/create_environment.html.haml',
     'text!templates/available_environment.html.haml',
     'text!templates/environment.html.haml'
-], function (BackboneSuperView, Instance, Stack, CreateEnvironmentView, InstancesView, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
+], function (BackboneSuperView, Instance, Stack, CreateEnvironmentView, ShowEnvironmentView, InstancesView, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
     return BackboneSuperView.extend({
 
         events: {
@@ -17,7 +18,8 @@ define([
             'click .create': 'create',
             'click .edit': 'edit',
             'click .reboot': 'reboot',
-            'click .instances': 'instances'
+            'click .instances': 'instances',
+            'click .info': 'info'
         },
 
         className: 'environment span4',
@@ -39,7 +41,7 @@ define([
             if (instances !== undefined) {
                 instances = instances.toJSON();
             }
-            
+
             return {
                 model: this.model.toJSON(),
                 instances: instances
@@ -120,6 +122,23 @@ define([
             return false;
         },
 
+        info: function () {
+            this.view = new ShowEnvironmentView().render();
+            this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']}, {silent: true});
+            this.view.model.fetch();
+            this.bindTo(this.view.model, 'success', function () {
+                this.view.hide();
+                this.fadeOut();
+            });
+
+            this.view.show();
+            var self = this;
+            setTimeout(function () {
+                self.view.spinner();
+            }, 300);
+            return false;
+        },
+
         edit: function () {
             this.view = new CreateEnvironmentView().render();
             this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']}, {silent: true});
@@ -129,7 +148,7 @@ define([
                 this.fadeOut();
                 this.keepChecking();
             });
-            
+
             this.view.show();
             var self = this;
             setTimeout(function () {
@@ -145,7 +164,7 @@ define([
                 this.fadeOut();
                 this.keepChecking();
             });
-            
+
             this.view.show();
             return false;
         },

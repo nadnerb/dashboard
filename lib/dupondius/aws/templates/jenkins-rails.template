@@ -153,22 +153,20 @@
           "chmod 600 /home/deployer/.ssh/id_rsa\n",
           "su - deployer -c \"ssh -o StrictHostKeyChecking=no git@github.com\"\n",
 
-          //"rpm -i http://dl.atrpms.net/el6-x86_64/atrpms/stable/atrpms-repo-6-5.el6.x86_64.rpm\n",
-          //"yum install --enablerepo=atrpms-testing qt47-webkit-devel\n",
-          //"export QMAKE=/usr/bin/qmake-qt47\n",
-
           "# Install Jenkins\n",
           "wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo\n",
           "rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key\n",
-          "yum install -y jenkins git\n",
+          "yum install -y jenkins git Xvfb\n",
 
           "service jenkins stop\n",
           "mkdir -p /var/lib/jenkins/\n",
           "rm -rf /var/lib/jenkins/*\n",
-          "mkdir -p /var/lib/jenkins/.ssh\n",
-          "curl https://s3.amazonaws.com/private_keys/deployer.pem -o /var/lib/jenkins/.ssh/id_rsa\n",
+          "mkdir /var/lib/jenkins/.ssh\n",
+          "cp /home/deployer/.ssh/id_rsa /var/lib/jenkins/.ssh\n",
           "chown -R jenkins:jenkins /var/lib/jenkins/.ssh\n",
           "chmod 600 /var/lib/jenkins/.ssh/id_rsa\n",
+          "sed -i 's/\\(Defaults\\s\\+requiretty\\)/#\\1/' /etc/sudoers\n",
+          "sudo -u jenkins ssh -o StrictHostKeyChecking=no git@github.com\n",
           "su - deployer -c \"git clone -n --depth 1 git@github.com:uglyog/jenkins-config.git /var/tmp/git-tmp\"\n",
           "mv /var/tmp/git-tmp/.git /var/lib/jenkins/\n",
           "cd /var/lib/jenkins/\n",
@@ -185,8 +183,8 @@
 
           "# Install packages\n",
           "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r CIServer ",
-          "    --access-key AKIAIB3JD5B24BFQEDVQ",
-          "    --secret-key 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",
+          "    --access-key ", { "Ref" : "AwsAccessKey" },
+          "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
 
           "# Tools to support automated DNS update using Route53\n",

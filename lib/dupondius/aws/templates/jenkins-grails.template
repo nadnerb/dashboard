@@ -94,7 +94,6 @@
                 "make"         : [],
                 "java-1.6.0-openjdk"   : [],
                 "java-1.6.0-openjdk-devel"   : [],
-                "rubygems"     : [],
                 "git.x86_64"   : []
               }
             },
@@ -159,10 +158,13 @@
           "yum install -y jenkins git Xvfb\n",
 
           "service jenkins stop\n",
-
-          "mkdir -p /var/lib/jenkins/.ssh\n",
+          "mkdir -p /var/lib/jenkins/\n",
+          "rm -rf /var/lib/jenkins/*\n",
+          "mkdir /var/lib/jenkins/.ssh\n",
           "cp /home/deployer/.ssh/id_rsa /var/lib/jenkins/.ssh\n",
           "chown -R jenkins:jenkins /var/lib/jenkins/.ssh\n",
+          "chmod 600 /var/lib/jenkins/.ssh/id_rsa\n",
+          "sed -i 's/\\(Defaults\\s\\+requiretty\\)/#\\1/' /etc/sudoers\n",
           "sudo -u jenkins ssh -o StrictHostKeyChecking=no git@github.com\n",
           "su - deployer -c \"git clone -n --depth 1 git@github.com:uglyog/jenkins-config.git /var/tmp/git-tmp\"\n",
           "mv /var/tmp/git-tmp/.git /var/lib/jenkins/\n",
@@ -176,13 +178,14 @@
           "sed -i 's/\\(<accessId>\\).*\\(<\\/accessId>\\)/\\1", { "Ref" : "AwsAccessKey" }, "\\2/' config.xml\n",
           "sed -i 's/\\(<secretKey>\\).*\\(<\\/secretKey>\\)/\\1", { "Ref" : "SecretAccessKeyEnc" }, "\\2/' config.xml\n",
           "sed -i 's/\\(<privateKey>\\).*\\(<\\/privateKey>\\)/\\1", { "Ref" : "PrivateKeyEnc" }, "\\2/' config.xml\n",
+          "sed -i 's/dupondius-grails-skeleton/", { "Ref" : "ProjectName" } ,"/' jobs/*/config.xml\n",
           "chown -R jenkins:jenkins /var/lib/jenkins\n",
           "cd -\n",
 
           "# Install packages\n",
           "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r CIServer ",
-          "    --access-key AKIAIB3JD5B24BFQEDVQ",
-          "    --secret-key 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",
+          "    --access-key ", { "Ref" : "AwsAccessKey" },
+          "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
 
           "# Tools to support automated DNS update using Route53\n",

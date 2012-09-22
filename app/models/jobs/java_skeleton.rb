@@ -1,4 +1,4 @@
-class Jobs::GrailsSkeleton
+class Jobs::JavaSkeleton
 
   attr_reader :project, :resting_place
 

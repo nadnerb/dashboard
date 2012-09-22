@@ -9,7 +9,6 @@ Dashboard::Application.routes.draw do
   end
 
   match '/dashboard' => 'dashboard#index'
-  match '/dashboard/monkeys_and_bananas' => 'dashboard#monkeys_and_bananas'
 
   namespace :dashboard do
     resource :stories, :only => [:create, :show]
@@ -33,6 +32,9 @@ Dashboard::Application.routes.draw do
   end
   match '/status' => 'status#index'
   match '/status/heart_beat' => 'status#heart_beat'
+
+  match '/launchpad' => 'launchpad#index'
+  resources :projects, :only => [:new, :show, :create]
 
   get "home/index"
 

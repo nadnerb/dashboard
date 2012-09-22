@@ -8,13 +8,9 @@ class Jobs::GrailsSkeleton
   end
 
   def run
-    p "building grails environment: #{resting_place} for project: #{project.name}"
+    p "building java environment: #{resting_place} for project: #{project.name}"
     p `cd #{resting_place};\
-    curl -u 'dupondius:4nalienatemybaby' -L -o grails.tar.gz https://api.github.com/repos/uglyog/dupondius-grails-skeleton/tarball;\
-    tar xfz grails.tar.gz;\
-    mv \`ls -d -- */\` #{project.name};\
-    cd #{project.name};\
-    sed -i "s/\\(app\\.name=\\).*/\\1#{project.name}/" application.properties
+    mvn archetype:generate -B -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-light-wicket-archetype -DarchetypeVersion=2.1.0 -DgroupId=dupondi.us -DartifactId=#{project.name} -DarchetypeRepository=http://oss.sonatype.org/content/repositories/appfuse\
     git init;\
     git add .;\
     git commit -m 'Initial commit'`

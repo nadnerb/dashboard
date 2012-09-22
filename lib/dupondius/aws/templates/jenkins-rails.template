@@ -155,7 +155,7 @@
           "# Install Jenkins\n",
           "wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo\n",
           "rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key\n",
-          "yum install -y jenkins git Xvfb gcc-c++ patch readline readline-devel zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison iconv-devel mysql-devel\n",
+          "yum install -y jenkins git Xvfb gcc-c++ patch readline readline-devel zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison iconv-devel mysql mysql-devel mysql-server\n",
 
           "service jenkins stop\n",
           "mkdir -p /var/lib/jenkins/\n",

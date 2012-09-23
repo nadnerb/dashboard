@@ -68,8 +68,7 @@ define([
             contentId: 'newrelic-widget'
           }).render();
 
-          // i will change this so its an id populating an iframe
-          view.append(this.model.get('iframe'));
+          view.append('<iframe src="' + this.model.get('iframe') + '" width="850" height="300" scrolling="no" frameborder="no"></iframe>');
           view.append('<div><a class="killmenow" href="#">Change Graph</a></div>');
           this.$el.html(view.el);
         },

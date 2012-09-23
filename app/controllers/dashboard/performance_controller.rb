@@ -9,7 +9,7 @@ class Dashboard::PerformanceController < ActionController::Base
   end
 
   def create
-    Dashboard::NewrelicConfiguration.create!(params['performance'])
+    Dashboard::NewrelicConfiguration.create_from_performance_param!(params['performance'])
     respond_with(newrelic, :location => dashboard_performance_path)
   end
 

@@ -9,7 +9,7 @@ end
 default_run_options[:pty] = true
 
 # TODO: application should be set from project_name env var
-set :application, "dashboard"
+set :application, ENV['PROJECT_NAME']
 set :repository,  "git@github.com:nadnerb/dashboard.git"
 set :user, "deployer"  # The server's user for deploys
 set :scm, :git

@@ -21,25 +21,7 @@
    </head>
 <body>
 
-  <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="brand" href="#"><span class="dupon">dupon</span><span class="dius">di.us</span></a>
-          <div class="container-fluid nav-collapse pull-left">
-            <ul class="nav">
-              <li id="nav-application-name"></li>
-              <li id="nav-application-aws"></li>
-              <li id="nav-application-stack"></li>
-              <li id="nav-application-support"></li>
-              <li id="nav-application-envs"></li>
-              <li id="nav-region-selected"></li>
-              <li id="nav-application-github"></li>
-            </ul>
-          </div>
-          <div class="version-label pull-right"><%= Dupondius::Version.version %></div>
-        </div>
-      </div>
-    </div>
+<%= render "shared/empty_nav" %>
 
 <div class="steps">
     <div id="page1" class="page" data-step="true" data-submit="page-one-done" data-next="github-details" data-navigation="nav-application-name">

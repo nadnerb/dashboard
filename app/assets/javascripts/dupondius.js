@@ -134,7 +134,7 @@ $(document).ready(function () {
     $.scrollingWizard([{
         id: '#page1',
         validation: function () {
-            var text = $('#application-name').val();
+            var text = $('#application-name').val().replace(/[^a-zA-z0-9]/g, '_');
 
             if (text === '') {
                 return null;
@@ -174,40 +174,6 @@ $(document).ready(function () {
             return $('#tech-stack').selectableGrid().selected().text().trim() || null;
         }
     },
-    // {
-    //     id: '#page4',
-    //     validation: function () {
-    //         var text = [];
-    //         $('#support-technologies').selectableGrid().selected().each(function (index, element) {
-    //             text.push($(element).text().trim());
-    //         });
-
-    //         if (text.length === 0) {
-    //             return null;
-    //         }
-
-    //         $('#summary-support-technology').text(text.join(', '));
-
-    //         return text.join(', ');
-    //     }
-    // },
-    // {
-    //     id: '#page5',
-    //     validation: function () {
-    //         var text = [];
-    //         $('#envs').selectableGrid().selected().each(function (index, element) {
-    //             text.push($(element).text().trim());
-    //         });
-
-    //         if (text.length === 0) {
-    //             return null;
-    //         }
-
-    //         $('#summary-environments').text(text.join(', '));
-
-    //         return text.join(', ');
-    //     }
-    // },
     {
         id: '#summary',
         validation: function () {

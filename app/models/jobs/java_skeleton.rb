@@ -10,7 +10,8 @@ class Jobs::JavaSkeleton
   def run
     p "building java environment: #{resting_place} for project: #{project.name}"
     p `cd #{resting_place};\
-    mvn archetype:generate -B -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-light-wicket-archetype -DarchetypeVersion=2.1.0 -DgroupId=dupondi.us -DartifactId=#{project.name} -DarchetypeRepository=http://oss.sonatype.org/content/repositories/appfuse\
+    mvn archetype:generate -B -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-spring-archetype -DarchetypeVersion=2.1.1-SNAPSHOT -DgroupId=us.dupondi -DartifactId=#{project.name} -DarchetypeRepository=http://oss.sonatype.org/content/repositories/appfuse;\
+    cd #{project.name};\
     git init;\
     git add .;\
     git commit -m 'Initial commit'`

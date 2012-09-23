@@ -45,6 +45,46 @@
       "Description" : "The private key of a key pair stored in EC2",
       "Type" : "String"
     },
+    "DBName": {
+      "Default": "MyDatabase",
+      "Description" : "MySQL database name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "64",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters.",
+      "Default" : "java"
+    },
+
+    "DBUsername": {
+      "Description" : "Username for MySQL database access",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "16",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters.",
+      "Default" : "java"
+    },
+
+    "DBPassword": {
+      "Description" : "Password MySQL database access",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41",
+      "AllowedPattern" : "[a-zA-Z0-9]*",
+      "ConstraintDescription" : "must contain only alphanumeric characters.",
+      "Default" : "java"
+    },
+
+    "DBRootPassword": {
+      "Description" : "Root password for MySQL",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41",
+      "AllowedPattern" : "[a-zA-Z0-9]*",
+      "ConstraintDescription" : "must contain only alphanumeric characters.",
+      "Default" : "r00tr00t"
+    },
     "HostedZone" : {
       "Description" : "The DNS name of an existing Amazon Route 53 hosted zone",
       "Type" : "String",
@@ -94,7 +134,10 @@
                 "make"         : [],
                 "java-1.6.0-openjdk"   : [],
                 "java-1.6.0-openjdk-devel"   : [],
-                "git.x86_64"   : []
+                "mysql"        : [],
+                "mysql-server" : [],
+                "mysql-devel"  : [],
+                "mysql-libs"   : []
               }
             },
             "files" : {
@@ -109,6 +152,16 @@
                 "mode"   : "000744",
                 "owner"  : "root",
                 "group"  : "root"
+              },
+              "/tmp/setup.mysql" : {
+                "content" : { "Fn::Join" : ["", [
+                  "CREATE USER '", { "Ref" : "DBUsername" }, "'@'localhost' IDENTIFIED BY '", { "Ref" : "DBPassword" }, "';\n",
+                  "GRANT ALL ON ", { "Ref" : "DBName" }, ".* TO '", { "Ref" : "DBUsername" }, "'@'localhost';\n",
+                  "FLUSH PRIVILEGES;\n"
+                    ]]},
+                "mode"  : "000644",
+                "owner" : "root",
+                "group" : "root"
               }
             },
             "services" : {
@@ -116,6 +169,10 @@
                 "jenkins" : {
                   "enabled" : "true",
                   "ensureRunning" : "true"
+                },
+                "mysqld" : {
+                    "enabled"       : "true",
+                    "ensureRunning" : "true"
                 }
               }
             }
@@ -187,6 +244,10 @@
           "    --access-key ", { "Ref" : "AwsAccessKey" },
           "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+
+          "# Setup MySQL root password and create a user\n",
+          "mysqladmin -u root password '", { "Ref" : "DBRootPassword" }, "' || error_exit 'Failed to initialize root password'\n",
+          "mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql || error_exit 'Failed to create database user'\n",
 
           "# Tools to support automated DNS update using Route53\n",
           "easy_install  -U boto\n",

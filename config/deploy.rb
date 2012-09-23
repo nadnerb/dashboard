@@ -61,6 +61,7 @@ namespace :foreman do
       "echo \"LAUNCHPAD_ENABLED=#{ENV['LAUNCHPAD_ENABLED']}\" >> ./tmp/env",
       "echo \"LAUNCHPAD_JOBS=#{ENV['LAUNCHPAD_JOBS']}\" >> ./tmp/env",
       "echo \"AWS_ENABLED=#{ENV['AWS_ENABLED']}\" >> ./tmp/env",
+      "echo \"AWS_REGION=#{ENV['AWS_REGION']}\" >> ./tmp/env",
 
       # Push the database environment variables into the app
       "cat /etc/default/app >> ./tmp/env",

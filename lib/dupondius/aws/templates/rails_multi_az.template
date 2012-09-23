@@ -151,12 +151,12 @@
         } ],
         "Listeners" : [ {
           "LoadBalancerPort" : "80",
-          "InstancePort" : "3000",
+          "InstancePort" : "80",
           "Protocol" : "HTTP",
           "PolicyNames" : [ "CookieBasedPolicy" ]
         } ],
         "HealthCheck" : {
-          "Target" : "HTTP:3000/",
+          "Target" : "HTTP:80/",
           "HealthyThreshold" : "2",
           "UnhealthyThreshold" : "5",
           "Interval" : "10",
@@ -215,33 +215,11 @@
               }
             },
             "files" : {
-              "/usr/local/bin/cli53" : {
-                "source" : "https://raw.github.com/barnybug/cli53/master/scripts/cli53",
-                "mode"   : "000744",
-                "owner"  : "root",
-                "group"  : "root"
-              },
-              "/usr/sbin/update-route53-dns" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/update-route53-dns",
-                "mode"   : "000744",
-                "owner"  : "root",
-                "group"  : "root"
-              },
               "/etc/nginx/nginx.conf" : {
                 "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf",
                 "mode"   : "000644",
                 "owner"  : "root",
                 "group"  : "root"
-              },
-              "/tmp/setup.mysql" : {
-                "content" : { "Fn::Join" : ["", [
-                  "CREATE USER '", { "Ref" : "DBUsername" }, "'@'localhost' IDENTIFIED BY '", { "Ref" : "DBPassword" }, "';\n",
-                  "GRANT ALL ON ", { "Ref" : "DBName" }, ".* TO '", { "Ref" : "DBUsername" }, "'@'localhost';\n",
-                  "FLUSH PRIVILEGES;\n"
-                    ]]},
-                "mode"  : "000644",
-                "owner" : "root",
-                "group" : "root"
               },
               "/etc/default/app" : {
                "content" : { "Fn::Join" : ["", [
@@ -280,11 +258,7 @@
                 "enabled" : "true",
                 "ensureRunning" : "true",
                 "files" : ["/etc/nginx/nginx.conf"]
-              },
-              "mysqld" : {
-                "enabled"       : "true",
-                "ensureRunning" : "true"
-              }
+                }
               }
             }
           }
@@ -308,7 +282,7 @@
           "}\n",
 
           "# Install Rails packages\n",
-          "/opt/aws/bin/cfn-init -v -s ", { "Ref" : "AWS::StackName" }, " -r WebServer ",
+          "/opt/aws/bin/cfn-init -v -s ", { "Ref" : "AWS::StackName" }, " -r LaunchConfig ",
           "    --access-key AKIAIB3JD5B24BFQEDVQ",
           "    --secret-key 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",
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
@@ -342,12 +316,6 @@
           "# Add nginx to the www group\n",
           "usermod -a -G www nginx\n",
 
-          "# Tools to support automated DNS update using Route53\n",
-          "easy_install  -U boto\n",
-          "easy_install  -U argparse\n",
-          "easy_install  -U dnspython\n",
-          "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
-
           "#add new relic server monitoring\n",
           "rpm -uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
           "yum install newrelic-sysmond\n",
@@ -375,9 +343,9 @@
     "WebServerSecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
-        "GroupDescription" : "Enable HTTP access via port 3000 locked down to the load balancer + SSH access",
+        "GroupDescription" : "Enable HTTP access via port 80 locked down to the load balancer + SSH access",
         "SecurityGroupIngress" : [
-          {"IpProtocol" : "tcp", "FromPort" : "3000", "ToPort" : "3000", "SourceSecurityGroupOwnerId" : {"Fn::GetAtt" : ["ElasticLoadBalancer", "SourceSecurityGroup.OwnerAlias"]},"SourceSecurityGroupName" : {"Fn::GetAtt" : ["ElasticLoadBalancer", "SourceSecurityGroup.GroupName"]}},
+          {"IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "SourceSecurityGroupOwnerId" : {"Fn::GetAtt" : ["ElasticLoadBalancer", "SourceSecurityGroup.OwnerAlias"]},"SourceSecurityGroupName" : {"Fn::GetAtt" : ["ElasticLoadBalancer", "SourceSecurityGroup.GroupName"]}},
           {"IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : "0.0.0.0/0"}
         ]
       }
@@ -404,6 +372,18 @@
         "DBInstanceClass": { "Ref" : "DBInstanceClass" },
         "DBSecurityGroups": [ { "Ref": "DBSecurityGroup" } ],
         "AllocatedStorage": { "Ref" : "DBAllocatedStorage" }
+      }
+    },
+
+    "DNSRecord" : {
+      "Type" : "AWS::Route53::RecordSet",
+      "Properties" : {
+        "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "HostedZone"}, "." ]]},
+        "Comment" : "CNAME for the web instance.",
+        "Name" : { "Fn::Join" : [ "", [{"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, "."]]},
+        "Type" : "CNAME",
+        "TTL" : "300",
+        "ResourceRecords" : [{ "Fn::GetAtt" : [ "ElasticLoadBalancer", "DNSName" ]}]
       }
     }
   },

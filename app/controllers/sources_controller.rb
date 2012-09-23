@@ -22,6 +22,6 @@ class SourcesController < ApplicationController
   end
 
   def oauth_error
-    render :text => "PANIC"
+    render :text => "Cannot authenticate using github oauth"
   end
 end

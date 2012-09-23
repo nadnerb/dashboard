@@ -52,8 +52,7 @@
       "MinLength": "1",
       "MaxLength": "64",
       "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
-      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters.",
-      "Default" : "java"
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
     },
 
     "DBUsername": {
@@ -62,8 +61,7 @@
       "MinLength": "1",
       "MaxLength": "16",
       "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
-      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters.",
-      "Default" : "java"
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
     },
 
     "DBPassword": {
@@ -72,8 +70,7 @@
       "MinLength": "1",
       "MaxLength": "41",
       "AllowedPattern" : "[a-zA-Z0-9]*",
-      "ConstraintDescription" : "must contain only alphanumeric characters.",
-      "Default" : "java"
+      "ConstraintDescription" : "must contain only alphanumeric characters."
     },
 
     "DBRootPassword": {
@@ -126,6 +123,7 @@
     "CIServer": {
       "Type": "AWS::EC2::Instance",
       "Metadata" : {
+        "dupondius::template" : "jenkins_java",
         "AWS::CloudFormation::Init" : {
           "config" : {
             "packages" : {
@@ -156,7 +154,10 @@
               "/tmp/setup.mysql" : {
                 "content" : { "Fn::Join" : ["", [
                   "CREATE USER '", { "Ref" : "DBUsername" }, "'@'localhost' IDENTIFIED BY '", { "Ref" : "DBPassword" }, "';\n",
+                  "CREATE DATABASE ", { "Ref" : "DBName" }, ";\n",
+                  "CREATE DATABASE ", { "Ref" : "DBName" }, "_test;\n",
                   "GRANT ALL ON ", { "Ref" : "DBName" }, ".* TO '", { "Ref" : "DBUsername" }, "'@'localhost';\n",
+                  "GRANT ALL ON ", { "Ref" : "DBName" }, "_test.* TO '", { "Ref" : "DBUsername" }, "'@'localhost';\n",
                   "FLUSH PRIVILEGES;\n"
                     ]]},
                 "mode"  : "000644",

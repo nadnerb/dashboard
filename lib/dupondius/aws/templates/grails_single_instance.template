@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Single instance with tomcat",
+  "Description" : "Single instance with tomcat and mysql",
 
   "Parameters" : {
 
@@ -28,6 +28,50 @@
       "Description" : "The DNS name of an existing Amazon Route 53 hosted zone",
       "Type" : "String",
       "Default" : "dupondi.us"
+    },
+    "AwsAccessKey" : {
+      "Description" : "Your AWS access key",
+      "Type" : "String"
+    },
+    "AwsSecretAccessKey" : {
+      "Description" : "Your AWS secret access key",
+      "Type" : "String"
+    },
+    "DBName": {
+      "Default": "MyDatabase",
+      "Description" : "MySQL database name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "64",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+    },
+
+    "DBUsername": {
+      "Description" : "Username for MySQL database access",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "16",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+    },
+
+    "DBPassword": {
+      "Description" : "Password MySQL database access",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41",
+      "AllowedPattern" : "[a-zA-Z0-9]*",
+      "ConstraintDescription" : "must contain only alphanumeric characters."
+    },
+
+    "DBRootPassword": {
+      "Description" : "Root password for MySQL",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41",
+      "AllowedPattern" : "[a-zA-Z0-9]*",
+      "ConstraintDescription" : "must contain only alphanumeric characters."
     }
   },
 
@@ -65,6 +109,7 @@
     "WebServer": {
       "Type": "AWS::EC2::Instance",
       "Metadata" : {
+        "dupondius::template" : "grails_single_instance",
         "AWS::CloudFormation::Init" : {
           "config" : {
             "packages" : {
@@ -75,6 +120,10 @@
                 "java-1.6.0-openjdk-devel"   : [],
                 "tomcat7"     : [],
                 "tomcat-native"     : [],
+                "mysql"        : [],
+                "mysql-server" : [],
+                "mysql-devel"  : [],
+                "mysql-libs"   : [],
                 "git.x86_64"   : []
               }
             },
@@ -83,6 +132,10 @@
                 "tomcat7" : {
                   "enabled" : "true",
                   "ensureRunning" : "true"
+                },
+                "mysqld" : {
+                    "enabled"       : "true",
+                    "ensureRunning" : "true"
                 }
               }
             },
@@ -161,6 +214,17 @@
                 "mode"  : "000644",
                 "owner" : "root",
                 "group" : "root"
+              },
+              "/tmp/setup.mysql" : {
+                "content" : { "Fn::Join" : ["", [
+                  "CREATE USER '", { "Ref" : "DBUsername" }, "'@'localhost' IDENTIFIED BY '", { "Ref" : "DBPassword" }, "';\n",
+                  "CREATE DATABASE ", { "Ref" : "DBName" }, ";\n",
+                  "GRANT ALL ON ", { "Ref" : "DBName" }, ".* TO '", { "Ref" : "DBUsername" }, "'@'localhost';\n",
+                  "FLUSH PRIVILEGES;\n"
+                    ]]},
+                "mode"  : "000644",
+                "owner" : "root",
+                "group" : "root"
               }
             }
           }
@@ -173,6 +237,9 @@
                           { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
         "InstanceType"   : { "Ref" : "InstanceType" },
         "SecurityGroups" : [ {"Ref" : "FrontendGroup"} ],
+        "Tags" : [ {"Key" : "dupondius:project", "Value" : { "Ref" : "ProjectName"} },
+                   {"Key" : "dupondius:environment", "Value" : { "Ref" : "EnvironmentName"} }
+                 ],
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
           "yum update -y aws-cfn-bootstrap\n",
@@ -202,9 +269,24 @@
 
           "# Install packages\n",
           "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r WebServer ",
-          "    --access-key AKIAIB3JD5B24BFQEDVQ",
-          "    --secret-key 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",
+          "    --access-key ", { "Ref" : "AwsAccessKey" },
+          "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+
+          "# Setup MySQL root password and create a user\n",
+          "mysqladmin -u root password '", { "Ref" : "DBRootPassword" }, "' || error_exit 'Failed to initialize root password'\n",
+          "mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql || error_exit 'Failed to create database user'\n",
+
+
+          "# Tools to support automated DNS update using Route53\n",
+          "easy_install  -U boto\n",
+          "easy_install  -U argparse\n",
+          "easy_install  -U dnspython\n",
+          "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
+
+          "#add new relic server monitoring\n",
+          "rpm -uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
+          "yum install newrelic-sysmond\n",
 
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Tomcat application setup\" '", { "Ref" : "WaitHandle" }, "'\n"

@@ -1,7 +1,14 @@
 %div.modal-header
     %h3 Environment Details
 %div.modal-body
-    
+    %div{id: "loading-" + random, class: 'environment-loading'}
+    %dl.hidden
+        %dt Web Instances
+        %dd.web-instances
+        %dt DNS
+        %dd.dns
+        %dt RDS Databases
+        %dd.rds-databases
 %div.modal-footer
     %a.confirm.btn.btn-primary Continue
 

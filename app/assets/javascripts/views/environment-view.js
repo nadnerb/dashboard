@@ -128,14 +128,10 @@ define([
             this.view.model.fetch();
             this.bindTo(this.view.model, 'success', function () {
                 this.view.hide();
-                this.fadeOut();
+                // this.fadeOut();
             });
 
             this.view.show();
-            var self = this;
-            setTimeout(function () {
-                self.view.spinner();
-            }, 300);
             return false;
         },
 

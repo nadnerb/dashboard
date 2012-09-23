@@ -20,6 +20,17 @@ define([
             });
         },
 
+        fadeIn: function () {
+            this.$('#loading-fields-' + this.random).fadeOut();
+            this.$('.form-horizontal').css('visibility', 'visible').fadeIn();
+        },
+
+        fadeOut: function () {
+            this.spinner();
+            this.$('#loading-fields-' + this.random).fadeIn();
+            this.$('.form-horizontal').css('visibility', 'visible').fadeOut();
+        },
+
         confirm: function () {
 
             return false;

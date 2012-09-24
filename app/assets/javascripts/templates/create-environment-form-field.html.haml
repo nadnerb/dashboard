@@ -21,6 +21,7 @@
                     %option{value: 'cg1.4xlarge'} cg1.4xlarge
             - else if (parameter_key === 'DBInstanceClass') {
                 %select{id: parameter_key}
+                    %option{value: 'db.t1.micro'} db.t1.micro
                     %option{value: 'db.m1.small'} db.m1.small
                     %option{value: 'db.m1.medium'} db.m1.medium
                     %option{value: 'db.m1.large'} db.m1.large

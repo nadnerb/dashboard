@@ -6,14 +6,15 @@ define([
         urlRoot: 'dashboard/performance/',
 
         validate: function (attrs) {
-            if (attrs.not_configured === true){
+          console.log(attrs);
+            if (attrs.not_configured === true || attrs.invalid != null){
                 return;
             }
 
             var errors = [];
 
-            if (attrs.token === '') {
-                errors.push({name: 'token', message: 'You must provide a token'});
+            if (attrs.iframe === '') {
+                errors.push({name: 'iframe', message: 'You must provide an iframe or url'});
             }
 
             if (_(errors).isEmpty()) {

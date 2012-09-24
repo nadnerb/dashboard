@@ -68,7 +68,11 @@ define([
             contentId: 'newrelic-widget'
           }).render();
 
-          view.append('<iframe src="' + this.model.get('iframe') + '" width="850" height="300" scrolling="no" frameborder="no"></iframe>');
+          if(this.model.get('invalid')) {
+            view.append(this.model.get('invalid') + '" width="850" height="300" scrolling="no" frameborder="no"></iframe>');
+          }else{
+            view.append('<iframe src="' + this.model.get('iframe') + '" width="850" height="300" scrolling="no" frameborder="no"></iframe>');
+          }
           view.append('<div><a class="killmenow" href="#">Change Graph</a></div>');
           this.$el.html(view.el);
         },

@@ -67,7 +67,7 @@
 
     "DBAllocatedStorage": {
       "Default": "5",
-      "Description" : "The size of the database (Gb)",
+      "Description" : "The size of the database (Gb) (minimum 5GB, maximum 1024 GB)",
       "Type": "Number",
       "MinValue": "5",
       "MaxValue": "1024",
@@ -78,7 +78,7 @@
       "Default": "db.m1.small",
       "Description" : "The database instance type",
       "Type": "String",
-      "AllowedValues" : [ "db.m1.small", "db.m1.large", "db.m1.xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge" ],
+      "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m1.large", "db.m1.xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge" ],
       "ConstraintDescription" : "must select a valid database instance type."
     },
 

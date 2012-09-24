@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe SourcesController do
 
-  before do
-    request.cookies['u_can_haz'] = 'monkeysAndBananas'
-  end
-
   let(:client) do
     client = mock(Source::Security)
     Source::Security.should_receive(:new).and_return(client)
@@ -45,7 +41,7 @@ describe SourcesController do
 
       it 'should render error message' do
         get 'callback', {code: 'codes'}
-        expect(response.body).to eq('PANIC')
+        expect(response.body).to eq('Cannot authenticate using github oauth')
       end
 
     end

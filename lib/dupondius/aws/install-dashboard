@@ -23,6 +23,8 @@ fi
 tech_stack=$1
 aws_region=$2
 
+dashboard_name='dupondius'
+
 # Create a database
 source /etc/default/app
 export DB_NAME
@@ -35,12 +37,12 @@ echo "UserKnownHostsFile /dev/null" >> /home/deployer/.ssh/config
 echo "StrictHostKeyChecking no" >> /home/deployer/.ssh/config
 chown deployer:deployer /home/deployer/.ssh/config
 su - deployer -c "chmod 600 /home/deployer/.ssh/config"
-su - deployer -c "mkdir -p /opt/app/$PROJECT_NAME/shared/log"
-su - deployer -c "mkdir -p /opt/app/$PROJECT_NAME/shared/pids"
-su - deployer -c "cd /opt/app/$PROJECT_NAME &&  git clone --depth 1 git@github.com:nadnerb/dashboard.git current"
-su - deployer -c "cd /opt/app/$PROJECT_NAME/current && bundle install --path vendor/bundle --deployment --without development test"
-su - deployer -c "cd /opt/app/$PROJECT_NAME/current && bundle exec rake RAILS_ENV=production RAILS_GROUPS=assets DB_NAME=$DB_NAME DB_USERNAME=$DB_USERNAME DB_PASSWORD=$DB_PASSWORD DB_SOCKET=$DB_SOCKET assets:precompile"
-su - deployer -c "cd /opt/app/$PROJECT_NAME/current && bundle exec rake RAILS_ENV=production DB_NAME=$DB_NAME DB_USERNAME=$DB_USERNAME DB_PASSWORD=$DB_PASSWORD DB_SOCKET=$DB_SOCKET db:migrate"
+su - deployer -c "mkdir -p /opt/app/$dashboard_name/shared/log"
+su - deployer -c "mkdir -p /opt/app/$dashboard_name/shared/pids"
+su - deployer -c "cd /opt/app/$dashboard_name &&  git clone --depth 1 git@github.com:nadnerb/dashboard.git current"
+su - deployer -c "cd /opt/app/$dashboard_name/current && bundle install --path vendor/bundle --deployment --without development test"
+su - deployer -c "cd /opt/app/$dashboard_name/current && bundle exec rake RAILS_ENV=production RAILS_GROUPS=assets DB_NAME=$DB_NAME DB_USERNAME=$DB_USERNAME DB_PASSWORD=$DB_PASSWORD DB_SOCKET=$DB_SOCKET assets:precompile"
+su - deployer -c "cd /opt/app/$dashboard_name/current && bundle exec rake RAILS_ENV=production DB_NAME=$DB_NAME DB_USERNAME=$DB_USERNAME DB_PASSWORD=$DB_PASSWORD DB_SOCKET=$DB_SOCKET db:migrate"
 
 # Tweak some runtime config
 echo "RAILS_ENV=production" >> /etc/default/app
@@ -49,10 +51,10 @@ echo "TECH_STACK=$tech_stack" >> /etc/default/app
 echo "AWS_REGION=$aws_region" >> /etc/default/app
 
 # Generate initd scripts
-su - deployer -c "cd /opt/app/$PROJECT_NAME/current && bundle exec foreman export initscript /tmp -e /etc/default/app -f ./Procfile.production -a $PROJECT_NAME -u deployer -l /opt/app/$PROJECT_NAME/current/log"
-mv /tmp/$PROJECT_NAME /etc/init.d
-chmod +x /etc/init.d/$PROJECT_NAME
+su - deployer -c "cd /opt/app/$dashboard_name/current && bundle exec foreman export initscript /tmp -e /etc/default/app -f ./Procfile.production -a $PROJECT_NAME -u deployer -l /opt/app/$PROJECT_NAME/current/log"
+mv /tmp/$dashboard_name /etc/init.d
+chmod +x /etc/init.d/$dashboard_name
 
 # Go
-/etc/init.d/$PROJECT_NAME restart
+/etc/init.d/$dashboard_name restart
 

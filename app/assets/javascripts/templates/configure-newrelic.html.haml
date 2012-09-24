@@ -4,10 +4,10 @@
       To start receiving New Relic statics you need to have deployed your app to production using the jenkins pipeline
     %div.control-group
       You can add an exported iframe or url below. This can be done in the new relic dashboard via the embedded charts or custom dashboards (pro).
-    %div.control-group
-        %label.control-label iframe
+    %div#iframe.control-group
+        %label.control-label Url or iframe
         %div.controls
-            %input{id: 'iframe', type: 'text', placeholder: 'Enter an iframe'}
+            %input{id: 'newrelic-iframe', type: 'text', placeholder: 'Enter a url or iframe'}
             %span.help-inline
     %div.control-group
         %div.controls

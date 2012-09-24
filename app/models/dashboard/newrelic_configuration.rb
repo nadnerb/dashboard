@@ -1,9 +1,9 @@
 class Dashboard::NewrelicConfiguration < ActiveRecord::Base
-  attr_accessible :iframe
-  validates :iframe, :presence => true
+  attr_accessible :source
+  validates :source, :presence => true
 
   def self.build_from_performance_param!(performance)
-    Dashboard::NewrelicConfiguration.new(:iframe => src(performance[:iframe]))
+    Dashboard::NewrelicConfiguration.new(:source => src(performance[:iframe]))
   end
 
   def self.src(iframe_url)

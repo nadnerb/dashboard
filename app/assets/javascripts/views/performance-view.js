@@ -19,7 +19,7 @@ define([
         },
 
         postRender: function () {
-            if (this.model.has('iframe')) {
+            if (this.model.has('source')) {
                 this.renderMetrics();
             } else {
                 this.renderConfigureNewRelic();
@@ -42,7 +42,7 @@ define([
         },
 
         configure: function () {
-            var iframe = this.$('#iframe').val();
+            var iframe = this.$('#newrelic-iframe').val();
 
             this.model.on('error', function (model, errors) {
                 _(errors).each(function (error) {
@@ -56,6 +56,7 @@ define([
 
             this.model.save({
                 not_configured: undefined,
+                invalid: undefined,
                 iframe: iframe,
             });
 
@@ -68,13 +69,11 @@ define([
             contentId: 'newrelic-widget'
           }).render();
 
-          if(this.model.get('invalid')) {
-            view.append(this.model.get('invalid') + '" width="850" height="300" scrolling="no" frameborder="no"></iframe>');
-          }else{
-            view.append('<iframe src="' + this.model.get('iframe') + '" width="850" height="300" scrolling="no" frameborder="no"></iframe>');
+          if(!this.model.get('invalid')) {
+            view.append('<iframe src="' + this.model.get('source') + '" width="850" height="300" scrolling="no" frameborder="no"></iframe>');
+            view.append('<div><a class="killmenow" href="#">Change Graph</a></div>');
+            this.$el.html(view.el);
           }
-          view.append('<div><a class="killmenow" href="#">Change Graph</a></div>');
-          this.$el.html(view.el);
         },
 
         deleteConfig: function (e) {

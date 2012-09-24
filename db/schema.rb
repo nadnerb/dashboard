@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120917094906) do
+ActiveRecord::Schema.define(:version => 20120924092413) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(:version => 20120917094906) do
   create_table "newrelic_configurations", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "iframe"
+    t.string   "source"
   end
 
   create_table "pivotal_tracker_configurations", :force => true do |t|

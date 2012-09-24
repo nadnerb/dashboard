@@ -13,7 +13,7 @@ class Dashboard::PerformanceController < ActionController::Base
     if _newrelic.save
       respond_with(newrelic, :location => dashboard_performance_path)
     else
-      render :json => { :invalid => 'Invalid new relic configuration, please post an iframe or the graph url' }
+      render :json => { :invalid => 'Invalid new relic configuration, please post an iframe or the graph url', :not_configured => true }
     end
   end
 

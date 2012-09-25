@@ -51,7 +51,7 @@ echo "TECH_STACK=$tech_stack" >> /etc/default/app
 echo "AWS_REGION=$aws_region" >> /etc/default/app
 
 # Generate initd scripts
-su - deployer -c "cd /opt/app/$dashboard_name/current && bundle exec foreman export initscript /tmp -e /etc/default/app -f ./Procfile.production -a $PROJECT_NAME -u deployer -l /opt/app/$PROJECT_NAME/current/log"
+su - deployer -c "cd /opt/app/$dashboard_name/current && bundle exec foreman export initscript /tmp -e /etc/default/app -f ./Procfile.production -a $dashboard_name -u deployer -l /opt/app/$dashboard_name/current/log"
 mv /tmp/$dashboard_name /etc/init.d
 chmod +x /etc/init.d/$dashboard_name
 

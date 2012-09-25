@@ -53,6 +53,9 @@
               <input id="github-account" type="hidden" value="<%=session[:github_user]%>"/>
             </p>
             <p>
+              Private? <input type="checkbox" id="github-private"/>
+            </p>
+            <p>
               <a href="#" class="btn btn-success btn-xlarge" id="page-one-done">
                 <i class="icon-arrow-down icon-white"></i> Get Started
               </a>
@@ -194,7 +197,7 @@
               <dd id="summary-aws-region"></dd>
           </dl>
           <p>&nbsp;</p>
-          <p>Initially a dashboard will be created. From there you will be able to configure the environments further.</p>
+          <p>Initially a dashboard will be created. From there you will be able to configure your environments further.</p>
           <p>
             <a href="#" class="btn btn-success btn-xlarge" id="summary-done">
               <i class="icon-ok icon-white"></i> Great, now lets create some environments!

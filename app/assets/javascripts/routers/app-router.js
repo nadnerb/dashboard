@@ -48,7 +48,6 @@ define([
         performance: function () {
             var view = new PerformanceView();
             this.dashboard.apply(view);
-            view.model.fetch();
         },
 
         configure: function () {

@@ -1,7 +1,8 @@
 define([
     'vendor/base',
+    'models/stack',
     'text!templates/instance.html.haml'
-], function (BackboneSuperView, template) {
+], function (BackboneSuperView, Stack, template) {
     return BackboneSuperView.extend({
         template: template,
 
@@ -25,7 +26,13 @@ define([
         },
 
         remove: function (event) {
-            this.handleAction('remove', 'terminate');
+            if (confirm("Are you sure you want to remove this environment?")) {
+                this.fadeOut();
+                var stack = new Stack({id: this.model.get('tags')['aws:cloudformation:stack-name']});
+                stack.destroy();
+                this.keepChecking();
+            }
+
             return false;
         },
 

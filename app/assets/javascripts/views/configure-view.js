@@ -71,11 +71,11 @@ define([
 
             var view = _(this.views).find(function (environmentView) {
                 if (environmentView.model.has('name')) {
-                    return environmentView.model.get('name') === environment.get('tags')['dupondius:environment'];
+                    return environmentView.model.get('name') === this.envNameFrom(environment.get('tags')['dupondius:environment']);
                 } else {
-                    return environmentView.model.get('tags')['dupondius:environment'] === environment.get('tags')['dupondius:environment'];
+                    return this.envNameFrom(environmentView.model.get('tags')['dupondius:environment']) === this.envNameFrom(environment.get('tags')['dupondius:environment']);
                 }
-            });
+            }, this);
 
             if (view === undefined) {
                 return; // foreign instance that we dont care about
@@ -90,6 +90,15 @@ define([
             }
 
             view.instancesCollection.push(environment);
+        },
+
+        envNameFrom: function (name) {
+            var returned = name;
+            if (_(name).startsWith('dev')) {
+                returned = name.replace(/(dev)-.*/, '$1');
+            }
+
+            return returned;
         }
     });
 });

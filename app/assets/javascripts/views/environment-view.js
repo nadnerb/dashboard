@@ -140,7 +140,7 @@ define([
         },
 
         edit: function () {
-            this.view = new CreateEnvironmentView().render();
+            this.view = new CreateEnvironmentView({edit: true}).render();
             this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']}, {silent: true});
             this.view.model.fetch();
             this.bindTo(this.view.model, 'success', function () {

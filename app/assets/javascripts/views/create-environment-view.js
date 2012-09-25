@@ -34,7 +34,7 @@ define([
                 this.populateFormWithErrors(errors);
             });
 
-            if (options && options.name !== undefined) {
+            if (options && !options.edit) {
                 this.stackTemplates = new StackTemplates();
                 this.bindTo(this.stackTemplates, 'reset', function () {
                     this.renderStackTemplates();
@@ -59,9 +59,9 @@ define([
         renderFormFromTemplate: function () {
             this.$('.form-horizontal').empty();
 
-            // if (this.options.name === undefined) { // yeh...i know...
-            //     this.options.name = 'dev'
-            // }
+            if (this.options.name === undefined && !this.options.edit) { // yeh...i know...
+                this.options.name = 'dev';
+            }
 
             if (this.options.name === 'dev') {
                 var formField = haml.compileHaml({source: formFieldTemplate})({

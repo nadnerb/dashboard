@@ -1,6 +1,9 @@
 %div.environment-heading
-    %button.info.btn.btn-small.btn-info Info
-    %a.environment-name{href: 'http://' + model.tags['dupondius:environment'] + '.' + model.tags['dupondius:project'] + '.dupondi.us/'}= model.tags['dupondius:environment']
+    - if (_(model.tags['dupondius:environment']).startsWith('dev')) {
+        %h3 dev
+    - else {
+        %button.info.btn.btn-small.btn-info Info
+        %a.environment-name{href: 'http://' + model.tags['dupondius:environment'] + '.' + model.tags['dupondius:project'] + '.dupondi.us/'}= model.tags['dupondius:environment']
 %div{id: "loading-" + model.tags['dupondius:environment'], class: 'environment-loading'}
 %div.environment-information.hidden
     %dl.dl-horizontal
@@ -15,7 +18,7 @@
             %dt Cost:
             %dd.size = '$' + (model.cost*24) + ' / day'
     %div.environment-actions
-        - if (model.tags['dupondius:environment'] === 'dev') {
+        - if (_(model.tags['dupondius:environment']).startsWith('dev')) {
             %button.create.btn.btn-large.btn-primary Create Environment
             - if (instances.length > 0) {
                 %button.instances.btn.btn-primary View Instances

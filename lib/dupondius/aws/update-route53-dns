@@ -17,8 +17,6 @@ export AWS_SECRET_ACCESS_KEY
 PUBLIC_HOSTNAME=$(/opt/aws/bin/ec2-metadata | grep 'public-hostname:' | cut -d ' ' -f 2)
 
 # Create a new CNAME record on Route 53, replacing the old entry if nessesary
-if grep sdfs
-
 /usr/local/bin/cli53 list "$ZONE" 2>1 | grep "$ENVIRONMENT_NAME.$PROJECT_NAME"
 if [ "$?" -eq "0" ]; then
   echo "Updating an existing DNS CNAME"

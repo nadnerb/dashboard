@@ -49,12 +49,12 @@ module Dupondius; module Aws; module CloudFormation
     end
 
     def self.create template_name, environment_name, project_name, parameters
-      Dupondius::Aws::CloudFormation.access.stacks.create("#{environment_name}-#{project_name}", load_template(template_name),
+      self.new(Dupondius::Aws::CloudFormation.access.stacks.create("#{environment_name}-#{project_name}", load_template(template_name),
         :parameters => {HostedZone: Dupondius.config.hosted_zone,
                         ProjectName: project_name,
                         AwsAccessKey: Dupondius.config.access_key,
                         AwsSecretAccessKey: Dupondius.config.secret_access_key,
-                        KeyName: Dupondius.config.key_name}.merge(parameters))
+                        KeyName: Dupondius.config.key_name}.merge(parameters)))
     end
 
     def self.validate_template template_name

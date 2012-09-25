@@ -12,7 +12,7 @@ class Aws::StacksController < ApplicationController
     if stack
       respond_with(stack)
     else
-      redirect_to :nothing => true, :status => 404
+      render :nothing => true, :status => 404
     end
   end
 
@@ -30,7 +30,8 @@ class Aws::StacksController < ApplicationController
                                                      full_name,
                                                      Dupondius.config.project_name,
                                                      params[:parameters])
-    render :nothing => true, :status => 200
+
+    redirect_to :action => :show, :id => result.name
   end
 
   def destroy

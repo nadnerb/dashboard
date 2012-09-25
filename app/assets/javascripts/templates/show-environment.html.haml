@@ -3,12 +3,10 @@
 %div.modal-body
     %div{id: "loading-" + random, class: 'environment-loading'}
     %dl.hidden
-        %dt Web Instances
-        %dd.web-instances
-        %dt DNS
-        %dd.dns
-        %dt RDS Databases
-        %dd.rds-databases
+        %dt Name
+        %dd.name= model.name
+        %dt Description
+        %dd.description= model.description
 %div.modal-footer
-    %a.confirm.btn.btn-primary Continue
+    %a.confirm.btn.btn-primary Ok
 

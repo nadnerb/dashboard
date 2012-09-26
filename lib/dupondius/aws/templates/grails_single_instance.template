@@ -225,6 +225,23 @@
                 "mode"  : "000644",
                 "owner" : "root",
                 "group" : "root"
+              },
+              "/etc/default/app" : {
+               "content" : { "Fn::Join" : ["", [
+                  "ENVIRONMENT_NAME=", { "Ref" : "EnvironmentName" }, "\n",
+                  "PROJECT_NAME=", { "Ref" : "ProjectName" }, "\n",
+                  "ZONE=", { "Ref" : "HostedZone" }, "\n",
+                  "TTL=600\n",
+                  "AWS_ACCESS_KEY_ID=", { "Ref" : "AwsAccessKey" }, "\n",
+                  "AWS_SECRET_ACCESS_KEY=", { "Ref" : "AwsSecretAccessKey" }, "\n",
+                  "DB_NAME=", { "Ref" : "DBName" }, "\n",
+                  "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
+                  "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
+                  "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
+                  ]]},
+                "mode"  : "000644",
+                "owner" : "root",
+                "group" : "root"
               }
             }
           }

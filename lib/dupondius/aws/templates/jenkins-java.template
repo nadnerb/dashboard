@@ -224,7 +224,7 @@
           "chmod 600 /var/lib/jenkins/.ssh/id_rsa\n",
           "sed -i 's/\\(Defaults\\s\\+requiretty\\)/#\\1/' /etc/sudoers\n",
           "sudo -u jenkins ssh -o StrictHostKeyChecking=no git@github.com\n",
-          "su - deployer -c \"git clone -n --depth 1 git@github.com:uglyog/jenkins-config.git /var/tmp/git-tmp\"\n",
+          "su - deployer -c \"git clone -n --depth 1 git@github.com:uglyog/dupondius-jenkins-config.git /var/tmp/git-tmp\"\n",
           "mv /var/tmp/git-tmp/.git /var/lib/jenkins/\n",
           "cd /var/lib/jenkins/\n",
           "git checkout ", { "Ref" : "ProjectType" } ,"\n",

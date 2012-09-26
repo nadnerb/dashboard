@@ -3,11 +3,12 @@ define([
     'backbone',
     'views/dashboard-view',
     'views/index-view',
-    'views/performance-view',
+    'views/performance-app-view',
+    'views/performance-server-view',
     'views/configure-view',
     'views/stories-view',
     'views/builds-view'
-], function ($, Backbone, DashboardView, IndexView, PerformanceView, ConfigureView, StoriesView, BuildsView) {
+], function ($, Backbone, DashboardView, IndexView, PerformanceAppView, PerformanceServerView, ConfigureView, StoriesView, BuildsView) {
     return Backbone.Router.extend({
 
         routes: {
@@ -46,8 +47,13 @@ define([
         },
 
         performance: function () {
-            var view = new PerformanceView();
-            this.dashboard.apply(view);
+          var appView = new PerformanceAppView(this);
+          this.dashboard.apply(appView);
+          appView.model.fetch();
+
+          var serverView = new PerformanceServerView(this);
+          this.dashboard.add(serverView);
+          serverView.model.fetch();
         },
 
         configure: function () {

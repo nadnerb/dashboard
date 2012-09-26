@@ -14,6 +14,7 @@ Dashboard::Application.routes.draw do
     resource :stories, :only => [:create, :show]
     resource :performance, :only => [:create, :show], :controller => 'performance'
     resources :performance, :only => [:destroy], :controller => 'performance'
+    resource :configurations, :only => [:create, :show, :update]
 
     #TODO: potential duplication with aws/instances controller
     resources :instances, :only => [:index]

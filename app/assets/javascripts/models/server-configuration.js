@@ -3,20 +3,14 @@ define([
 ], function (Backbone) {
 
   return Backbone.Model.extend({
-    urlRoot: 'dashboard/configuration/',
+    urlRoot: 'dashboard/configurations/',
 
      validate: function (attrs) {
-       if (attrs.not_configured === true){
-         return;
-       }
-
        var errors = [];
 
-       // TODO leave validations on shared model for the moment
-       // maybe do it in the view at this stage
-       //if (attrs.iframe === '') {
-         //errors.push({name: 'token', message: 'You must provide an token'});
-       //}
+       if (attrs.newrelic_token === '') {
+         errors.push({name: 'token', message: 'You must provide new relic api token'});
+       }
 
        if (_(errors).isEmpty()) {
          return;

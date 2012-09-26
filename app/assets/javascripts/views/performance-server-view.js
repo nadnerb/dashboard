@@ -9,7 +9,7 @@ define([
         id: 'server-performance-config',
 
         events: {
-            'click .btn': 'configure-server',
+            'click .btn': 'configure',
         },
 
         initialize: function (options) {
@@ -17,10 +17,12 @@ define([
           this.model.on('change', function () {
             this.render();
           }, this);
+          this.model.fetch();
         },
 
         postRender: function () {
           this.renderConfigurePerformanceServer();
+          $('#newrelic_token').val(this.model.get('newrelic_token'));
         },
 
         renderConfigurePerformanceServer: function () {
@@ -35,7 +37,7 @@ define([
         },
 
         configure: function () {
-            var token = this.$('#newrelic-token').val();
+            var token = this.$('#newrelic_token').val();
 
             this.model.on('error', function (model, errors) {
                 _(errors).each(function (error) {
@@ -48,7 +50,8 @@ define([
             this.$('.help-inline').empty();
 
             this.model.save({
-                token: token,
+                invalid: undefined,
+                newrelic_token: token,
             });
 
             return false;

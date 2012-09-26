@@ -24,6 +24,13 @@ define([
             });
         },
 
+
+        add: function (view) {
+            this.currentView = view;
+            this.currentView.render();
+            this.$('#dashboard-contents').append(this.currentView.el);
+        },
+
         apply: function (view) {
             if (this.currentView !== null) {
                 this.currentView.destroy();

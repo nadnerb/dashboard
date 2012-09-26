@@ -8,8 +8,9 @@ define([
         id: 'newrelic',
 
         initialize: function (options) {
-          //var serverView = new ServerView(this, this.model);
-          var appView = new AppView(this, this.model);
+          var serverView = new ServerView(this);
+          var appView = new AppView(this);
+          serverView.model.fetch();
           appView.model.fetch();
         },
 

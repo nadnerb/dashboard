@@ -16,7 +16,6 @@ class Dashboard::ConfigurationsController < ApplicationController
   end
 
   def create
-    p params
     configuration = ServerConfiguration.new(params[:configuration])
     if configuration.save
       respond_with(configuration, :location => dashboard_performance_path)
@@ -26,7 +25,7 @@ class Dashboard::ConfigurationsController < ApplicationController
   end
 
   def update
-    p params
+    configuration = ServerConfiguration.find(params[:id])
     if configuration.update_attributes(params[:configuration])
       respond_with(configuration, :location => dashboard_performance_path)
     else

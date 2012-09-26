@@ -51,7 +51,7 @@ define([
 
             this.model.save({
                 invalid: undefined,
-                newrelic_token: token,
+                newrelic_token: token
             });
 
             return false;

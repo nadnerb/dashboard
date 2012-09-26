@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Make sure only root can run our script
+if [ "$(id -u)" != "0" ]; then
+echo "This script must be run as root" 1>&2
+    exit 1
+fi
+
+# Load configuration
+. /etc/default/app
+
+while read l; do
+  name = `echo $l | sed -e 's/=.*//g'`
+  grep $name /etc/default/app
+  if [ "$?" -eq "0" ]; then
+    sed -i s/$name=.*/$l/g /etc/default/app
+  else
+    echo $l >> /etc/default/app
+  fi
+done < `curl -s http://dashboard.$PROJECT_NAME.dupondi.us/dashboard/configurations/export`
+
+# rewrite the export
+sed -i s/^export\ .*//g /etc/default/app
+names=''
+while read line; do
+  name=`echo $line | sed -e 's/=.*//g'`
+  names="$names $name"
+done < /etc/default/app
+echo "export $names" >> /etc/default/app
+

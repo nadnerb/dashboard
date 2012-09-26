@@ -153,6 +153,12 @@
                 "owner"  : "root",
                 "group"  : "root"
               },
+              "/usr/sbin/update-config" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/update-config",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
               "/etc/nginx/nginx.conf" : {
                 "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf",
                 "mode"   : "000644",
@@ -183,6 +189,14 @@
                   "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
                   ]]},
                 "mode"  : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
+              "/etc/profile.d/dupondius" : {
+               "content" : { "Fn::Join" : ["", [
+                  "source /etc/default/app\n"
+                  ]]},
+                "mode"  : "000744",
                 "owner" : "root",
                 "group" : "root"
               },
@@ -279,6 +293,10 @@
           "easy_install  -U argparse\n",
           "easy_install  -U dnspython\n",
           "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
+
+          "# Support for config server to allow dynamic config updates\n",
+          "echo \"/usr/sbin/update-config\" >> /etc/rc.local\n",
+          "/usr/sbin/update-config\n",
 
           "#add new relic server monitoring\n",
           "rpm -uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",

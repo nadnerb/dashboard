@@ -6,6 +6,10 @@ class Dashboard::ConfigurationsController < ApplicationController
     respond_with ServerConfigruation.new
   end
 
+  def export
+    render :text => 'FOO=BAZ'
+  end
+
   def show
     configuration = ServerConfiguration.find_by_id(params[:id]) || ServerConfiguration.last
     if configuration

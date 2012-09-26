@@ -40,7 +40,7 @@ namespace :dupondius do
         :secret_access_key => Dupondius.config.secret_access_key
       )
       bucket = s3.buckets['dupondius']
-      ['install-dashboard', 'update-route53-dns', 'nginx.conf'].each do |file_name|
+      ['install-dashboard', 'update-route53-dns', 'nginx.conf', 'update-config'].each do |file_name|
         obj = bucket.objects["config/#{file_name}"]
         obj.write(File.open(File.expand_path(File.join( File.dirname(__FILE__), '..', file_name))).read)
         obj.acl= :public_read

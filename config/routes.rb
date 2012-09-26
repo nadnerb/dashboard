@@ -16,7 +16,9 @@ Dashboard::Application.routes.draw do
     resource :performance, :only => [:create, :show], :controller => 'performance'
     resources :performance, :only => [:destroy], :controller => 'performance'
     resource :configurations, :only => [:create, :show]
-    resources :configurations, :only => [:update]
+    resources :configurations, :only => [:update] do
+      get :export, :on => :collection
+    end
     #TODO: potential duplication with aws/instances controller
     resources :instances, :only => [:index]
   end

@@ -7,7 +7,7 @@ define([
         template: template,
 
         events: {
-            'click .confirm': 'confirm'
+            'click .confirm': 'hide'
         },
 
         initialize: function (options) {
@@ -46,10 +46,6 @@ define([
             // this.$('.web-instances').html();
             // this.$('.dns').html();
             // ...
-        },
-
-        confirm: function () {
-            return false;
         }
     });
 });

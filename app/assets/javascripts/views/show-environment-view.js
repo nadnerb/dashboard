@@ -22,8 +22,9 @@ define([
         },
 
         serialize: function () {
+            debugger;
             return {
-                model: this.model,
+                model: this.model.toJSON(),
                 random: this.random
             }
         },
@@ -43,9 +44,8 @@ define([
         },
 
         renderInformation: function () {
-            // this.$('.web-instances').html();
-            // this.$('.dns').html();
-            // ...
+            this.$('.name').html(this.model.get('name'));
+            this.$('.description').html(this.model.get('description'));
         }
     });
 });

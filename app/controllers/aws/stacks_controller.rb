@@ -31,7 +31,7 @@ class Aws::StacksController < ApplicationController
                                                      Dupondius.config.project_name,
                                                      params[:parameters])
 
-    redirect_to :action => :show, :id => result.name
+    render :json => {:success => true}, :status => 200
   end
 
   def destroy

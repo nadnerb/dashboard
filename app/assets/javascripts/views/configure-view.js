@@ -82,6 +82,7 @@ define([
             }
 
             if (view.model.has('name')) { 
+                view.availableModel = view.model;
                 view.model = environment;
             } 
 

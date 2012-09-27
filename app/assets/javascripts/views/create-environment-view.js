@@ -142,6 +142,7 @@ define([
                 this.model.set({templateName: this.stackTemplate.get('id')}, {silent: true});
                 this.model.set({parameters: attrs}, {silent: true});
                 this.model.save();
+                this.model.trigger('saved');
             }
 
             return false;

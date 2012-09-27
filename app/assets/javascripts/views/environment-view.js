@@ -31,9 +31,9 @@ define([
         view: null,
 
         initialize: function () {
-            this.bindTo(this.model, 'sync', function () {
-                this.render().fadeIn();
-            });
+            // this.bindTo(this.model, 'sync', function () {
+            //     this.render().fadeIn();
+            // });
         },
 
         serialize: function () {
@@ -99,6 +99,9 @@ define([
             if (confirm("Are you sure you want to remove this environment?")) {
                 this.fadeOut();
                 var stack = new Stack({id: this.model.get('tags')['aws:cloudformation:stack-name']});
+                this.bindTo(stack, 'destroy', function () {
+                    this.keepChecking();
+                });
                 stack.destroy();
             }
 
@@ -112,7 +115,7 @@ define([
 
         create: function () {
             this.view = new CreateEnvironmentView({name: this.model.get('name')}).render();
-            this.bindTo(this.view.model, 'success', function () {
+            this.bindTo(this.view.model, 'saved', function () {
                 this.view.hide();
                 this.fadeOut();
                 this.keepChecking();
@@ -143,7 +146,7 @@ define([
             this.view = new CreateEnvironmentView({edit: true}).render();
             this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']}, {silent: true});
             this.view.model.fetch();
-            this.bindTo(this.view.model, 'success', function () {
+            this.bindTo(this.view.model, 'saved', function () {
                 this.view.hide();
                 this.fadeOut();
                 this.keepChecking();
@@ -186,7 +189,14 @@ define([
         keepChecking: function () {
             var event = this.bindTo(this.model, 'change', function () {
                 this.render().fadeIn();
-                if (this.model.get('status') !== 'pending' && this.model.get('status') !== 'stopping') {
+                if (this.model.get('status') === 'terminated') {
+                    this.model = this.availableModel;
+                    this.renderCreateEnvironment().fadeIn();
+                    clearInterval(this.interval);
+                    event.unbind();
+                }
+
+                if (!_(['pending', 'stopping', 'shutting_down']).include(this.model.get('status'))) {
                     clearInterval(this.interval);
                     event.unbind();
                 }

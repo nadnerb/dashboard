@@ -192,11 +192,11 @@
                 "owner" : "root",
                 "group" : "root"
               },
-              "/etc/profile.d/dupondius" : {
+              "/etc/profile.d/dupondius.sh" : {
                "content" : { "Fn::Join" : ["", [
                   "source /etc/default/app\n"
                   ]]},
-                "mode"  : "000744",
+                "mode"  : "000755",
                 "owner" : "root",
                 "group" : "root"
               },

@@ -44,4 +44,7 @@ class Aws::StacksController < ApplicationController
     respond_with(stacks.map { | name | { :name => name } })
   end
 
+  def template
+    respond_with(Dupondius::Aws::CloudFormation::Stack.find(params[:id]).template)
+  end
 end

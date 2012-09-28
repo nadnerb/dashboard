@@ -27,6 +27,7 @@ Dashboard::Application.routes.draw do
     resources :templates, :only => [:index, :show], :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/ }
     resources :stacks, :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/ } do
       get :available, :on => :collection
+      get :template, :on => :member
     end
 
     resources :instances, :constraints => { :id => /i-\S[^\.\/]+/ },

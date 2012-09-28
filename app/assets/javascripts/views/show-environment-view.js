@@ -46,6 +46,8 @@ define([
         renderInformation: function () {
             this.$('.name').html(this.model.get('name'));
             this.$('.description').html(this.model.get('description'));
+            this.$('.status').html(this.model.get('status'));
+            this.$('.resources').append(_(this.model.get('resource_summaries')).each(function (type) { type }));
         }
     });
 });

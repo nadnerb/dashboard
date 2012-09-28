@@ -7,7 +7,8 @@ class Dashboard::ConfigurationsController < ApplicationController
   end
 
   def export
-    render :text => 'FOO=BAZ'
+    # TODO: This key should come from the DB
+    render :text => 'NEW_RELIC_LICENSE_KEY=2c289743107b162195947d99c59004fc4fa06dc2'
   end
 
   def show

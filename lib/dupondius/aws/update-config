@@ -28,3 +28,5 @@ while read line; do
 done < /etc/default/app
 echo "export $names" >> /etc/default/app
 
+# reload configuration
+. /etc/default/app

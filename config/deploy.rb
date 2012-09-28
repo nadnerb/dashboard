@@ -60,7 +60,6 @@ namespace :foreman do
       "echo \"RAILS_ENV=#{rails_env}\" > ./tmp/env",
       "echo \"LAUNCHPAD_ENABLED=#{ENV['LAUNCHPAD_ENABLED']}\" >> ./tmp/env",
       "echo \"LAUNCHPAD_JOBS=#{ENV['LAUNCHPAD_JOBS']}\" >> ./tmp/env",
-      "echo \"AWS_ENABLED=#{ENV['AWS_ENABLED']}\" >> ./tmp/env",
       "echo \"AWS_REGION=#{ENV['AWS_REGION']}\" >> ./tmp/env",
 
       # Push the database environment variables into the app
@@ -73,7 +72,10 @@ namespace :foreman do
       "bundle exec foreman export initscript ./tmp/foreman -e /etc/default/#{application} -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log",
       "sudo mv tmp/foreman/#{application} /etc/init.d",
       "chmod +x /etc/init.d/#{application}",
-      "rm -rf tmp/foreman"
+      "rm -rf tmp/foreman",
+
+      # Start on boot"
+      "sudo chkconfig #{application} on"
     ].join(' && ')
   end
 

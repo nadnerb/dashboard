@@ -282,7 +282,7 @@
           "chmod g+rxw /opt\n",
 
           "# Give the deployer sudo permission to the project /etc/init.d scripts\n",
-          "echo \"deployer ALL=(root)NOPASSWD:/bin/mv,/etc/init.d/", {"Ref" : "ProjectName"}, " *\" > /etc/sudoers.d/deployer\n",
+          "echo \"deployer ALL=(root)NOPASSWD:/bin/mv,/sbin/chkconfig,/etc/init.d/", {"Ref" : "ProjectName"}, " *\" > /etc/sudoers.d/deployer\n",
           "chmod 0440 /etc/sudoers.d/deployer\n",
 
           "# Add nginx to the www group\n",

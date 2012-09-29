@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Single instance with tomcat and mysql",
+  "Description" : "Single instance with tomcat and RDS mysql",
 
   "Parameters" : {
 
@@ -65,14 +65,23 @@
       "ConstraintDescription" : "must contain only alphanumeric characters."
     },
 
-    "DBRootPassword": {
-      "Description" : "Root password for MySQL",
+    "DBAllocatedStorage": {
+      "Default": "5",
+      "Description" : "The size of the database (Gb)",
+      "Type": "Number",
+      "MinValue": "5",
+      "MaxValue": "1024",
+      "ConstraintDescription" : "must be between 5 and 1024Gb."
+    },
+
+    "DBInstanceClass": {
+      "Default": "db.m1.small",
+      "Description" : "The size of the database (Gb) (minimum 5GB, maximum 1024 GB)",
       "Type": "String",
-      "MinLength": "1",
-      "MaxLength": "41",
-      "AllowedPattern" : "[a-zA-Z0-9]*",
-      "ConstraintDescription" : "must contain only alphanumeric characters."
+      "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m1.large", "db.m1.xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge" ],
+      "ConstraintDescription" : "must select a valid database instance type."
     }
+
   },
 
   "Mappings" : {
@@ -109,7 +118,7 @@
     "WebServer": {
       "Type": "AWS::EC2::Instance",
       "Metadata" : {
-        "dupondius::template" : "grails_single_instance",
+        "dupondius::template" : "grails_single_instance_with_rds",
         "AWS::CloudFormation::Init" : {
           "config" : {
             "packages" : {
@@ -124,8 +133,19 @@
                 "mysql-server" : [],
                 "mysql-devel"  : [],
                 "mysql-libs"   : [],
-                "nginx"         : [],
                 "git.x86_64"   : []
+              }
+            },
+            "services" : {
+              "sysvinit" : {
+                "tomcat7" : {
+                  "enabled" : "true",
+                  "ensureRunning" : "true"
+                },
+                "mysqld" : {
+                    "enabled"       : "true",
+                    "ensureRunning" : "true"
+                }
               }
             },
             "groups" : {
@@ -147,12 +167,6 @@
               "/usr/sbin/update-route53-dns" : {
                 "source" : "https://s3.amazonaws.com/dupondius/config/update-route53-dns",
                 "mode"   : "000744",
-                "owner"  : "root",
-                "group"  : "root"
-              },
-              "/etc/nginx/nginx.conf2" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf",
-                "mode"   : "000644",
                 "owner"  : "root",
                 "group"  : "root"
               },
@@ -213,7 +227,6 @@
               "/tmp/setup.mysql" : {
                 "content" : { "Fn::Join" : ["", [
                   "CREATE USER '", { "Ref" : "DBUsername" }, "'@'localhost' IDENTIFIED BY '", { "Ref" : "DBPassword" }, "';\n",
-                  "CREATE DATABASE ", { "Ref" : "DBName" }, ";\n",
                   "GRANT ALL ON ", { "Ref" : "DBName" }, ".* TO '", { "Ref" : "DBUsername" }, "'@'localhost';\n",
                   "FLUSH PRIVILEGES;\n"
                     ]]},
@@ -232,28 +245,12 @@
                   "DB_NAME=", { "Ref" : "DBName" }, "\n",
                   "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
                   "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
-                  "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
+                  "DB_HOST=", { "Fn::GetAtt": [ "MySQLDatabase", "Endpoint.Address" ] }, "\n",
+                  "DB_PORT=", { "Fn::GetAtt": [ "MySQLDatabase", "Endpoint.Port" ] }, "\n"
                   ]]},
                 "mode"  : "000644",
                 "owner" : "root",
                 "group" : "root"
-              }
-            },
-            "services" : {
-              "sysvinit" : {
-                "nginx" : {
-                    "enabled" : "true",
-                    "ensureRunning" : "true",
-                    "files" : ["/etc/nginx/nginx.conf"]
-                },
-                "tomcat7" : {
-                  "enabled" : "true",
-                  "ensureRunning" : "true"
-                },
-                "mysqld" : {
-                    "enabled"       : "true",
-                    "ensureRunning" : "true"
-                }
               }
             }
           }
@@ -302,11 +299,6 @@
           "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
 
-          "# Setup MySQL root password and create a user\n",
-          "mysqladmin -u root password '", { "Ref" : "DBRootPassword" }, "' || error_exit 'Failed to initialize root password'\n",
-          "mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql || error_exit 'Failed to create database user'\n",
-
-
           "# Tools to support automated DNS update using Route53\n",
           "easy_install  -U boto\n",
           "easy_install  -U argparse\n",
@@ -347,11 +339,6 @@
           "CidrIp" : "0.0.0.0/0"
         }, {
           "IpProtocol" : "tcp",
-          "FromPort" : "80",
-          "ToPort" : "80",
-          "CidrIp" : "0.0.0.0/0"
-        }, {
-          "IpProtocol" : "tcp",
           "FromPort" : "8080",
           "ToPort" : "8080",
           "CidrIp" : "0.0.0.0/0"
@@ -359,7 +346,28 @@
 
       }
     },
-
+    "DBSecurityGroup": {
+      "Type": "AWS::RDS::DBSecurityGroup",
+      "Properties": {
+        "GroupDescription": "Grant database access to web server",
+        "DBSecurityGroupIngress": {
+          "EC2SecurityGroupName": { "Ref": "FrontendGroup" }
+        }
+      }
+    },
+    "MySQLDatabase": {
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "Engine" : "MySQL",
+        "DBName" : { "Ref": "DBName" },
+        "MultiAZ" : "false",
+        "MasterUsername": { "Ref": "DBUsername" },
+        "MasterUserPassword": { "Ref" : "DBPassword" },
+        "DBInstanceClass": { "Ref" : "DBInstanceClass" },
+        "DBSecurityGroups": [ { "Ref": "DBSecurityGroup" } ],
+        "AllocatedStorage": { "Ref" : "DBAllocatedStorage" }
+      }
+    },
     "DNSRecord" : {
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
@@ -375,7 +383,7 @@
 
   "Outputs" : {
     "WebsiteURL" : {
-      "Value" : { "Fn::Join" : ["", ["http://", {"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}]] },
+      "Value" : { "Fn::Join" : ["", ["http://", {"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, ":8080"]] },
       "Description" : "URL for newly created Tomcat webserver"
     }
   }

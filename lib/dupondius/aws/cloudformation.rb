@@ -32,7 +32,8 @@ module Dupondius; module Aws; module CloudFormation
       {id: 'rails_single_instance_with_rds', name: 'Rails Single Instance with MySQL RDS Instance' },
       {id: 'rails_multi_az', name: 'Create a highly available, scalable Ruby on Rails stack' },
       {id: 'ci', name: 'Jenkins CI'},
-      {id: 'grails_single_instance', name: 'Grails Single Instance'}
+      {id: 'grails_single_instance', name: 'Grails Single Instance'},
+      {id: 'grails_single_instance_with_rds', name: 'Grails Single Instance with MySQL RDS Instance'}
     ]
 
     def initialize subject

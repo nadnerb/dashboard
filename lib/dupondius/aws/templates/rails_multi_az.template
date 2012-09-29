@@ -46,7 +46,6 @@
     },
 
     "DBUsername": {
-      "NoEcho": "true",
       "Description" : "Username for MySQL database access",
       "Type": "String",
       "MinLength": "1",
@@ -56,7 +55,6 @@
     },
 
     "DBPassword": {
-      "NoEcho": "true",
       "Description" : "Password for MySQL database access",
       "Type": "String",
       "MinLength": "1",
@@ -156,7 +154,7 @@
           "PolicyNames" : [ "CookieBasedPolicy" ]
         } ],
         "HealthCheck" : {
-          "Target" : "HTTP:80/",
+          "Target" : "HTTP:80/status/heart_beat",
           "HealthyThreshold" : "2",
           "UnhealthyThreshold" : "5",
           "Interval" : "10",
@@ -221,9 +219,22 @@
                 "owner"  : "root",
                 "group"  : "root"
               },
+              "/usr/sbin/update-config" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/update-config",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
+              "/usr/sbin/install-app" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/install-app",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
               "/etc/default/app" : {
                "content" : { "Fn::Join" : ["", [
                   "ENVIRONMENT_NAME=", { "Ref" : "EnvironmentName" }, "\n",
+                  "RAILS_ENV=", { "Ref" : "EnvironmentName" }, "\n",
                   "PROJECT_NAME=", { "Ref" : "ProjectName" }, "\n",
                   "ZONE=", { "Ref" : "HostedZone" }, "\n",
                   "TTL=600\n",
@@ -236,6 +247,14 @@
                   "DB_PORT=", { "Fn::GetAtt": [ "MySQLDatabase", "Endpoint.Port" ] }, "\n"
                   ]]},
                 "mode"  : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
+              "/etc/profile.d/dupondius.sh" : {
+               "content" : { "Fn::Join" : ["", [
+                  "source /etc/default/app\n"
+                  ]]},
+                "mode"  : "000755",
                 "owner" : "root",
                 "group" : "root"
               },
@@ -310,18 +329,31 @@
           "chmod g+rxw /opt\n",
 
           "# Give the deployer sudo permission to the project /etc/init.d scripts\n",
-          "echo \"deployer ALL=(root)NOPASSWD:/bin/mv,/etc/init.d/", {"Ref" : "ProjectName"}, " *\" > /etc/sudoers.d/deployer\n",
+          "echo \"deployer ALL=(root)NOPASSWD:/bin/mv,/sbin/chkconfig,/etc/init.d/", {"Ref" : "ProjectName"}, " *\" > /etc/sudoers.d/deployer\n",
           "chmod 0440 /etc/sudoers.d/deployer\n",
 
           "# Add nginx to the www group\n",
           "usermod -a -G www nginx\n",
 
+          "# Support for config server to allow dynamic config updates\n",
+          "echo \"/usr/sbin/update-config\" >> /etc/rc.local\n",
+          "echo \"source /etc/default/app\" >> /etc/rc.local\n",
+          "/usr/sbin/update-config\n",
+
           "#add new relic server monitoring\n",
-          "rpm -uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
-          "yum install newrelic-sysmond\n",
+          "rpm -Uv http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
+          "yum install -y newrelic-sysmond\n",
+
+          "#set newrelic license key\n",
+          "/usr/sbin/nrsysmond-config --set license_key=$NEW_RELIC_LICENSE_KEY\n",
+          "echo \"n/usr/sbin/nrsysmond-config --set license_key=\\$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
+          "echo \"/etc/init.d/newrelic-sysmond restart\" >> /etc/rc.local\n",
+
+          "#install the app\n",
+          "/usr/sbin/install-app\n",
 
           "# All is well so signal success\n",
-          "/opt/aws/bin/cfn-signal -e 0 -r \"Dashboard application setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
+          "/opt/aws/bin/cfn-signal -e 0 -r \"Environment setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
         ]]}}
       }
     },
@@ -335,8 +367,7 @@
       "DependsOn" : "WebServerGroup",
       "Properties" : {
         "Handle"  : {"Ref" : "WaitHandle"},
-        "Timeout" : "1500",
-        "Count"   : { "Ref" : "WebServerCapacity" }
+        "Timeout" : "1500"
       }
     },
 

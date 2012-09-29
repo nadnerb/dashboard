@@ -48,6 +48,9 @@ production:
 qa:
   <<: *base
 
+performance:
+  <<: *base
+
 canary:
   <<: *base
 

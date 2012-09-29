@@ -12,16 +12,17 @@ fi
 
 usage() {
   echo ""
-  echo "Usage: $0 tech_stack aws_region"
+  echo "Usage: $0 tech_stack aws_region project_github_user"
   exit 1
 }
 
-if [ -z "$2" ]; then
+if [ -z "$3" ]; then
   usage
 fi
 
 tech_stack=$1
 aws_region=$2
+project_github_user=$3
 
 dashboard_name='dupondius'
 
@@ -49,11 +50,13 @@ echo "RAILS_ENV=production" >> /etc/default/app
 echo "ENABLE_LAUNCHPAD=false" >> /etc/default/app
 echo "TECH_STACK=$tech_stack" >> /etc/default/app
 echo "AWS_REGION=$aws_region" >> /etc/default/app
+echo "PROJECT_GITHUB_USER=$project_github_user" >> /etc/default/app
 
 # Generate initd scripts
 su - deployer -c "cd /opt/app/$dashboard_name/current && bundle exec foreman export initscript /tmp -e /etc/default/app -f ./Procfile.production -a $dashboard_name -u deployer -l /opt/app/$dashboard_name/current/log"
 mv /tmp/$dashboard_name /etc/init.d
 chmod +x /etc/init.d/$dashboard_name
+chkconfig $dashboard_name on
 
 # Go
 /etc/init.d/$dashboard_name restart

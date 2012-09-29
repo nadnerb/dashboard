@@ -127,8 +127,8 @@ module Dupondius; module Aws; module CloudFormation
 
   class Dashboard < Stack
 
-    def initialize project_name, tech_stack, aws_region, parameters
-      @project_name, @tech_stack, @aws_region, @parameters = project_name, tech_stack, aws_region, parameters
+    def initialize project_name, tech_stack, aws_region, github_user, parameters
+      @project_name, @tech_stack, @aws_region, @github_user, @parameters = project_name, tech_stack, aws_region, github_user, parameters
     end
 
     def create
@@ -155,7 +155,7 @@ module Dupondius; module Aws; module CloudFormation
 
       # inject the dashboard install script into the user-data
       user_data = template['Resources']['WebServer']['Properties']['UserData']['Fn::Base64']['Fn::Join'].last
-      user_data.insert((user_data.size) -4, "curl -L https://s3.amazonaws.com/dupondius/config/install-dashboard | bash -s #{@tech_stack.parameterize} #{@aws_region}\n")
+      user_data.insert((user_data.size) -4, "curl -L https://s3.amazonaws.com/dupondius/config/install-dashboard | bash -s #{@tech_stack.parameterize} #{@aws_region} #{@github_user}\n")
       JSON.pretty_generate(template)
     end
   end

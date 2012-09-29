@@ -303,7 +303,9 @@
           "rpm -Uv http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
           "yum install -y newrelic-sysmond\n",
 
-          "echo \"n/usr/sbin/nrsysmond-config --set license_key=\$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
+          "#set newrelic license key\n",
+          "/usr/sbin/nrsysmond-config --set license_key=$NEW_RELIC_LICENSE_KEY\n",
+          "echo \"n/usr/sbin/nrsysmond-config --set license_key=\\$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
           "echo \"/etc/init.d/newrelic-sysmond restart\" >> /etc/rc.local\n",
 
           "# All is well so signal success\n",

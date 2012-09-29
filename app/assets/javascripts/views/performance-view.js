@@ -1,20 +1,26 @@
 define([
     'vendor/base',
     'views/performance-server-view',
-    'views/performance-app-view'
-], function (BackboneSuperView, ServerView, AppView) {
+    'views/performance-charts-view'
+], function (BackboneSuperView, ServerView, ChartsView) {
     return BackboneSuperView.extend({
 
         id: 'newrelic',
 
         initialize: function (options) {
-          var serverView = new ServerView(this);
-          var appView = new AppView(this);
-          serverView.model.fetch();
-          appView.model.fetch();
+          this.serverView = new ServerView(options);
+          this.chartsView = new ChartsView(options);
         },
 
         postRender: function () {
+          this.$el.append(this.serverView.render().el);
+          this.$el.append(this.chartsView.render().el);
+        },
+
+        destroy: function () {
+          this.serverView.destroy();
+          this.chartsView.destroy();
+          BackboneSuperView.prototype.destroy.call(this);
         }
 
     });

@@ -10,7 +10,8 @@ define([
         template: template,
 
         initialize: function (options) {
-            this.model = new Backbone.Model({heading: options.heading});
+          this.options = options;
+          this.model = new Backbone.Model({heading: options.heading});
         },
 
         postRender: function () {

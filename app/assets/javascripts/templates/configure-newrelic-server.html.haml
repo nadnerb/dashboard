@@ -1,12 +1,5 @@
-%form.form-horizontal
-    %legend New Relic Server Monitoring
-    %div.control-group
-      To configure server monitoring please enter your token below
-    %div#token.control-group
-        %label.control-label Token
-        %div.controls
-            %input{id: 'newrelic_token', type: 'text', placeholder: 'Enter a new relic api token'}
-            %span.help-inline
-    %div.control-group
-        %div.controls
-            %button{type: 'submit', class: 'btn'} Submit
+%p
+    To configure server monitoring please enter your newrelic token by clicking on the config button for this
+    widget
+    %a.btn.configure-newrelic-btn
+      %i.icon-cog

@@ -4,25 +4,34 @@ define([
     'views/widget-view',
     'text!templates/configure-newrelic-server.html.haml'
 ], function (BackboneSuperView, ServerConfiguration, WidgetView, configureTemplate) {
-    return BackboneSuperView.extend({
+    return WidgetView.extend({
 
         id: 'server-performance-config',
 
         events: {
-            'click .btn': 'configure',
+            'click .configure-newrelic-btn': 'configure'
         },
 
         initialize: function (options) {
-          this.model = new ServerConfiguration();
-          this.model.on('change', function () {
+          WidgetView.prototype.initialize.call(this, {
+              heading: 'Server performance',
+              contentId: 'server-performance-widget'
+          });
+          this.configuration = new ServerConfiguration();
+          this.configuration.on('change', function () {
             this.render();
           }, this);
-          this.model.fetch();
+          this.configuration.fetch();
         },
 
         postRender: function () {
-          this.renderConfigurePerformanceServer();
-          $('#newrelic_token').val(this.model.get('newrelic_token'));
+          WidgetView.prototype.postRender.call(this);
+          this.renderControls();
+          this.append(haml.compileHaml({source: configureTemplate})());
+        },
+
+        renderControls: function () {
+          this.$('.widget-header h3').append('<div class="widget-toolbar"><a id="newrelic-config-btn" class="btn configure-newrelic-btn" href="#" rel="tooltip" title="Configuration"><i class="icon-cog"/></a></div>');
         },
 
         renderConfigurePerformanceServer: function () {
@@ -36,25 +45,27 @@ define([
             this.$el.html(view.el);
         },
 
-        configure: function () {
-            var token = this.$('#newrelic_token').val();
+        configure: function (event) {
+//            var token = this.$('#newrelic_token').val();
+//
+//            this.configuration.on('error', function (configuration, errors) {
+//                _(errors).each(function (error) {
+//                    this.$('#' + error.name).addClass('error');
+//                    this.$('#' + error.name + ' .help-inline').text(error.message);
+//                }, this);
+//            }, this);
+//
+//            this.$('.control-group').removeClass('error');
+//            this.$('.help-inline').empty();
+//
+//            this.configuration.save({
+//                invalid: undefined,
+//                newrelic_token: token
+//            });
+//
+//            return false;
 
-            this.model.on('error', function (model, errors) {
-                _(errors).each(function (error) {
-                    this.$('#' + error.name).addClass('error');
-                    this.$('#' + error.name + ' .help-inline').text(error.message);
-                }, this);
-            }, this);
-
-            this.$('.control-group').removeClass('error');
-            this.$('.help-inline').empty();
-
-            this.model.save({
-                invalid: undefined,
-                newrelic_token: token
-            });
-
-            return false;
+          event.preventDefault();
         }
 
     });

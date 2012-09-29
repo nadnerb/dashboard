@@ -2,28 +2,40 @@ define([
     'vendor/base',
     'models/performance',
     'views/widget-view',
-    'text!templates/configure-newrelic.html.haml',
-    'text!templates/performance.html.haml'
-], function (BackboneSuperView, Performance, WidgetView, configureTemplate, performanceTemplate) {
-    return BackboneSuperView.extend({
+    'text!templates/configure-newrelic-charts.html.haml',
+    'text!templates/performance-charts.html.haml'
+], function (BackboneSuperView, PerformanceCharts, WidgetView, configureTemplate, performanceTemplate) {
+    return WidgetView.extend({
 
         id: 'performance',
 
         events: {
-            'click .btn': 'configure',
-            'click .killmenow': 'deleteConfig'
+            'click .add-new-chart': 'addNewChart'
         },
 
         initialize: function (options) {
-          this.createModel();
+          WidgetView.prototype.initialize.call(this, {
+              heading: 'Performance Charts',
+              contentId: 'performance-charts-widget'
+          });
+          this.performanceModel = new PerformanceCharts();
+          this.performanceModel.on('change', function () {
+            this.render();
+          }, this);
         },
 
         postRender: function () {
-            if (this.model.has('source')) {
-                this.renderMetrics();
-            } else {
-                this.renderConfigureNewRelic();
-            }
+          WidgetView.prototype.postRender.call(this);
+          this.renderControls();
+          this.append(haml.compileHaml({source: configureTemplate})());
+        },
+
+        renderControls: function () {
+          this.$('.widget-header h3').append('<div class="widget-toolbar"><a id="add-new-chart-btn" class="btn add-new-chart" href="#" rel="tooltip" title="Add a new chart"><i class="icon-plus"/></a></div>');
+        },
+
+        addNewChart: function (event) {
+          event.preventDefault();
         },
 
         renderConfigureNewRelic: function () {
@@ -81,13 +93,6 @@ define([
           this.model.destroy();
           this.createModel();
           this.model.fetch();
-        },
-
-        createModel: function() {
-          this.model = new Performance();
-          this.model.on('change', function () {
-            this.render();
-          }, this);
         }
 
     });

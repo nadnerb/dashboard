@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Make sure only root can run our script
 if [ "$(id -u)" != "0" ]; then
@@ -10,14 +10,14 @@ fi
 . /etc/default/app
 
 while read l; do
-  name = `echo $l | sed -e 's/=.*//g'`
+  name=`echo $l | sed -e 's/=.*//g'`
   grep $name /etc/default/app
   if [ "$?" -eq "0" ]; then
     sed -i s/$name=.*/$l/g /etc/default/app
   else
     echo $l >> /etc/default/app
   fi
-done < `curl -s http://dashboard.$PROJECT_NAME.dupondi.us/dashboard/configurations/export`
+done < <(curl -s http://dashboard.$PROJECT_NAME.dupondi.us/dashboard/configurations/export)
 
 # rewrite the export
 sed -i s/^export\ .*//g /etc/default/app

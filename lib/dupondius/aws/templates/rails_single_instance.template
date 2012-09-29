@@ -296,13 +296,14 @@
 
           "# Support for config server to allow dynamic config updates\n",
           "echo \"/usr/sbin/update-config\" >> /etc/rc.local\n",
+          "echo \"source /etc/default/app\" >> /etc/rc.local\n",
           "/usr/sbin/update-config\n",
 
           "#add new relic server monitoring\n",
           "rpm -Uv http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
           "yum install -y newrelic-sysmond\n",
 
-          "echo \"nrsysmond-config --set license_key=$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
+          "echo \"n/usr/sbin/nrsysmond-config --set license_key=\$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
           "echo \"/etc/init.d/newrelic-sysmond restart\" >> /etc/rc.local\n",
 
           "# All is well so signal success\n",

@@ -225,6 +225,12 @@
                 "owner"  : "root",
                 "group"  : "root"
               },
+              "/usr/sbin/configure-nginx" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/configure-nginx",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
               "/usr/sbin/install-app" : {
                 "source" : "https://s3.amazonaws.com/dupondius/config/install-app",
                 "mode"   : "000744",
@@ -339,6 +345,10 @@
           "echo \"/usr/sbin/update-config\" >> /etc/rc.local\n",
           "echo \"source /etc/default/app\" >> /etc/rc.local\n",
           "/usr/sbin/update-config\n",
+
+          "# Configure nginx\n",
+          "/usr/sbin/configure-nginx rails\n",
+          "/etc/init.d/nginx restart\n",
 
           "#add new relic server monitoring\n",
           "rpm -Uv http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",

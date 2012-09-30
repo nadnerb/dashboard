@@ -20,7 +20,8 @@ define([
               contentId: 'performance-charts-widget'
           });
           this.performanceModel = new PerformanceCharts();
-          this.performanceModel.on('change reset', function () {
+          this.performanceModel.on('reset', function () {
+            this.$('widget-content').html('');
             this.render();
           }, this);
           this.performanceModel.fetch();
@@ -60,6 +61,7 @@ define([
             this.$('#iframe').addClass('error');
             this.$('#iframe .help-block').html('IFRAME source is required');
           } else {
+            var _this = this;
             this.performanceModel.create({source: iframe}, {
               error: function (model, response) {
                 this.$('#iframe').addClass('error');
@@ -68,51 +70,10 @@ define([
               },
               success: function (model, response) {
                 $('#add-chart-modal').modal('hide');
+                _this.append(model.get('source'));
               }
             });
           }
-        },
-
-        configure: function () {
-            var iframe = this.$('#newrelic-iframe').val();
-
-            this.model.on('error', function (model, errors) {
-                _(errors).each(function (error) {
-                    this.$('#' + error.name).addClass('error');
-                    this.$('#' + error.name + ' .help-inline').text(error.message);
-                }, this);
-            }, this);
-
-            this.$('.control-group').removeClass('error');
-            this.$('.help-inline').empty();
-
-            this.model.save({
-                not_configured: undefined,
-                invalid: undefined,
-                iframe: iframe,
-            });
-
-            return false;
-        },
-
-        renderMetrics: function () {
-          var view = new WidgetView({
-            heading: 'New Relic',
-            contentId: 'newrelic-widget'
-          }).render();
-
-          if(!this.model.get('invalid')) {
-            view.append('<iframe src="' + this.model.get('source') + '" width="850" height="300" scrolling="no" frameborder="no"></iframe>');
-            view.append('<div><a class="killmenow" href="#">Change Graph</a></div>');
-            this.$el.html(view.el);
-          }
-        },
-
-        deleteConfig: function (e) {
-          e.preventDefault();
-          this.model.destroy();
-          this.createModel();
-          this.model.fetch();
         }
 
     });

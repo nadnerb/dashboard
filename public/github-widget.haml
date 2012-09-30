@@ -11,15 +11,6 @@
         = repo.watchers.name
       %a{class:"forks", href: repo.forks.href}
         = repo.forks.name
-  .github-box-content
-    %p.description
-      = repo.description
-      !&mdash;
-      %a{href: repo.readme.href}
-        Read More
-    %p.link
-      %a{href: repo.homepage}
-        = repo.homepage
   .github-box-download
     %p.updated
       Latest commit to the <strong>master</strong> branch on #{pushed_at}

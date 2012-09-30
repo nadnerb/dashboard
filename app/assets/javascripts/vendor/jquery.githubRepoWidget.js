@@ -1,5 +1,6 @@
-$(function(){
+function github(){
 
+  console.log($('.github-widget'));
   var i = 0;
 
   $('.github-widget').each(function(){
@@ -53,4 +54,4 @@ $(function(){
     })
 
   });
-});
+};

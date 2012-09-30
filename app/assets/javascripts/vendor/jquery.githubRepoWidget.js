@@ -10,7 +10,6 @@ function githubWidget(){
     var $container = $(this);
     var repo = $container.data('repo');
     var token = $.cookie('project_token');
-    console.log(token);
     var access = "";
     if (token) {
      access = '?access_token=' + token;
@@ -21,7 +20,6 @@ function githubWidget(){
       dataType: 'jsonp',
 
       success: function(results){
-        console.log(results);
         var repo = results.data;
 
         var date = new Date(repo.pushed_at);

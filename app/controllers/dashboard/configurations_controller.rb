@@ -10,6 +10,8 @@ class Dashboard::ConfigurationsController < ApplicationController
     render :text => ["NEW_RELIC_LICENSE_KEY=#{ServerConfiguration.first.newrelic_token}",
                      "PROJECT_GITHUB_USER=#{ENV['PROJECT_GITHUB_USER']}",''].join("\n")
 
+  rescue
+    render :nothing => true
   end
 
   def show

@@ -21,18 +21,15 @@ class Dashboard::PerformanceController < ActionController::Base
     end
   end
 
-#  def destroy
-#    begin
-#      Dashboard::NewrelicConfiguration.find(params[:id]).destroy
-#    rescue
-#    end
-#    render :json => { :not_configured => true }
-#  end
-#
-#  def newrelic
-#    # TODO allow multiple
-#    @newrelic ||= Dashboard::NewrelicConfiguration.last
-#  end
+  def destroy
+    chart = Dashboard::NewrelicConfiguration.find(params[:id])
+    if chart
+      chart.destroy
+      render :json => 'OK'
+    else
+      render :status => 404
+    end
+  end
 
   def summary
     configuration = ServerConfiguration.first

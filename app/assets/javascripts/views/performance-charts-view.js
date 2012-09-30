@@ -11,7 +11,8 @@ define([
 
         events: {
             'click .add-new-chart': 'addNewChart',
-            'click #add-chart-modal .confirm': 'confirmAddChart'
+            'click #add-chart-modal .confirm': 'confirmAddChart',
+            'click li .controls .btn': 'deleteChart'
         },
 
         initialize: function (options) {
@@ -21,8 +22,11 @@ define([
           });
           this.performanceModel = new PerformanceCharts();
           this.performanceModel.on('reset', function () {
-            this.$('widget-content').html('');
             this.render();
+          }, this).on('destroy', function () {
+            if (!this.performanceModel.length) {
+              this.append(haml.compileHaml({source: configureTemplateCharts})());
+            }
           }, this);
           this.performanceModel.fetch();
         },
@@ -33,8 +37,9 @@ define([
           if (!this.performanceModel.length) {
             this.append(haml.compileHaml({source: configureTemplateCharts})());
           } else {
+            this.$('.widget-content').html('<ul class="thumbnails"></ul>');
             this.performanceModel.each(function (chart) {
-              this.append(chart.get('source'));
+              this.$('ul.thumbnails').append(this.renderChart(chart));
             }, this);
           }
         },
@@ -72,10 +77,28 @@ define([
               },
               success: function (model, response) {
                 $('#add-chart-modal').modal('hide');
-                _this.append(model.get('source'));
+                if (_this.performanceModel.length == 1) {
+                  _this.$('.widget-content').html('<ul class="thumbnails"></ul>');
+                }
+                _this.$('ul.thumbnails').append(_this.renderChart(model));
               }
             });
           }
+        },
+
+        deleteChart: function (event) {
+          event.preventDefault();
+          var id = $(event.currentTarget).data('id');
+          var chart = this.performanceModel.get(id);
+          chart.destroy();
+          $('#chart-' + id).detach();
+        },
+
+        renderChart: function (chart) {
+          return '<li id="chart-' + chart.id +
+            '"><div class="controls pull-right"><a href="#" class="btn btn-mini" data-id="' + chart.id +
+            '"><i class="icon-remove"></i></a></div>' +
+            chart.get('source') + '</li>';
         }
 
     });

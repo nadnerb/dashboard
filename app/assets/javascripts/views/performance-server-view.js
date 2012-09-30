@@ -2,14 +2,16 @@ define([
     'vendor/base',
     'models/server-configuration',
     'views/widget-view',
-    'text!templates/configure-newrelic-server.html.haml'
-], function (BackboneSuperView, ServerConfiguration, WidgetView, configureTemplate) {
+    'text!templates/configure-newrelic-server.html.haml',
+    'text!templates/configure-newrelic.html.haml'
+], function (BackboneSuperView, ServerConfiguration, WidgetView, configureTemplate, modalTemplate) {
     return WidgetView.extend({
 
         id: 'server-performance-config',
 
         events: {
-            'click .configure-newrelic-btn': 'configure'
+            'click .configure-newrelic-btn': 'configure',
+            'click #server-config-modal .confirm': 'confirmToken'
         },
 
         initialize: function (options) {
@@ -27,46 +29,59 @@ define([
         postRender: function () {
           WidgetView.prototype.postRender.call(this);
           this.renderControls();
-          this.append(haml.compileHaml({source: configureTemplate})());
+          var token = this.configuration.get('newrelic_token');
+          if (!token) {
+            this.append(haml.compileHaml({source: configureTemplate})());
+          } else {
+            var _this = this;
+            $.ajax('dashboard/newrelic/summary', {
+              success: function (data) {
+                _this.append(data);
+              }
+            });
+          }
         },
 
         renderControls: function () {
           this.$('.widget-header h3').append('<div class="widget-toolbar"><a id="newrelic-config-btn" class="btn configure-newrelic-btn" href="#" rel="tooltip" title="Configuration"><i class="icon-cog"/></a></div>');
         },
 
-        renderConfigurePerformanceServer: function () {
-            var view = new WidgetView({
-               heading: 'Configure New Relic Server Monitoring',
-               contentId: 'configure-newrelic-server-widget'
-            }).render();
-
-            view.appendTemplate(configureTemplate);
-
-            this.$el.html(view.el);
+        configure: function (event) {
+          event.preventDefault();
+          if (!this.$('#server-config-modal').length) {
+            this.$el.append(haml.compileHaml({source: modalTemplate})());
+          }
+          var token = this.configuration.get('newrelic_token');
+          if (token) {
+            $('#newrelic_token').val(token);
+          } else {
+            this.$('#token').removeClass('error');
+            this.$('#token .help-block').html('');
+          }
+          $('#server-config-modal').modal();
         },
 
-        configure: function (event) {
-//            var token = this.$('#newrelic_token').val();
-//
-//            this.configuration.on('error', function (configuration, errors) {
-//                _(errors).each(function (error) {
-//                    this.$('#' + error.name).addClass('error');
-//                    this.$('#' + error.name + ' .help-inline').text(error.message);
-//                }, this);
-//            }, this);
-//
-//            this.$('.control-group').removeClass('error');
-//            this.$('.help-inline').empty();
-//
-//            this.configuration.save({
-//                invalid: undefined,
-//                newrelic_token: token
-//            });
-//
-//            return false;
-
-          event.preventDefault();
+      confirmToken: function (event) {
+        event.preventDefault();
+        this.$('#token').removeClass('error');
+        this.$('#token .help-block').html('');
+        var token = $('#newrelic_token').val();
+        if (!token) {
+          this.$('#token').addClass('error');
+          this.$('#token .help-block').html('API token is required');
+        } else {
+          this.configuration.set({'newrelic_token': token});
+          this.configuration.save({}, {
+            error: function (model, response) {
+              this.$('#token').addClass('error');
+              this.$('#token .help-block').html(JSON.parse(response.responseText).join(', '));
+            },
+            success: function (model, response) {
+              $('#server-config-modal').modal('hide');
+            }
+          });
         }
+      }
 
     });
 });

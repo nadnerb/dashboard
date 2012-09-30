@@ -325,6 +325,7 @@ DEPENDENCIES
   foreman
   foreman-export-initscript!
   haml-rails
+  httparty
   jasmine
   jasmine-headless-webkit
   jasmine-spec-extras

@@ -1,4 +1,4 @@
-require 'curl'
+require 'httparty'
 
 class Dashboard::PerformanceController < ActionController::Base
 
@@ -33,4 +33,10 @@ class Dashboard::PerformanceController < ActionController::Base
 #    # TODO allow multiple
 #    @newrelic ||= Dashboard::NewrelicConfiguration.last
 #  end
+
+  def summary
+    configuration = ServerConfiguration.first
+    response = HTTParty.get('https://api.newrelic.com/application_dashboard', :headers => {"x-api-key" => configuration.newrelic_token})
+    render :text => response.body
+  end
 end

@@ -19,7 +19,7 @@ gem 'devise'
 gem 'newrelic_rpm'
 gem "curb", "~> 0.8.1"
 gem 'json'
-
+gem 'httparty'
 gem 'haml-rails'
 
 # Gems used only for assets and not required

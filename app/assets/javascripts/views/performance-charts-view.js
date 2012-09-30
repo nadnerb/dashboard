@@ -47,6 +47,9 @@ define([
           event.preventDefault();
           if (!this.$('#add-chart-modal').length) {
             this.$el.append(haml.compileHaml({source: addChartModalTemplate})());
+          } else {
+            this.$('#iframe').removeClass('error');
+            this.$('#iframe .help-block').html('');
           }
           this.$('#iframe textarea').val('');
           $('#add-chart-modal').modal();
@@ -65,7 +68,6 @@ define([
             this.performanceModel.create({source: iframe}, {
               error: function (model, response) {
                 this.$('#iframe').addClass('error');
-                console.log(response);
                 this.$('#iframe .help-block').html(JSON.parse(response.responseText).join(', '));
               },
               success: function (model, response) {

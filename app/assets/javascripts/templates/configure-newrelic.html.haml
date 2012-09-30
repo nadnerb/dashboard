@@ -1,17 +1,15 @@
-.modal.hide.fade
+#server-config-modal.modal.hide.fade
   .modal-header
-
-  %form.form-horizontal
-    %legend New Relic Application Monitoring
-    %div.control-group
-      To start receiving New Relic statics you need to have deployed your app to production using the jenkins pipeline. For application monitoring newrelic has be enabled by your app by adding the newrelic.yml file in you config (rails) or lib (java/grails) directory.
-    %div.control-group
-      You can add an exported iframe or url below. This can be done in the new relic dashboard via the embedded charts or custom dashboards (pro).
-    %div#iframe.control-group
-        %label.control-label Url or iframe
+    New Relic Application Monitoring
+  .modal-body
+    %form.form
+      %div.control-group
+        To configure server monitoring please enter your New Relic API token below.
+      %div#token.control-group
+        %label.control-label New Relic API Token
         %div.controls
-            %input{id: 'newrelic-iframe', type: 'text', placeholder: 'Enter a url or iframe'}
-            %span.help-inline
-    %div.control-group
-        %div.controls
-            %button{type: 'submit', class: 'btn'} Submit
+          %input.input-xlarge(id='newrelic_token' type='text' placeholder='Enter a new relic api token')
+          %span.help-block
+  .modal-footer
+    %a.cancel.btn-small(data-dismiss = "modal") Cancel
+    %a.confirm.btn.btn-primary Configure

@@ -24,18 +24,18 @@ class Dashboard::ConfigurationsController < ApplicationController
   def create
     configuration = ServerConfiguration.new(params[:configuration])
     if configuration.save
-      respond_with(configuration, :location => dashboard_performance_path)
+      respond_with(configuration, :location => dashboard_configurations_path)
     else
-      render :json => { :invalid => 'Invalid server configuration' }
+      render :json => configuration.errors.full_messages, :status => 422
     end
   end
 
   def update
     configuration = ServerConfiguration.find(params[:id])
     if configuration.update_attributes(params[:configuration])
-      respond_with(configuration, :location => dashboard_performance_path)
+      respond_with(configuration, :location => dashboard_configurations_path)
     else
-      render :json => { :invalid => configuartion.errors }
+      render :json => configuration.errors.full_messages, :status => 422
     end
   end
 end

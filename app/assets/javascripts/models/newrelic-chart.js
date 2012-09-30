@@ -3,13 +3,9 @@ define([
 ], function (Backbone) {
 
   return Backbone.Model.extend({
-    urlRoot: 'dashboard/performance/',
+    urlRoot: 'dashboard/performance',
 
      validate: function (attrs) {
-       if (attrs.not_configured === true){
-         return;
-       }
-
        var errors = [];
 
        if (attrs.iframe === '') {

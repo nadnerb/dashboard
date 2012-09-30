@@ -13,8 +13,7 @@ Dashboard::Application.routes.draw do
   namespace :dashboard do
     # this needs some spring cleaning
     resource :stories, :only => [:create, :show]
-    resource :performance, :only => [:create, :show], :controller => 'performance'
-    resources :performance, :only => [:destroy], :controller => 'performance'
+    resources :performance #, :controller => 'performance'
     resource :configurations, :only => [:create, :show]
     resources :configurations, :only => [:update] do
       get :export, :on => :collection

@@ -1,16 +1,17 @@
 define([
     'vendor/base',
-    'models/performance',
+    'collections/newrelic-charts',
     'views/widget-view',
     'text!templates/configure-newrelic-charts.html.haml',
-    'text!templates/performance-charts.html.haml'
-], function (BackboneSuperView, PerformanceCharts, WidgetView, configureTemplate, performanceTemplate) {
+    'text!templates/add-newrelic-chart.html.haml'
+], function (BackboneSuperView, PerformanceCharts, WidgetView, configureTemplateCharts, addChartModalTemplate) {
     return WidgetView.extend({
 
         id: 'performance',
 
         events: {
-            'click .add-new-chart': 'addNewChart'
+            'click .add-new-chart': 'addNewChart',
+            'click #add-chart-modal .confirm': 'confirmAddChart'
         },
 
         initialize: function (options) {
@@ -19,15 +20,22 @@ define([
               contentId: 'performance-charts-widget'
           });
           this.performanceModel = new PerformanceCharts();
-          this.performanceModel.on('change', function () {
+          this.performanceModel.on('change reset', function () {
             this.render();
           }, this);
+          this.performanceModel.fetch();
         },
 
         postRender: function () {
           WidgetView.prototype.postRender.call(this);
           this.renderControls();
-          this.append(haml.compileHaml({source: configureTemplate})());
+          if (!this.performanceModel.length) {
+            this.append(haml.compileHaml({source: configureTemplateCharts})());
+          } else {
+            this.performanceModel.each(function (chart) {
+              this.append(chart.get('source'));
+            }, this);
+          }
         },
 
         renderControls: function () {
@@ -36,21 +44,33 @@ define([
 
         addNewChart: function (event) {
           event.preventDefault();
+          if (!this.$('#add-chart-modal').length) {
+            this.$el.append(haml.compileHaml({source: addChartModalTemplate})());
+          }
+          this.$('#iframe textarea').val('');
+          $('#add-chart-modal').modal();
         },
 
-        renderConfigureNewRelic: function () {
-            var view = new WidgetView({
-               heading: 'Configure New Relic',
-               contentId: 'configure-newrelic-widget'
-            }).render();
-
-            if (this.model.has('not_configured')) {
-              view.appendTemplate(configureTemplate);
-            } else {
-              view.append('Loading...');
-            }
-
-            this.$el.html(view.el);
+        confirmAddChart: function (event) {
+          event.preventDefault();
+          this.$('#iframe').removeClass('error');
+          this.$('#iframe .help-block').html('');
+          var iframe = this.$('#iframe textarea').val();
+          if (!iframe) {
+            this.$('#iframe').addClass('error');
+            this.$('#iframe .help-block').html('IFRAME source is required');
+          } else {
+            this.performanceModel.create({source: iframe}, {
+              error: function (model, response) {
+                this.$('#iframe').addClass('error');
+                console.log(response);
+                this.$('#iframe .help-block').html(JSON.parse(response.responseText).join(', '));
+              },
+              success: function (model, response) {
+                $('#add-chart-modal').modal('hide');
+              }
+            });
+          }
         },
 
         configure: function () {

@@ -4,29 +4,33 @@ class Dashboard::PerformanceController < ActionController::Base
 
   respond_to :json
 
+  def index
+    respond_with Dashboard::NewrelicConfiguration.all
+  end
+
   def show
-    newrelic ? respond_with(newrelic) : respond_with({:not_configured => true })
+    respond_with(Dashboard::NewrelicConfiguration.find(params[:id]))
   end
 
   def create
-    _newrelic = Dashboard::NewrelicConfiguration.build_from_performance_param!(params['performance'])
-    if _newrelic.save
-      respond_with(newrelic, :location => dashboard_performance_path)
+    newrelic = Dashboard::NewrelicConfiguration.new(:source => params[:source])
+    if newrelic.save
+      respond_with(newrelic, :location => dashboard_performance_url(newrelic.id))
     else
-      render :json => { :invalid => 'Invalid new relic configuration, please post an iframe or the graph url', :not_configured => true }
+      render :json => newrelic.errors.full_messages, :status => 422
     end
   end
 
-  def destroy
-    begin
-      Dashboard::NewrelicConfiguration.find(params[:id]).destroy
-    rescue
-    end
-    render :json => { :not_configured => true }
-  end
-
-  def newrelic
-    # TODO allow multiple
-    @newrelic ||= Dashboard::NewrelicConfiguration.last
-  end
+#  def destroy
+#    begin
+#      Dashboard::NewrelicConfiguration.find(params[:id]).destroy
+#    rescue
+#    end
+#    render :json => { :not_configured => true }
+#  end
+#
+#  def newrelic
+#    # TODO allow multiple
+#    @newrelic ||= Dashboard::NewrelicConfiguration.last
+#  end
 end

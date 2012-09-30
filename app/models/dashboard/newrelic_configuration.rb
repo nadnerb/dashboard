@@ -1,17 +1,18 @@
 class Dashboard::NewrelicConfiguration < ActiveRecord::Base
   attr_accessible :source
   validates :source, :presence => true
+  validate :is_iframe?
 
-  def self.build_from_performance_param!(performance)
-    Dashboard::NewrelicConfiguration.new(:source => src(performance[:iframe]))
-  end
-
-  def self.src(iframe_url)
-    iframe_url = iframe_url.match(/src=['"]([^['"]]*)['"]/)[1] if iframe_url =~ /src=/
-    is_url?(iframe_url) ? iframe_url : nil
-  end
-
-  def self.is_url?(url)
+  def is_url?(url)
     /https?:\/\/[\S]+/.match(url).present?
+  end
+
+  def is_iframe?
+    unless source =~ /^<iframe/ && source =~ /src=/
+      errors.add(:source, "Invalid new relic graph configuration, please post an iframe")
+    else
+      iframe_url = source.match(/src=['"]([^['"]]*)['"]/)[1]
+      errors.add(:source, "IFRAME source url is invalid") unless is_url? iframe_url
+    end
   end
 end

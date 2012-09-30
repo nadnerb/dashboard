@@ -7,8 +7,7 @@ class Dashboard::ConfigurationsController < ApplicationController
   end
 
   def export
-    # TODO: This key should come from the DB
-    render :text => ['NEW_RELIC_LICENSE_KEY=2c289743107b162195947d99c59004fc4fa06dc2',
+    render :text => ["NEW_RELIC_LICENSE_KEY=#{ServerConfiguration.first.newrelic_token",
                      "PROJECT_GITHUB_USER=#{ENV['PROJECT_GITHUB_USER']}",''].join("\n")
 
   end

@@ -1,6 +1,5 @@
-function github(){
+function githubWidget(){
 
-  console.log($('.github-widget'));
   var i = 0;
 
   $('.github-widget').each(function(){
@@ -10,12 +9,19 @@ function github(){
 
     var $container = $(this);
     var repo = $container.data('repo');
+    var token = $.cookie('project_token');
+    console.log(token);
+    var access = "";
+    if (token) {
+     access = '?access_token=' + token;
+    }
 
     $.ajax({
-      url: 'https://api.github.com/repos/' + repo,
+      url: 'https://api.github.com/repos/' + repo + access,
       dataType: 'jsonp',
 
       success: function(results){
+        console.log(results);
         var repo = results.data;
 
         var date = new Date(repo.pushed_at);

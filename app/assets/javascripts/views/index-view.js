@@ -3,9 +3,8 @@ define([
     'views/widget-view',
     'models/cost',
     'text!templates/total-cost.html.haml',
-    'text!templates/github.html.haml',
     'text!templates/index.html.haml'
-], function (BackboneSuperView, WidgetView, Cost, totalCostTemplate, githubTemplate, template) {
+], function (BackboneSuperView, WidgetView, Cost, totalCostTemplate, template) {
     return BackboneSuperView.extend({
 
         id: 'index-view',
@@ -36,7 +35,7 @@ define([
             }).render();
             this.githubView.append("<div class='github-widget' data-repo='" + githubUser + "/" + githubProject + "'>");
             this.$el.append(this.githubView.el);
-            github();
+            githubWidget();
         },
 
         spinner: function () {
@@ -45,9 +44,14 @@ define([
             }
         },
 
+        github: function() {
+          githubWidget();
+        },
+
         renderTotalCost: function () {
             this.totalCostView.empty();
             this.totalCostView.appendTemplate(totalCostTemplate, this.costModel);
         }
     });
 });
+

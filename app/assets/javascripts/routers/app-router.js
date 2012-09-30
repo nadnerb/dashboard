@@ -42,6 +42,7 @@ define([
         index: function () {
             var view = new IndexView();
             this.dashboard.apply(view);
+            view.github();
             view.spinner();
         },
 

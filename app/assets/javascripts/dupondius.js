@@ -146,6 +146,7 @@ $(document).ready(function () {
 
             $('#summary-application-name').text(text);
 
+            $.cookie('project_token', $('#application-token').val(), {path: '/', expires: 1});
             return text;
         },
         focus: function () {

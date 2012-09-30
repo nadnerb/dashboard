@@ -13,7 +13,6 @@ class ProjectsController < ApplicationController
 
   def create
     github_private = params[:project][:github_private] ? true : false
-    p github_private
     project = Project.create(params[:project].except(:support, :environments, :aws, :github_private).merge(:github_private => github_private))
     Jobs::Skeleton.new(project.id).run if Rails.configuration.launchpad_jobs
     if Rails.configuration.aws_enabled

@@ -207,6 +207,7 @@ $(document).ready(function () {
             token: $('#application-token').val(),
             github_account: $('#github-account').val(),
             github_project: $('#application-name').val().replace(/[^\w\s]/gi, '').replace(/ /g, '_'),
+            github_private: $('#github-private').val(),
             tech_stack: $('#tech-stack').selectableGrid().selected().text().trim(),
             region: $('#aws-region').val(),
             support: support,

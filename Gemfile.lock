@@ -177,7 +177,7 @@ GEM
     oauth2 (0.5.2)
       faraday (~> 0.7)
       multi_json (~> 1.0)
-    octokit (1.10.0)
+    octokit (1.15.0)
       addressable (~> 2.2)
       faraday (~> 0.8)
       faraday_middleware (~> 0.8)
@@ -333,7 +333,7 @@ DEPENDENCIES
   mysql2
   newrelic_rpm
   oauth2
-  octokit
+  octokit (= 1.15.0)
   omniauth
   omniauth-google-apps
   omniauth-openid

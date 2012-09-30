@@ -9,7 +9,7 @@ class Jobs::GithubCreate
 
   def run
     p "creating project on github: #{project.name}"
-    p Source::Commands.new(project.token).create_repo(project.name)
+    p Source::Commands.new(project.token).create_repo(project.name, project.github_private)
     Jobs::GithubKey.new(project.id, resting_place).run
   end
 

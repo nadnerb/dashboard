@@ -25,16 +25,31 @@ module Dupondius; module Aws; module CloudFormation
     end
   end
 
-  class Stack
+  class Template
 
-    TEMPLATES = [
-      {id: 'rails_single_instance', name: 'Rails Single Instance' },
-      {id: 'rails_single_instance_with_rds', name: 'Rails Single Instance with MySQL RDS Instance' },
-      {id: 'rails_multi_az', name: 'Create a highly available, scalable Ruby on Rails stack' },
-      {id: 'ci', name: 'Jenkins CI'},
-      {id: 'grails_single_instance', name: 'Grails Single Instance'},
-      {id: 'grails_single_instance_with_rds', name: 'Grails Single Instance with MySQL RDS Instance'}
-    ]
+    def self.all
+      bucket.objects.collect do |template|
+        {id: template.key, name: File.basename(template.key, File.extname(template.key)).humanize}
+      end
+    end
+
+    def self.find(key)
+      bucket.objects[key].read
+    end
+
+    private
+    def self.bucket
+      s3.buckets[Dupondius.config.cloudformation_bucket]
+    end
+    def self.s3
+      @s3 ||= AWS::S3.new(
+        :access_key_id     => Dupondius.config.access_key,
+        :secret_access_key => Dupondius.config.secret_access_key
+      )
+    end
+  end
+
+  class Stack
 
     def initialize subject
       @subject = subject
@@ -50,7 +65,7 @@ module Dupondius; module Aws; module CloudFormation
     end
 
     def self.create template_name, environment_name, project_name, parameters
-      self.new(Dupondius::Aws::CloudFormation.access.stacks.create("#{environment_name}-#{project_name}", load_template(template_name),
+      self.new(Dupondius::Aws::CloudFormation.access.stacks.create("#{environment_name}-#{project_name}", Template.find(template_name),
         :parameters => {HostedZone: Dupondius.config.hosted_zone,
                         ProjectName: project_name,
                         AwsAccessKey: Dupondius.config.access_key,
@@ -59,17 +74,13 @@ module Dupondius; module Aws; module CloudFormation
     end
 
     def self.validate_template template_name
-      Dupondius::Aws::CloudFormation.access.validate_template(load_template(template_name))
+      Dupondius::Aws::CloudFormation.access.validate_template(Template.find(template_name))
     end
 
     def self.template_params template_name
-      params = Dupondius::Aws::CloudFormation.access.validate_template(load_template(template_name))[:parameters].collect do |p|
+      params = Dupondius::Aws::CloudFormation.access.validate_template(Template.find(template_name))[:parameters].collect do |p|
         p[:parameter_key]
       end
-    end
-
-    def self.load_template template_name
-      File.open(File.expand_path(File.join( File.dirname(__FILE__), '..', 'aws', 'templates', "#{template_name}.template")), 'rb').read
     end
 
     def template_name
@@ -77,7 +88,7 @@ module Dupondius; module Aws; module CloudFormation
     end
 
     def update params
-      super({template: Stack.load_template(template_name), parameters: self.parameters.merge(params)})
+      super({template: Template.find(template_name), parameters: self.parameters.merge(params)})
     end
 
     def complete?
@@ -147,11 +158,11 @@ module Dupondius; module Aws; module CloudFormation
     end
 
     def self.template_params
-      super("rails_single_instance")
+      super("rails_single_instance.template")
     end
 
     def load_template
-      template= JSON.parse(Stack.load_template('rails_single_instance'))
+      template= JSON.parse(Template.find('rails_single_instance.template'))
 
       # inject the dashboard install script into the user-data
       user_data = template['Resources']['WebServer']['Properties']['UserData']['Fn::Base64']['Fn::Join'].last

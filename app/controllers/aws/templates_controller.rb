@@ -4,7 +4,7 @@ class Aws::TemplatesController < ApplicationController
   respond_to :json
 
   def index
-    respond_with(Dupondius::Aws::CloudFormation::Stack::TEMPLATES)
+    respond_with(Dupondius::Aws::CloudFormation::Template.all)
   end
 
   def show

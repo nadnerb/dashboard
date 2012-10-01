@@ -14,6 +14,7 @@ namespace :dupondius do
 
     task :environment => :dotenv do
       Dupondius.configure do |config|
+        config.cloudformation_bucket = 'dupondius_cfn_templates'
         config.access_key = ENV['AWS_ACCESS_KEY_ID']
         config.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
         config.aws_region = ENV['AWS_REGION']
@@ -43,6 +44,22 @@ namespace :dupondius do
       ['install-dashboard', 'install-app', 'configure-nginx', 'update-route53-dns', 'nginx.conf', 'update-config'].each do |file_name|
         obj = bucket.objects["config/#{file_name}"]
         obj.write(File.open(File.expand_path(File.join( File.dirname(__FILE__), '..', file_name))).read)
+        obj.acl= :public_read
+      end
+    end
+
+    desc 'Upload cloudformation templates to s3'
+    task :upload_templates => :environment do
+      s3 = AWS::S3.new(
+        :access_key_id     => Dupondius.config.access_key,
+        :secret_access_key => Dupondius.config.secret_access_key
+      )
+      template_bucket = s3.buckets[Dupondius.config.cloudformation_bucket]
+
+      Dir[File.join(File.dirname(__FILE__), '..', 'templates', '*')].each do |template|
+        puts "Uploading template: #{File.basename(template)}"
+        obj = template_bucket.objects[File.basename(template)]
+        obj.write(File.open(template).read)
         obj.acl= :public_read
       end
     end

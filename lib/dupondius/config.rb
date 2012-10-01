@@ -69,5 +69,12 @@ module Dupondius
       @github_secret
     end
 
+    def cloudformation_bucket= value
+      @cloudformation_bucket = value
+    end
+
+    def cloudformation_bucket
+      @cloudformation_bucket
+    end
   end
 end

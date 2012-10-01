@@ -24,7 +24,8 @@ tech_stack=$1
 aws_region=$2
 project_github_user=$3
 
-dashboard_name='dupondius'
+dashboard_name=$PROJECT_NAME
+dashboard_git_repo="git@github.com:nadnerb/dashboard.git"
 
 # Create a database
 source /etc/default/app
@@ -40,7 +41,7 @@ chown deployer:deployer /home/deployer/.ssh/config
 su - deployer -c "chmod 600 /home/deployer/.ssh/config"
 su - deployer -c "mkdir -p /opt/app/$dashboard_name/shared/log"
 su - deployer -c "mkdir -p /opt/app/$dashboard_name/shared/pids"
-su - deployer -c "cd /opt/app/$dashboard_name &&  git clone --depth 1 git@github.com:nadnerb/dashboard.git current"
+su - deployer -c "cd /opt/app/$dashboard_name &&  git clone --depth 1 $dashboard_git_repo current"
 su - deployer -c "cd /opt/app/$dashboard_name/current && bundle install --path vendor/bundle --deployment --without development test"
 su - deployer -c "cd /opt/app/$dashboard_name/current && bundle exec rake RAILS_ENV=production RAILS_GROUPS=assets DB_NAME=$DB_NAME DB_USERNAME=$DB_USERNAME DB_PASSWORD=$DB_PASSWORD DB_SOCKET=$DB_SOCKET assets:precompile"
 su - deployer -c "cd /opt/app/$dashboard_name/current && bundle exec rake RAILS_ENV=production DB_NAME=$DB_NAME DB_USERNAME=$DB_USERNAME DB_PASSWORD=$DB_PASSWORD DB_SOCKET=$DB_SOCKET db:migrate"

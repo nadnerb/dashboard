@@ -49,6 +49,7 @@ define([
 
             view.spinner();
             github.github();
+            github.spinner();
         },
 
         performance: function () {

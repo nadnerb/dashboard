@@ -16,3 +16,11 @@
       Latest commit to the <strong>master</strong> branch on #{pushed_at}
     %a{class: "download", href: repo.zipfile}
       Download as zip
+  .github-commits
+    %table.table.table-striped
+      - _(commits).each(function (commit) {
+        %tr
+          %td
+            %img{class: "author-avatar", src: commit.author_avatar}
+            %p.commit-message= commit.message
+            %div.commit-author=commit.author

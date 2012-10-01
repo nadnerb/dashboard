@@ -13,3 +13,32 @@
   float: right;
 }
 
+#loading-github svg {
+  margin-left: 380px;
+}
+
+img.author-avatar {
+  float: left;
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+p.commit-message {
+  display: block;
+  font-size: 16px;
+  font-style: bold;
+  color: black;
+  text-align: left;
+  margin: 0;
+  color: #222;
+  line-height: 22px;
+}
+
+div.author {
+  display: block;
+  font-size: 12px;
+  color: #444;
+  text-align: left;
+}

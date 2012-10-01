@@ -18,7 +18,14 @@ define([
         contentId: 'github-widget'
         }).render();
         this.githubView.append("<div class='github-widget' data-repo='" + githubUser + "/" + githubProject + "'>");
+        this.githubView.append('<div id="loading-github"></div>');
         this.$el.append(this.githubView.el);
+      },
+
+      spinner: function () {
+        if (this.githubView.$('#loading-github svg').length === 0) {
+          spinner('loading-github', 50, 45, 15, 3, '#888');
+        }
       },
 
       github: function() {

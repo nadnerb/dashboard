@@ -15,14 +15,27 @@ function githubWidget(){
      access = '?access_token=' + token;
     }
 
-    $.when(getGithubRepo(repo, access)).done(function(repoResults) {
+    $.when(getGithubRepo(repo, access), getGithubCommits(repo, access)).done(function(repoResults, commitResults) {
 
-      var repo = repoResults.data;
+      var repo = repoResults[0].data;
+      var commitData = commitResults[0].data;
+      console.log(commitData);
       var date = new Date(repo.pushed_at);
       var pushed_at = (date.getMonth()+1) + '-' + date.getDate() + '-' + date.getFullYear();
 
       $.get("/github-widget.haml", function(result) {
+        var commits = _.map(commitData, function (commit) {
+          return {
+            author: commit.author.login,
+            author_url: commit.author.url,
+            author_avatar: commit.author.avatar_url,
+            message: commit.commit.message,
+            date: commit.commit.author.date
+          };
+        });
+        console.log(commits);
         var context = {
+          commits: commits,
           owner: {
             href: repo.owner.url.replace('api.','').replace('users/',''),
             name: repo.owner.login
@@ -57,6 +70,13 @@ function githubWidget(){
 function getGithubRepo(repo, access) {
   return $.ajax({
     url: 'https://api.github.com/repos/' + repo + access,
+         dataType: 'jsonp',
+  })
+};
+
+function getGithubCommits(repo, access) {
+  return $.ajax({
+    url: 'https://api.github.com/repos/' + repo + '/commits' + access,
          dataType: 'jsonp',
   })
 };

@@ -162,6 +162,18 @@
                 "owner"  : "root",
                 "group"  : "root"
               },
+              "/usr/sbin/configure-nginx" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/configure-nginx",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
+              "/usr/sbin/update-config" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/update-config",
+                "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
               "/etc/nginx/nginx.conf" : {
                 "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf",
                 "mode"   : "000644",
@@ -196,6 +208,14 @@
                 "owner" : "root",
                 "group" : "root"
               },
+              "/etc/profile.d/dupondius.sh" : {
+               "content" : { "Fn::Join" : ["", [
+                  "source /etc/default/app\n"
+                  ]]},
+                "mode"  : "000755",
+                "owner" : "root",
+                "group" : "root"
+              },
               "/home/deployer/.ssh/environment" : {
                "content" : { "Fn::Join" : ["", [
                   "DB_NAME=", { "Ref" : "DBName" }, "\n",
@@ -215,11 +235,7 @@
                 "enabled" : "true",
                 "ensureRunning" : "true",
                 "files" : ["/etc/nginx/nginx.conf"]
-              },
-              "mysqld" : {
-                "enabled"       : "true",
-                "ensureRunning" : "true"
-              }
+                }
               }
             }
           }
@@ -287,9 +303,23 @@
           "easy_install  -U dnspython\n",
           "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
 
+          "# Support for config server to allow dynamic config updates\n",
+          "echo \"/usr/sbin/update-config\" >> /etc/rc.local\n",
+          "echo \"source /etc/default/app\" >> /etc/rc.local\n",
+          "/usr/sbin/update-config\n",
+
+          "# Configure nginx\n",
+          "/usr/sbin/configure-nginx rails\n",
+          "/etc/init.d/nginx restart\n",
+
           "#add new relic server monitoring\n",
-          "rpm -uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
-          "yum install newrelic-sysmond\n",
+          "rpm -Uv http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
+          "yum install -y newrelic-sysmond\n",
+
+          "#set newrelic license key\n",
+          "/usr/sbin/nrsysmond-config --set license_key=$NEW_RELIC_LICENSE_KEY\n",
+          "echo \"n/usr/sbin/nrsysmond-config --set license_key=\\$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
+          "echo \"/etc/init.d/newrelic-sysmond restart\" >> /etc/rc.local\n",
 
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Dashboard application setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"

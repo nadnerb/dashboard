@@ -124,7 +124,7 @@ module Dupondius; module Aws; module CloudFormation
   class ContinuousIntegration < Stack
 
     def self.create project_name, tech_stack, parameters
-      super('jenkins-' + tech_stack, 'ci', project_name, {
+      super("jenkins-#{tech_stack}.template", 'ci', project_name, {
           DBName: project_name,
           DBUsername: project_name,
           DBPassword: project_name

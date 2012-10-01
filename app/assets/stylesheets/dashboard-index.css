@@ -13,6 +13,7 @@
   float: right;
 }
 
+
 #loading-github svg {
   margin-left: 380px;
 }
@@ -41,4 +42,21 @@ div.author {
   font-size: 12px;
   color: #444;
   text-align: left;
+}
+
+#build-widget-wrapper .build-passing {
+    background-color: #2eb535;
+    height: 100%;
+    text-transform: uppercase;
+}
+
+#build-widget-wrapper .build-passing h2,
+#build-widget-wrapper .build-failing h2 {
+    padding-top: 40px;
+}
+
+#build-widget-wrapper .build-failing {
+    background-color: #da2c47;
+    height: 100%;
+    text-transform: uppercase;
 }

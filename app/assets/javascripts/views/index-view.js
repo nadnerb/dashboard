@@ -2,9 +2,11 @@ define([
     'vendor/base',
     'views/widget-view',
     'models/cost',
+    'collections/builds',
     'text!templates/total-cost.html.haml',
+    'text!templates/build-passing.html.haml',
     'text!templates/index.html.haml'
-], function (BackboneSuperView, WidgetView, Cost, totalCostTemplate, template) {
+], function (BackboneSuperView, WidgetView, Cost, BuildsCollection, totalCostTemplate, buildPassingTemplate, template) {
     return BackboneSuperView.extend({
 
         id: 'index-view',
@@ -19,6 +21,12 @@ define([
                 this.renderTotalCost();
             });
             this.costModel.fetch();
+
+            this.buildsCollection = new BuildsCollection();
+            this.bindTo(this.buildsCollection, 'reset', function () {
+                this.renderBuild();
+            });
+            this.buildsCollection.fetch();
         },
 
         postRender: function () {
@@ -45,6 +53,14 @@ define([
         renderTotalCost: function () {
             this.totalCostView.empty();
             this.totalCostView.appendTemplate(totalCostTemplate, this.costModel);
+        },
+
+        renderBuild: function () {
+            var canCommit = this.buildsCollection.all(function (build) {
+                return build.canCommit();
+            });
+
+            this.buildView.appendTemplate(buildPassingTemplate, new Backbone.Model({canCommit: canCommit}));
         }
     });
 });

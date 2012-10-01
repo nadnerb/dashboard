@@ -15,47 +15,49 @@ function githubWidget(){
      access = '?access_token=' + token;
     }
 
-    $.ajax({
-      url: 'https://api.github.com/repos/' + repo + access,
-      dataType: 'jsonp',
+    $.when(getGithubRepo(repo, access)).done(function(repoResults) {
 
-      success: function(results){
-        var repo = results.data;
+      var repo = repoResults.data;
+      var date = new Date(repo.pushed_at);
+      var pushed_at = (date.getMonth()+1) + '-' + date.getDate() + '-' + date.getFullYear();
 
-        var date = new Date(repo.pushed_at);
-        var pushed_at = (date.getMonth()+1) + '-' + date.getDate() + '-' + date.getFullYear();
-
-        $.get("/github-widget.haml", function(result) {
-          var context = {
-            owner: {
-              href: repo.owner.url.replace('api.','').replace('users/',''),
-              name: repo.owner.login
+      $.get("/github-widget.haml", function(result) {
+        var context = {
+          owner: {
+            href: repo.owner.url.replace('api.','').replace('users/',''),
+            name: repo.owner.login
+          },
+          repo: {
+            href: repo.url.replace('api.','').replace('repos/',''),
+            name: repo.name,
+            description: repo.description,
+            homepage: repo.homepage,
+            watchers: {
+              href: repo.url.replace('api.','').replace('repos/','') + '/watchers',
+              name: repo.watchers
             },
-            repo: {
-              href: repo.url.replace('api.','').replace('repos/',''),
-              name: repo.name,
-              description: repo.description,
-              homepage: repo.homepage,
-              watchers: {
-                href: repo.url.replace('api.','').replace('repos/','') + '/watchers',
-                name: repo.watchers
-              },
-              forks: {
-                href: repo.url.replace('api.','').replace('repos/','') + '/forks',
-                name: repo.forks
-              },
-              readme: {
-                href: repo.url.replace('api.','').replace('repos/','') + '#readme'
-              },
-              zipfile: repo.url.replace('api.','').replace('repos/','') + '/zipball/master'
+            forks: {
+              href: repo.url.replace('api.','').replace('repos/','') + '/forks',
+              name: repo.forks
             },
-            pushed_at: pushed_at
-          };
-          var fn = haml.compileHaml({source:result});
-          $(fn(context)).appendTo($container);
-        });
-      }
-    })
-
+            readme: {
+              href: repo.url.replace('api.','').replace('repos/','') + '#readme'
+            },
+            zipfile: repo.url.replace('api.','').replace('repos/','') + '/zipball/master'
+          },
+          pushed_at: pushed_at
+        };
+        var fn = haml.compileHaml({source:result});
+        $(fn(context)).appendTo($container);
+      });
+    });
   });
 };
+
+function getGithubRepo(repo, access) {
+  return $.ajax({
+    url: 'https://api.github.com/repos/' + repo + access,
+         dataType: 'jsonp',
+  })
+};
+

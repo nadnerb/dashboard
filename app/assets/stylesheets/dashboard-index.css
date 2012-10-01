@@ -1,14 +1,15 @@
 #total-cost-widget-wrapper {
-    width: 200px;
-    float: left;
+  width: 200px;
+  float: left;
 }
 
-#total-cost-widget, #github-widget {
-    min-height: 0 !important;
-    height: 110px;
+#total-cost-widget, #build-widget {
+  min-height: 0 !important;
+  height: 110px;
 }
 
-#github-widget-wrapper {
-    width: 670px;
-    float: right;
-  }
+#build-widget-wrapper {
+  width: 670px;
+  float: right;
+}
+

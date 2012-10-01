@@ -3,11 +3,12 @@ define([
     'backbone',
     'views/dashboard-view',
     'views/index-view',
+    'views/github-view',
     'views/performance-view',
     'views/configure-view',
     'views/stories-view',
     'views/builds-view'
-], function ($, Backbone, DashboardView, IndexView, PerformanceView, ConfigureView, StoriesView, BuildsView) {
+], function ($, Backbone, DashboardView, IndexView, GithubView, PerformanceView, ConfigureView, StoriesView, BuildsView) {
     return Backbone.Router.extend({
 
         routes: {
@@ -42,8 +43,12 @@ define([
         index: function () {
             var view = new IndexView();
             this.dashboard.apply(view);
-            view.github();
+
+            var github = new GithubView();
+            this.dashboard.add(github);
+
             view.spinner();
+            github.github();
         },
 
         performance: function () {

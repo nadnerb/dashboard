@@ -29,23 +29,17 @@ define([
             this.totalCostView.append('<div id="loading-total-cost"></div>');
             this.$el.append(this.totalCostView.el);
 
-            this.githubView = new WidgetView({
-                 heading: 'Github',
-                 contentId: 'github-widget'
+            this.buildView = new WidgetView({
+                 heading: 'Build',
+                 contentId: 'build-widget'
             }).render();
-            this.githubView.append("<div class='github-widget' data-repo='" + githubUser + "/" + githubProject + "'>");
-            this.$el.append(this.githubView.el);
-            githubWidget();
+            this.$el.append(this.buildView.el);
         },
 
         spinner: function () {
             if (this.totalCostView.$('#loading-total-cost svg').length === 0) {
                 spinner('loading-total-cost', 50, 45, 15, 3, '#888');
             }
-        },
-
-        github: function() {
-          githubWidget();
         },
 
         renderTotalCost: function () {

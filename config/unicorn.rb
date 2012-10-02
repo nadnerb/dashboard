@@ -22,7 +22,7 @@ worker_processes 4
 #
 # Help ensure your application will always spawn in the symlinked
 # "current" directory that Capistrano sets up.
-working_directory "/opt/app/dupondius/current" # available in 0.94.0+
+working_directory "/opt/app/#{ENV['PROJECT_NAME']}/current" # available in 0.94.0+
 
 # listen on both a Unix domain socket and a TCP port,
 # we use a shorter backlog for quicker failover when busy
@@ -33,10 +33,10 @@ listen 3000, :tcp_nopush => true
 timeout 30
 
 # feel free to point this anywhere accessible on the filesystem
-pid "/opt/app/dupondius/shared/pids/unicorn.pid"
+pid "/opt/app/#{ENV['PROJECT_NAME']}/shared/pids/unicorn.pid"
 
-stderr_path "/opt/app/dupondius/shared/log/unicorn.stderr.log"
-stdout_path "/opt/app/dupondius/shared/log/unicorn.stdout.log"
+stderr_path "/opt/app/#{ENV['PROJECT_NAME']}/shared/log/unicorn.stderr.log"
+stdout_path "/opt/app/#{ENV['PROJECT_NAME']}/shared/log/unicorn.stdout.log"
 
 # combine REE with "preload_app true" for memory savings
 # http://rubyenterpriseedition.com/faq.html#adapt_apps_for_cow

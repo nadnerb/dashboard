@@ -24,11 +24,13 @@ tech_stack=$1
 aws_region=$2
 project_github_user=$3
 
+# load the app environment variables
+source /etc/default/app
+
 dashboard_name=$PROJECT_NAME
 dashboard_git_repo="git@github.com:nadnerb/dashboard.git"
 
 # Create a database
-source /etc/default/app
 export DB_NAME
 export DB_USERNAME
 export DB_PASSWORD

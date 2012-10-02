@@ -16,8 +16,8 @@ define([
      validate: function (attrs) {
        var errors = [];
 
-       if (attrs.newrelic_token === '') {
-         errors.push({name: 'token', message: 'You must provide new relic api token'});
+       if (attrs.newrelic_key === '') {
+         errors.push({name: 'key', message: 'You must provide new relic license key'});
        }
 
        if (_(errors).isEmpty()) {

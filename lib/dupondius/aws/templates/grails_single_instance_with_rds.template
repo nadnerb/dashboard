@@ -133,6 +133,7 @@
                 "mysql-server" : [],
                 "mysql-devel"  : [],
                 "mysql-libs"   : [],
+                "nginx"         : [],
                 "git.x86_64"   : []
               }
             },
@@ -167,6 +168,12 @@
               "/usr/sbin/update-route53-dns" : {
                 "source" : "https://s3.amazonaws.com/dupondius/config/update-route53-dns",
                 "mode"   : "000744",
+                "owner"  : "root",
+                "group"  : "root"
+              },
+              "/etc/nginx/nginx.conf2" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf",
+                "mode"   : "000644",
                 "owner"  : "root",
                 "group"  : "root"
               },
@@ -251,6 +258,42 @@
                 "mode"  : "000644",
                 "owner" : "root",
                 "group" : "root"
+              },
+              "/etc/profile.d/dupondius.sh" : {
+               "content" : { "Fn::Join" : ["", [
+                  "source /etc/default/app\n"
+                  ]]},
+                "mode"  : "000755",
+                "owner" : "root",
+                "group" : "root"
+              },
+              "/home/deployer/.ssh/environment" : {
+               "content" : { "Fn::Join" : ["", [
+                  "DB_NAME=", { "Ref" : "DBName" }, "\n",
+                  "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
+                  "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
+                  "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
+                  ]]},
+                "mode"  : "000644",
+                "owner" : "deployer",
+                "group" : "deployer"
+              }
+            },
+            "services" : {
+              "sysvinit" : {
+                "nginx" : {
+                    "enabled" : "true",
+                    "ensureRunning" : "true",
+                    "files" : ["/etc/nginx/nginx.conf"]
+                },
+                "tomcat7" : {
+                  "enabled" : "true",
+                  "ensureRunning" : "true"
+                },
+                "mysqld" : {
+                    "enabled"       : "true",
+                    "ensureRunning" : "true"
+                }
               }
             }
           }
@@ -307,7 +350,12 @@
 
           "#add new relic server monitoring\n",
           "rpm -uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
-          "yum install newrelic-sysmond\n",
+          "yum install -y newrelic-sysmond\n",
+
+          "#set newrelic license key\n",
+          "/usr/sbin/nrsysmond-config --set license_key=$NEW_RELIC_LICENSE_KEY\n",
+          "echo \"n/usr/sbin/nrsysmond-config --set license_key=\\$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
+          "echo \"/etc/init.d/newrelic-sysmond restart\" >> /etc/rc.local\n",
 
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Tomcat application setup\" '", { "Ref" : "WaitHandle" }, "'\n"
@@ -336,6 +384,11 @@
           "IpProtocol" : "tcp",
           "FromPort" : "22",
           "ToPort" : "22",
+          "CidrIp" : "0.0.0.0/0"
+        }, {
+          "IpProtocol" : "tcp",
+          "FromPort" : "80",
+          "ToPort" : "80",
           "CidrIp" : "0.0.0.0/0"
         }, {
           "IpProtocol" : "tcp",
@@ -383,7 +436,7 @@
 
   "Outputs" : {
     "WebsiteURL" : {
-      "Value" : { "Fn::Join" : ["", ["http://", {"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, ":8080"]] },
+      "Value" : { "Fn::Join" : ["", ["http://", {"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}]] },
       "Description" : "URL for newly created Tomcat webserver"
     }
   }

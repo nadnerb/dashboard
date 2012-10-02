@@ -33,7 +33,11 @@ class Dashboard::PerformanceController < ActionController::Base
 
   def summary
     configuration = ServerConfiguration.first
-    response = HTTParty.get('https://api.newrelic.com/application_dashboard', :headers => {"x-api-key" => configuration.newrelic_token})
-    render :text => response.body
+    if configuration.newrelic_token
+      response = HTTParty.get('https://api.newrelic.com/application_dashboard', :headers => {"x-api-key" => configuration.newrelic_token})
+      render :text => response.body
+    else
+      render :text => ''
+    end
   end
 end

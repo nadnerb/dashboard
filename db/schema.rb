@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120930023310) do
+ActiveRecord::Schema.define(:version => 20121002101152) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(:version => 20120930023310) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.string   "token"
-    t.string   "stack_type"
     t.string   "tech_stack"
     t.string   "region"
     t.string   "github_account"
@@ -59,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20120930023310) do
     t.string   "newrelic_token"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.string   "newrelic_key"
   end
 
   create_table "users", :force => true do |t|

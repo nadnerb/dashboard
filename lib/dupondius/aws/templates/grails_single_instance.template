@@ -150,8 +150,8 @@
                 "owner"  : "root",
                 "group"  : "root"
               },
-              "/etc/nginx/nginx.conf2" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf",
+              "/etc/nginx/nginx.conf" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf.grails",
                 "mode"   : "000644",
                 "owner"  : "root",
                 "group"  : "root"
@@ -237,6 +237,25 @@
                 "mode"  : "000644",
                 "owner" : "root",
                 "group" : "root"
+              },
+              "/etc/profile.d/dupondius.sh" : {
+               "content" : { "Fn::Join" : ["", [
+                  "source /etc/default/app\n"
+                  ]]},
+                "mode"  : "000755",
+                "owner" : "root",
+                "group" : "root"
+              },
+              "/home/deployer/.ssh/environment" : {
+               "content" : { "Fn::Join" : ["", [
+                  "DB_NAME=", { "Ref" : "DBName" }, "\n",
+                  "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
+                  "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
+                  "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
+                  ]]},
+                "mode"  : "000644",
+                "owner" : "deployer",
+                "group" : "deployer"
               }
             },
             "services" : {
@@ -315,7 +334,15 @@
 
           "#add new relic server monitoring\n",
           "rpm -uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
-          "yum install newrelic-sysmond\n",
+          "yum install -y newrelic-sysmond\n",
+
+          "#set newrelic license key\n",
+          "/usr/sbin/nrsysmond-config --set license_key=$NEW_RELIC_LICENSE_KEY\n",
+          "echo \"/usr/sbin/nrsysmond-config --set license_key=\\$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
+          "echo \"/etc/init.d/newrelic-sysmond restart\" >> /etc/rc.local\n",
+
+          "curl https://s3.amazonaws.com/dupondius/newrelic_agent2.8.0.zip > /tmp/newrelic_agent2.8.0.zip\n",
+          "unzip /tmp/newrelic_agent2.8.0.zip -d /usr/share/tomcat7\n",
 
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Tomcat application setup\" '", { "Ref" : "WaitHandle" }, "'\n"

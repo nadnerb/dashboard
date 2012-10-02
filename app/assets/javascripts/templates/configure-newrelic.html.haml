@@ -4,7 +4,12 @@
   .modal-body
     %form.form
       %div.control-group
-        To configure server monitoring please enter your New Relic API token below.
+        To configure server monitoring please enter your New Relic API token and License key below.
+      %div#key.control-group
+        %label.control-label New Relic License Key
+        %div.controls
+          %input.input-xlarge(id='newrelic_key' type='text' placeholder='Enter a new relic license key')
+          %span.help-block
       %div#token.control-group
         %label.control-label New Relic API Token
         %div.controls

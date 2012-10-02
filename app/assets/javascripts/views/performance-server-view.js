@@ -51,13 +51,12 @@ define([
           if (!this.$('#server-config-modal').length) {
             this.$el.append(haml.compileHaml({source: modalTemplate})());
           }
-          var token = this.configuration.get('newrelic_token');
-          if (token) {
-            $('#newrelic_token').val(token);
-          } else {
-            this.$('#token').removeClass('error');
-            this.$('#token .help-block').html('');
-          }
+          $('#newrelic_token').val(this.configuration.get('newrelic_token') || '');
+          this.$('#token').removeClass('error');
+          this.$('#token .help-block').html('');
+          $('#newrelic_key').val(this.configuration.get('newrelic_key') || '');
+          this.$('#key').removeClass('error');
+          this.$('#key .help-block').html('');
           $('#server-config-modal').modal();
         },
 
@@ -65,16 +64,18 @@ define([
         event.preventDefault();
         this.$('#token').removeClass('error');
         this.$('#token .help-block').html('');
-        var token = $('#newrelic_token').val();
-        if (!token) {
-          this.$('#token').addClass('error');
-          this.$('#token .help-block').html('API token is required');
+        this.$('#key').removeClass('error');
+        this.$('#key .help-block').html('');
+        var key = $('#newrelic_key').val();
+        if (!key) {
+          this.$('#key').addClass('error');
+          this.$('#key .help-block').html('New Relic license key is required');
         } else {
-          this.configuration.set({'newrelic_token': token});
+          this.configuration.set({'newrelic_key': key, 'newrelic_token': $('#newrelic_token').val()});
           this.configuration.save({}, {
             error: function (model, response) {
-              this.$('#token').addClass('error');
-              this.$('#token .help-block').html(JSON.parse(response.responseText).join(', '));
+              this.$('#key').addClass('error');
+              this.$('#key .help-block').html(JSON.parse(response.responseText).join(', '));
             },
             success: function (model, response) {
               $('#server-config-modal').modal('hide');

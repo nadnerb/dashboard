@@ -1,2 +1,2 @@
-web: RAILS_ENV=$RAILS_ENV bundle exec unicorn -c /opt/app/dupondius/current/config/unicorn.rb
+web: RAILS_ENV=$RAILS_ENV bundle exec unicorn -c /opt/app/$PROJECT_NAME/current/config/unicorn.rb
 delayed_job: RAILS_ENV=$RAILS_ENV bundle exec rake jobs:work

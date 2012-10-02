@@ -80,3 +80,8 @@ body {
 #index-view .widget-content {
   min-height: 200px;
 }
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+}

@@ -19,7 +19,6 @@ function githubWidget(){
 
       var repo = repoResults[0].data;
       var commitData = commitResults[0].data;
-      console.log(commitData);
       var date = new Date(repo.pushed_at);
       var pushed_at = (date.getMonth()+1) + '-' + date.getDate() + '-' + date.getFullYear();
 
@@ -33,7 +32,6 @@ function githubWidget(){
             date: commit.commit.author.date
           };
         });
-        console.log(commits);
         var context = {
           commits: commits,
           owner: {
@@ -61,6 +59,7 @@ function githubWidget(){
           pushed_at: pushed_at
         };
         var fn = haml.compileHaml({source:result});
+        $('#loading-github').css('visibility', 'visible').fadeOut();
         $(fn(context)).appendTo($container);
       });
     });

@@ -26,15 +26,14 @@ function githubWidget(){
         var commits = _.map(commitData, function (commit) {
           return {
             author: commit.author.login,
-            author_url: commit.author.url,
+            author_url: commit.committer.url,
             author_avatar: commit.author.avatar_url,
             message: commit.commit.message,
             date: commit.commit.author.date,
             date_formatted: moment(commit.commit.author.date).fromNow(),
-            commit_url: commit.commit.url
+            sha: commit.sha
           };
         });
-        console.log(commits);
         var context = {
           commits: commits,
           owner: {

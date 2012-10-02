@@ -23,6 +23,10 @@
           %td
             %img{class: "author-avatar", src: commit.author_avatar}
             %p.commit-message.ellipsis= commit.message
-            %div.commit-author=commit.author
+            %a.commit-author{href: commit.author_url}
+              =commit.author
             ! committed the goods&nbsp;
             %div.commit-date=commit.date_formatted
+            %i.icon-hand-right.icon-float-right
+            %a.commit-source{href: commit.commit_url}
+              !see the diff&nbsp;

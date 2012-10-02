@@ -30,7 +30,8 @@ function githubWidget(){
             author_avatar: commit.author.avatar_url,
             message: commit.commit.message,
             date: commit.commit.author.date,
-            date_formatted: moment(commit.commit.author.date).fromNow()
+            date_formatted: moment(commit.commit.author.date).fromNow(),
+            commit_url: commit.commit.url
           };
         });
         console.log(commits);

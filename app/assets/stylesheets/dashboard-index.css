@@ -36,19 +36,34 @@ p.commit-message {
   line-height: 22px;
 }
 
-div.commit-author {
+a.commit-author {
   float: left;
   display: block;
   font-size: 12px;
   color: #666;
   text-align: left;
+  text-decoration: none;
 }
 
 div.commit-date {
+  float: left;
   display: block;
   font-size: 12px;
   color: #333;
   text-align: left;
+}
+
+a.commit-source {
+  float: right;
+  display: block;
+  font-size: 12px;
+  color: #333;
+  text-align: right;
+  text-decoration: none;
+}
+
+i.icon-float-right {
+  float: right;
 }
 
 #build-widget-wrapper .build-passing {

@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Dupondi.us. Single instance Rails stack using with nginx, a local MySQL database. rails_single_instance",
+  "Description" : "Dupondi.us. Single instance Rails stack using with nginx, a local MySQL database. rails_single_instance.template",
 
   "Parameters" : {
 

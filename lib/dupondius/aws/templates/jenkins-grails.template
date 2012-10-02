@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Dupondi.us Continuous Integration. Create a CI environment stack using a single EC2 instance with Jenkins.",
+  "Description" : "Dupondi.us Continuous Integration. Create a CI environment stack using a single EC2 instance with Jenkins. jenkins-grails.template",
 
   "Parameters" : {
 

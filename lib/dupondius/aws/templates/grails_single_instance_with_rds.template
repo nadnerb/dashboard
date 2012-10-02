@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Single instance with tomcat and RDS mysql",
+  "Description" : "Single instance with tomcat and RDS mysql. grails_single_instance_with_rds.template",
 
   "Parameters" : {
 

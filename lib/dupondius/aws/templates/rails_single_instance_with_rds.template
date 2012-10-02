@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Rails Single Instance with RDS: Create a Ruby on Rails stack using a single EC2 instance for the web server and a MySQL Amazon RDS database instance for the backend data store.",
+  "Description" : "Rails Single Instance with RDS: Create a Ruby on Rails stack using a single EC2 instance for the web server and a MySQL Amazon RDS database instance for the backend data store. rails_single_instance_with_rds.template",
 
 
   "Parameters" : {

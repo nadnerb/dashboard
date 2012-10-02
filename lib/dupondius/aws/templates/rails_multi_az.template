@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Dupondi.us. Rails Multi AZ. Create a highly available, scalable Ruby on Rails stack with a multi-AZ MySQL Amazon RDS database instance for the backend data store. rails_multi_az",
+  "Description" : "Dupondi.us. Rails Multi AZ. Create a highly available, scalable Ruby on Rails stack with a multi-AZ MySQL Amazon RDS database instance for the backend data store. rails_multi_az.template",
 
   "Parameters" : {
 

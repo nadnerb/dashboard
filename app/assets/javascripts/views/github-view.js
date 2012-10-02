@@ -25,6 +25,8 @@ define([
       spinner: function () {
         if (this.githubView.$('#loading-github svg').length === 0) {
           spinner('loading-github', 50, 45, 15, 3, '#888');
+        } else {
+          this.$('#loading-github').empty();
         }
       },
 

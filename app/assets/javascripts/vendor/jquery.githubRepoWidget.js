@@ -12,7 +12,7 @@ function githubWidget(){
     var token = $.cookie('project_token');
     var access = "";
     if (token) {
-     access = '?access_token=' + token;
+      access = '?access_token=' + token;
     }
 
     $.when(getGithubRepo(repo, access), getGithubCommits(repo, access)).done(function(repoResults, commitResults) {
@@ -25,12 +25,14 @@ function githubWidget(){
       $.get("/github-widget.haml", function(result) {
         var commits = _.map(commitData, function (commit) {
           return {
-            author: commit.author.login,
+            author: commit.committer.login,
             author_url: commit.committer.url,
-            author_avatar: commit.author.avatar_url,
+            author_avatar: commit.committer.avatar_url,
             message: commit.commit.message,
             date: commit.commit.author.date,
             date_formatted: moment(commit.commit.author.date).fromNow(),
+            push_date: commit.commit.committer.date,
+            push_date_formatted: moment(commit.commit.committer.date).fromNow(),
             sha: commit.sha
           };
         });
@@ -77,7 +79,7 @@ function getGithubRepo(repo, access) {
 
 function getGithubCommits(repo, access) {
   return $.ajax({
-    url: 'https://api.github.com/repos/' + repo + '/commits' + access,
+    url: 'https://api.github.com/repos/' + repo + '/commits' + access + '&per_page=10',
          dataType: 'jsonp',
   })
 };

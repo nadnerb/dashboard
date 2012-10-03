@@ -27,6 +27,8 @@
               =commit.author
             ! committed the goods&nbsp;
             %div.commit-date=commit.date_formatted
+            -#! and pushed it&nbsp;
+            -#%div.commit-date=commit.push_date_formatted
             %i.icon-hand-right.icon-float-right
             %a.commit-source{href: 'https://github.com/' + owner.name + '/' + repo.name + '/commit/' + commit.sha}
               !check out the diff&nbsp;

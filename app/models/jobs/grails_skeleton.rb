@@ -18,6 +18,6 @@ class Jobs::GrailsSkeleton
     mv application.properties.sed application.properties;\
     git init;\
     git add .;\
-    git commit -m 'Initial commit'`
+    git commit --author='dupondi.us <commiter@dupondi.us>' -m 'Initial commit'`
   end
 end

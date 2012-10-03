@@ -12,9 +12,9 @@ class Source::Commands < SimpleDelegator
     super(client)
   end
 
-  def create_repo(name, private)
+  def create_repo(name, private, description)
     # strange issue where have error if provide false for private repo's
-    create_result = private ? create(name, {:private => 'true'}) : create(name)
+    create_result = private ? create(name, {:description => description, :private => 'true'}) : create(name, {:description => description})
     p add_collaborator("#{@user['login']}/#{name}", "dupondius")
     create_result.to_json
   end

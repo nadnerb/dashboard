@@ -14,7 +14,7 @@
 }
 
 #performance-widget {
-  /*float: right;*/
+    text-align: center;
 }
 
 #loading-github svg {

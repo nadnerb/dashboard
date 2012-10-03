@@ -55,10 +55,11 @@ define([
       },
 
       renderChart: function (chart) {
-          return '<li id="chart-' + chart.id +
-            '"><div class="controls pull-right"><a href="#" class="btn btn-mini" data-id="' + chart.id +
-            '"><i class="icon-remove"></i></a></div>' +
-            chart.get('source') + '</li>';
+        return chart.get('source');
+          // return '<li id="chart-' + chart.id +
+          //   '"><div class="controls pull-right"><a href="#" class="btn btn-mini" data-id="' + chart.id +
+          //   '"><i class="icon-remove"></i></a></div>' +
+          //   chart.get('source') + '</li>';
         }
     });
 

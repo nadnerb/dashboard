@@ -155,6 +155,7 @@
                "content" : { "Fn::Join" : ["", [
                   "ENVIRONMENT_NAME=ci\n",
                   "PROJECT_NAME=", { "Ref" : "ProjectName" }, "\n",
+                  "GITHUB_PROJECT_USER=", { "Ref" : "GithubProjectUser" }, "\n",
                   "ZONE=", { "Ref" : "HostedZone" }, "\n",
                   "TTL=600\n",
                   "AWS_ACCESS_KEY_ID=", { "Ref" : "AwsAccessKey" }, "\n",
@@ -162,12 +163,14 @@
                   "DB_NAME=", { "Ref" : "DBName" }, "\n",
                   "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
                   "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
-                  "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
+                  "DB_SOCKET=/var/lib/mysql/mysql.sock\n",
+                  "export ENVIRONMENT_NAME PROJECT_NAME GITHUB_PROJECT_USER ZONE AWS_ACCESS_KEY TTL AWS_SECRET_ACCESS_KEY\n"
                   ]]},
                 "mode"  : "000644",
                 "owner" : "root",
                 "group" : "root"
               },
+
               "/etc/profile.d/dupondius.sh" : {
                "content" : { "Fn::Join" : ["", [
                   "source /etc/default/app\n"

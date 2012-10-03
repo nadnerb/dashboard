@@ -315,7 +315,7 @@
 
           "#set newrelic license key\n",
           "/usr/sbin/nrsysmond-config --set license_key=$NEW_RELIC_LICENSE_KEY\n",
-          "echo \"n/usr/sbin/nrsysmond-config --set license_key=\\$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
+          "echo \"/usr/sbin/nrsysmond-config --set license_key=\\$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
           "echo \"/etc/init.d/newrelic-sysmond restart\" >> /etc/rc.local\n",
 
           "# All is well so signal success\n",

@@ -14,7 +14,6 @@ define([
             ModalView.prototype.initialize.call(this);
 
             this.model = new Stack();
-
             this.bindTo(this.model, 'change', function () {
                 this.renderInformation();
                 this.fadeIn();
@@ -22,7 +21,6 @@ define([
         },
 
         serialize: function () {
-            debugger;
             return {
                 model: this.model.toJSON(),
                 random: this.random
@@ -47,7 +45,10 @@ define([
             this.$('.name').html(this.model.get('name'));
             this.$('.description').html(this.model.get('description'));
             this.$('.status').html(this.model.get('status'));
-            this.$('.resources').append(_(this.model.get('resource_summaries')).each(function (type) { type }));
+            _(this.model.get('resource_summaries')).each(function (type) { 
+                this.$('.resources ul').append('<li>' + type.resource_type + '</li>');
+            });
+            this.$('.modal-body').append('<a href="/aws/stacks/' + this.model.get('name') + '/template.json" target="_blank">View template</a>');
         }
     });
 });

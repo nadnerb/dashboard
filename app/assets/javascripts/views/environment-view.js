@@ -129,10 +129,10 @@ define([
             this.view = new ShowEnvironmentView().render();
             this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']}, {silent: true});
             this.view.model.fetch();
-            this.bindTo(this.view.model, 'success', function () {
-                this.view.hide();
-                this.fadeOut();
-            });
+            // this.bindTo(this.view.model, 'saved', function () {
+            //     this.view.hide();
+            //     this.fadeOut();
+            // });
 
             this.view.show();
             var self = this;

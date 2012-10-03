@@ -2,6 +2,12 @@
   color: #333;
 }
 
+#performance-charts-widget-wrapper, #server-performance-widget-wrapper {
+    max-width: 1200px;
+    padding: 10px;
+    margin: 0 auto;
+}
+
 #server-performance-widget iframe {
     border: none;
     width: 100%;

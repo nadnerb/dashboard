@@ -86,3 +86,7 @@ i.icon-float-right {
     height: 100%;
     text-transform: uppercase;
 }
+
+#performance-widget iframe {
+  width: 100%
+}

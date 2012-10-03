@@ -2,8 +2,8 @@
     - if (_(model.tags['dupondius:environment']).startsWith('dev')) {
         %h3 dev
     - else {
-        %button.info.btn.btn-small.btn-info Info
-        %a.environment-name{target: '_blank', href: 'http://' + model.tags['dupondius:environment'] + '.' + model.tags['dupondius:project'] + '.dupondi.us/'}= model.tags['dupondius:environment']
+        %h3
+            %a.environment-name{target: '_blank', href: 'http://' + model.tags['dupondius:environment'] + '.' + model.tags['dupondius:project'] + '.dupondi.us/'}= model.tags['dupondius:environment']
 %div{id: "loading-" + model.tags['dupondius:environment'], class: 'environment-loading'}
 %div.environment-information.hidden
     %dl.dl-horizontal
@@ -32,6 +32,7 @@
             - if (model.status === 'running') {
                 %button.stop.btn.btn-large.btn-danger Stop Environment
             %br
+            %button.info.btn.btn-small.btn-info Info
             - if (model.status !== 'shutting_down') {
                 %button.edit.btn.btn-small.btn-primary Edit
             - if (model.status === 'running') {

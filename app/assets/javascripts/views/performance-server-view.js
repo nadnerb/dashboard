@@ -33,12 +33,7 @@ define([
           if (!token) {
             this.append(haml.compileHaml({source: configureTemplate})());
           } else {
-            var _this = this;
-            $.ajax('dashboard/newrelic/summary', {
-              success: function (data) {
-                _this.append(data);
-              }
-            });
+            this.append('<iframe src="/dashboard/newrelic/summary"></iframe>');
           }
         },
 

@@ -20,7 +20,11 @@ define([
             this.bindTo(this.costModel, 'change', function () {
                 this.renderTotalCost();
             });
-            this.costModel.fetch();
+            var that = this;
+
+            setTimeout(function () {
+                that.costModel.fetch();
+            }, 1000);
 
             this.buildsCollection = new BuildsCollection();
             this.bindTo(this.buildsCollection, 'reset', function () {

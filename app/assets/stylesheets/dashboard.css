@@ -77,6 +77,10 @@ body {
   max-width: 900px;
 }
 
+.github-widget {
+    margin-left: 0 !important;
+}
+
 #index-view .widget-content {
   min-height: 200px;
 }

@@ -1,3 +1,8 @@
 #newrelic .widget-content p {
   color: #333;
 }
+
+#server-performance-widget iframe {
+    border: none;
+    width: 100%;
+}

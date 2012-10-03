@@ -13,6 +13,10 @@
   float: right;
 }
 
+#performance-widget {
+  /*float: right;*/
+}
+
 #loading-github svg {
   margin-left: 380px;
 }

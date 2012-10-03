@@ -13,6 +13,7 @@ define([
         views: [],
 
         initialize: function () {
+            this.views = [];
             this.availableCollection = new AvailableCollection();
             this.collection = new InstancesCollection();
 
@@ -100,6 +101,13 @@ define([
             }
 
             return returned;
+        },
+
+        destroy: function () {
+            _(this.views).each(function (view) {
+                view.destroy();
+            }, this);
+            BackboneSuperView.prototype.destroy.call(this);
         }
     });
 });

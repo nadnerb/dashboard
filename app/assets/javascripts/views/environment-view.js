@@ -14,7 +14,7 @@ define([
         events: {
             'click .start': 'start',
             'click .stop': 'stop',
-            'click .remove': 'remove',
+            'click .remove': 'removeIt',
             'click .create': 'create',
             'click .edit': 'edit',
             'click .reboot': 'reboot',
@@ -95,7 +95,7 @@ define([
             return false;
         },
 
-        remove: function () {
+        removeIt: function () {
             if (confirm("Are you sure you want to remove this environment?")) {
                 this.fadeOut();
                 var stack = new Stack({id: this.model.get('tags')['aws:cloudformation:stack-name']});

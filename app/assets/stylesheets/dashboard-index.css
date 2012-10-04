@@ -1,15 +1,30 @@
-#total-cost-widget-wrapper {
+#total-cost-widget-wrapper, #velocity-widget-wrapper {
+  display: block;
   width: 200px;
   float: left;
 }
 
-#total-cost-widget, #build-widget {
+#velocity-widget-wrapper {
+  padding-left: 15px;
+}
+
+#current-velocity {
+  color: #444;
+  font-size: 80px;
+  line-height: 100px;
+}
+
+#total-cost-widget, #velocity-widget, #build-widget {
   min-height: 0 !important;
   height: 110px;
 }
 
+.cost-per-day {
+  padding-top: 15px;
+}
+
 #build-widget-wrapper {
-  width: 670px;
+  width: 470px;
   float: right;
 }
 

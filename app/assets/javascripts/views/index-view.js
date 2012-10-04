@@ -2,11 +2,12 @@ define([
     'vendor/base',
     'views/widget-view',
     'models/cost',
+    'models/velocity',
     'collections/builds',
     'text!templates/total-cost.html.haml',
     'text!templates/build-passing.html.haml',
     'text!templates/index.html.haml'
-], function (BackboneSuperView, WidgetView, Cost, BuildsCollection, totalCostTemplate, buildPassingTemplate, template) {
+], function (BackboneSuperView, WidgetView, Cost, Velocity, BuildsCollection, totalCostTemplate, buildPassingTemplate, template) {
     return BackboneSuperView.extend({
 
         id: 'index-view',
@@ -22,8 +23,14 @@ define([
             });
             var that = this;
 
+            this.velocityModel = new Velocity();
+            this.bindTo(this.velocityModel, 'change', function () {
+                this.renderVelocity();
+            });
+
             setTimeout(function () {
                 that.costModel.fetch();
+                that.velocityModel.fetch();
             }, 1000);
 
             this.buildsCollection = new BuildsCollection();
@@ -41,6 +48,13 @@ define([
             this.totalCostView.append('<div id="loading-total-cost"></div>');
             this.$el.append(this.totalCostView.el);
 
+            this.velocityView = new WidgetView({
+                 heading: 'Current Velocity',
+                 contentId: 'velocity-widget'
+            }).render();
+            this.velocityView.append('<div id="loading-velocity"></div>');
+            this.$el.append(this.velocityView.el);
+
             this.buildView = new WidgetView({
                  heading: 'Build',
                  contentId: 'build-widget'
@@ -52,11 +66,19 @@ define([
             if (this.totalCostView.$('#loading-total-cost svg').length === 0) {
                 spinner('loading-total-cost', 50, 45, 15, 3, '#888');
             }
+            if (this.velocityView.$('#loading-velocity svg').length === 0) {
+                spinner('loading-velocity', 50, 45, 15, 3, '#888');
+            }
         },
 
         renderTotalCost: function () {
             this.totalCostView.empty();
             this.totalCostView.appendTemplate(totalCostTemplate, this.costModel);
+        },
+
+        renderVelocity: function () {
+            this.velocityView.empty();
+            this.velocityView.append('<span id="current-velocity">' + this.velocityModel.get('current_velocity') + '</span>');
         },
 
         renderBuild: function () {

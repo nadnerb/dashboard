@@ -15,8 +15,10 @@ class Dashboard::StoriesController < ActionController::Base
 
   private
   def project(one_and_only)
-    PivotalTracker::Client.token = one_and_only[:token] # da4f9bf2587bd8b68bef789846b35b3d
-    proj = PivotalTracker::Project.find(one_and_only[:project_id]) # 627145
-    PivotalTracker::Iteration.current(proj)
+    PivotalTracker::Iteration.current(pivotal(one_and_only).project)
+  end
+
+  def pivotal config
+    @pivotal ||= Pivotal.new config
   end
 end

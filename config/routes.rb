@@ -12,7 +12,9 @@ Dashboard::Application.routes.draw do
 
   namespace :dashboard do
     # this needs some spring cleaning
-    resource :stories, :only => [:create, :show]
+    resource :stories, :only => [:create, :show] do
+      get 'velocity'
+    end
     resources :performance
     get 'newrelic/summary', :to => 'performance#summary'
     resource :configurations, :only => [:create, :show]

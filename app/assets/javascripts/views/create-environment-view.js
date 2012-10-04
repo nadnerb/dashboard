@@ -27,11 +27,17 @@ define([
                         this.populateForm();
                     });
                     this.stackTemplate.fetch();
+                } else {
+                    this.model.trigger('saved');
                 }
             });
 
             this.bindTo(this.model, 'error', function (model, errors) {
-                this.populateFormWithErrors(errors);
+                if (errors.responseText) {
+                    this.populateServerErrors(errors.responseText);
+                } else {
+                    this.populateFormWithErrors(errors);
+                }
             });
 
             if (options && !options.edit) {
@@ -121,6 +127,12 @@ define([
             }, this);
         },
 
+        populateServerErrors: function (responseText) {
+            var obj = JSON.parse(responseText);
+            this.$('.environment-errors .control-group').addClass('error');
+            this.$('.environment-errors .control-group .help-inline').html(obj.error);
+        },
+
         confirm: function () {
             if (this.stackTemplate === undefined) {
                 this.stackTemplate = new StackTemplate({ id: this.$('#stack-templates').val() });
@@ -142,7 +154,6 @@ define([
                 this.model.set({templateName: this.stackTemplate.get('id')}, {silent: true});
                 this.model.set({parameters: attrs}, {silent: true});
                 this.model.save();
-                this.model.trigger('saved');
             }
 
             return false;

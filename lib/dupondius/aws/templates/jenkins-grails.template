@@ -155,7 +155,7 @@
                "content" : { "Fn::Join" : ["", [
                   "ENVIRONMENT_NAME=ci\n",
                   "PROJECT_NAME=", { "Ref" : "ProjectName" }, "\n",
-                  "GITHUB_PROJECT_USER=", { "Ref" : "GithubProjectUser" }, "\n",
+                  "GITHUB_PROJECT_USER=", { "Ref" : "ProjectGithubUser" }, "\n",
                   "ZONE=", { "Ref" : "HostedZone" }, "\n",
                   "TTL=600\n",
                   "AWS_ACCESS_KEY_ID=", { "Ref" : "AwsAccessKey" }, "\n",

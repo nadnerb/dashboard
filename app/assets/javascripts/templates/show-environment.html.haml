@@ -12,6 +12,76 @@
         %dt Resources
         %dd.resources
             %ul
+      %h3 EC2 Timer
+      %dt Enabled
+      %dd
+        %input{type: 'checkbox'}
+      %dt Stop at
+      %dd
+        %select{id: 'stop-at-hour'}
+          %option{value: '00'} Midnight
+          %option{value: '01'} 1am
+          %option{value: '02'} 2am
+          %option{value: '03'} 3am
+          %option{value: '04'} 4am
+          %option{value: '05'} 5am
+          %option{value: '06'} 6am
+          %option{value: '07'} 7am
+          %option{value: '08'} 8am
+          %option{value: '09'} 9am
+          %option{value: '10'} 10am
+          %option{value: '11'} 11am
+          %option{value: '12'} Midday
+          %option{value: '13'} 1pm
+          %option{value: '13'} 2pm
+          %option{value: '13'} 3pm
+          %option{value: '13'} 4pm
+          %option{value: '13'} 5pm
+          %option{value: '13'} 6pm
+          %option{value: '13'} 7pm
+          %option{value: '13'} 8pm
+          %option{value: '13'} 9pm
+          %option{value: '13'} 10pm
+          %option{value: '13'} 11pm
+        %select{id: 'stop-at-minute'}
+          %option{value: '00'} 00
+          %option{value: '15'} 15
+          %option{value: '30'} 30
+          %option{value: '45'} 45
+      %dt Start at
+      %dd
+        %select{id: 'start-at-hour'}
+          %option{value: '00'} Midnight
+          %option{value: '01'} 1am
+          %option{value: '02'} 2am
+          %option{value: '03'} 3am
+          %option{value: '04'} 4am
+          %option{value: '05'} 5am
+          %option{value: '06'} 6am
+          %option{value: '07'} 7am
+          %option{value: '08'} 8am
+          %option{value: '09'} 9am
+          %option{value: '10'} 10am
+          %option{value: '11'} 11am
+          %option{value: '12'} Midday
+          %option{value: '13'} 1pm
+          %option{value: '13'} 2pm
+          %option{value: '13'} 3pm
+          %option{value: '13'} 4pm
+          %option{value: '13'} 5pm
+          %option{value: '13'} 6pm
+          %option{value: '13'} 7pm
+          %option{value: '13'} 8pm
+          %option{value: '13'} 9pm
+          %option{value: '13'} 10pm
+          %option{value: '13'} 11pm
+        %select{id: 'start-at-minute'}
+          %option{value: '00'} 00
+          %option{value: '15'} 15
+          %option{value: '30'} 30
+          %option{value: '45'} 45
+
 %div.modal-footer
-    %a.confirm.btn.btn-primary Done
+    %a.cancel.btn-small Cancel
+    %a.confirm.btn.btn-primary Save
 

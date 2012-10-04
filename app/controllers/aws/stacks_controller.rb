@@ -3,6 +3,10 @@ class Aws::StacksController < ApplicationController
 
   respond_to :json
 
+  rescue_from 'AWS::CloudFormation::Errors::ValidationError' do |error|
+    render :json => {:error => error.message}, :status => 400
+  end
+
   def index
     respond_with(Dupondius::Aws::CloudFormation.summaries)
   end
@@ -47,4 +51,5 @@ class Aws::StacksController < ApplicationController
   def template
     respond_with(Dupondius::Aws::CloudFormation::Stack.find(params[:id]).template)
   end
+
 end

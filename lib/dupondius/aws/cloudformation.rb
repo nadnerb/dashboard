@@ -123,13 +123,20 @@ module Dupondius; module Aws; module CloudFormation
 
   class ContinuousIntegration < Stack
 
-    def self.create project_name, tech_stack, parameters
-      super("jenkins-#{tech_stack}.template", 'ci', project_name, {
-          DBName: project_name,
-          DBUsername: project_name,
-          DBPassword: project_name
-      }.merge(parameters))
+    def self.create project_name, tech_stack, aws_region, parameters
+      template_name = "jenkins-#{tech_stack}.template"
+
+      Dupondius::Aws::CloudFormation.access(aws_region).stacks.create("ci-#{project_name}", Template.find(template_name),
+        :parameters => {HostedZone: Dupondius.config.hosted_zone,
+                        ProjectName: project_name,
+                        AwsAccessKey: Dupondius.config.access_key,
+                        AwsSecretAccessKey: Dupondius.config.secret_access_key,
+                        DBName: project_name,
+                        DBUsername: project_name,
+                        DBPassword: project_name,
+                        KeyName: Dupondius.config.key_name}.merge(parameters))
     end
+
 
     def self.find project_name
       super("ci-#{project_name}")

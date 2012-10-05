@@ -28,7 +28,7 @@ class Jobs::LaunchCi
         SecretAccessKeyEnc: encrypt(string_value(params[:project][:aws][:secretAccessKey], Dupondius.config.secret_access_key)),
         PrivateKeyEnc: encrypt(string_value(params[:project][:aws][:privateKey], PKEY))
     }
-    Dupondius::Aws::CloudFormation::ContinuousIntegration.create(@project.name, tech_stack, options)
+    Dupondius::Aws::CloudFormation::ContinuousIntegration.create(@project.name, tech_stack, @project.region, options)
   end
 
   def tech_stack(tech)

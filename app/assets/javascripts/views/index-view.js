@@ -77,8 +77,13 @@ define([
         },
 
         renderVelocity: function () {
-            this.velocityView.empty();
-            this.velocityView.append('<span id="current-velocity">' + this.velocityModel.get('current_velocity') + '</span>');
+            if (this.velocityModel.get('not_configured')) {
+                this.velocityView.empty();
+                this.velocityView.append('<div id="pivotal-not-configured">Pivotal needs to be configured from the Stories Tab.</div>');
+            } else {
+                this.velocityView.empty();
+                this.velocityView.append('<span id="current-velocity">' + this.velocityModel.get('current_velocity') + '</span>');
+            }
         },
 
         renderBuild: function () {

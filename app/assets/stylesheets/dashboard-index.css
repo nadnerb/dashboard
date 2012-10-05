@@ -14,6 +14,11 @@
   line-height: 100px;
 }
 
+#pivotal-not-configured {
+  padding-top: 15px;
+  color: #D80B17;
+}
+
 #total-cost-widget, #velocity-widget, #build-widget {
   min-height: 0 !important;
   height: 110px;

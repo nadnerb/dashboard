@@ -76,9 +76,13 @@ p.main-logo {
 .vagrant {
   background-image: url("http://vagrantup.com/static/images/hippie.png");
   position: absolute;
-  left: 400px;
+  left: 370px;
   height: 362px;
   width: 330px;
+}
+
+.home-main {
+  height: 515px;
 }
 
 h1 {

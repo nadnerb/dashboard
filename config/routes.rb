@@ -47,6 +47,7 @@ Dashboard::Application.routes.draw do
 
   if Rails.configuration.launchpad_enabled
     root :to => 'under_construction#show'
+    #root :to => 'home#index'
   else
     root :to => 'dashboard#index'
   end

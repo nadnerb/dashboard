@@ -33,7 +33,10 @@
             </p>
             <p>&nbsp;</p>
             <p>
-              In order to get the application up and running as quickly, first we need to authorise access to your github account.
+              In order to get the application up and running quickly, first we need to authorise access to your github account.
+            </p>
+            <p>
+              When we have this access, we can create and push your new app directly to your github account and from here deploy all the way to production using the customisable dupondi.us continuous delivery solution.
             </p>
             <p>
               <a href="/source/new" class="btn btn-success btn-xlarge">
@@ -53,14 +56,15 @@
               <input id="github-account" type="hidden" value="<%=session[:github_user]%>"/>
             </p>
             <p>
-              Private? <input type="checkbox" id="github-private"/>
+              Private repo? <input type="checkbox" id="github-private"/>
             </p>
             <p>
               <a href="#" class="btn btn-success btn-xlarge" id="page-one-done">
                 <i class="icon-arrow-down icon-white"></i> Get Started
               </a>
             </p>
-            <b><a href="/source/new">REAUTHORISE THIS APPLICATION</a></b>
+            <b><a href="/source/new">REAUTHORISE ME PLEASE, I WANT TO USE A DIFFERENT GITHUB ACCOUNT</a> </b>
+            <br/>(You will need to log out of your github account first)
           <%end%>
         </div>
     </div>
@@ -73,13 +77,13 @@
           </p>
           <p>&nbsp;</p>
           <p>
-            Your Github repository will be found here.
+            When we have finished here at the launchpad, your Github repository will be found here.
           </p>
           <p>&nbsp;</p>
           <p class="url">https://github.com/<%=session[:github_user]%>/<b class="url"></b>.git</p>
           <p>&nbsp;</p>
           <p>
-            Dont worry about remembering this URL, you will be able to grab it later.
+            Dont worry about needing to remember this URL, you will be able to grab it later.
           </p>
           <p>
             <a href="#" class="btn btn-primary btn-xlarge" id="github-details-done">
@@ -120,7 +124,7 @@
         <div class="page-container">
           <h1>Select the technology stack for the application</h1>
           <p>
-            Select the primary technology to use for the application. This cannot be undone once the environments have been created.
+            Select the your primary technology stack to use for the application. This cannot be undone once the environments have been created.
           </p>
           <div id="tech-stack" class="selectable-grid">
             <div class="selectable-grid-row">
@@ -196,8 +200,7 @@
               <dt>AWS Region:</dt>
               <dd id="summary-aws-region"></dd>
           </dl>
-          <p>&nbsp;</p>
-          <p>Initially a dashboard will be created. From there you will be able to configure your environments further.</p>
+          <p>Initially a brand new dashboard for your app will be created. From there you will be able to configure your environments further.</p>
           <p>
             <a href="#" class="btn btn-success btn-xlarge" id="summary-done">
               <i class="icon-ok icon-white"></i> Great, now lets create some environments!

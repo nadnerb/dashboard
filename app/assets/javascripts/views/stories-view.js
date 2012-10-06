@@ -29,11 +29,12 @@ define([
 
         renderBurnDownChart: function () {
             var view = new WidgetView({
-                 heading: 'Burn Down Chart',
+                 heading: 'Burn Down Chart - ',
                  contentId: 'burn-down-widget'
             }).render();
             this.$el.html(view.el);
             this.renderLineGraph(view);
+            this.$('.widget-header h3').append(this.make('a', {'href': 'https://www.pivotaltracker.com/projects/' + this.model.get('stories')[0].project_id, 'target': '_blank'}, 'Go to Pivotal Tracker'));
         },
 
         renderConfigurePivotalTracker: function () {

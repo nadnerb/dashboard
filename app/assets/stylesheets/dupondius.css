@@ -80,6 +80,22 @@ p.main-logo {
   height: 352px;
   width: 454px;
 }
+.btn-dupondius {
+  background-color: hsl(0, 65%, 34%) !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#d74545", endColorstr="#8f1e1e");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#d74545), to(#8f1e1e));
+  background-image: -moz-linear-gradient(top, #d74545, #8f1e1e);
+  background-image: -ms-linear-gradient(top, #d74545, #8f1e1e);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d74545), color-stop(100%, #8f1e1e));
+  background-image: -webkit-linear-gradient(top, #d74545, #8f1e1e);
+  background-image: -o-linear-gradient(top, #d74545, #8f1e1e);
+  background-image: linear-gradient(#d74545, #8f1e1e);
+  border-color: #8f1e1e #8f1e1e hsl(0, 65%, 28.5%);
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.36);
+  -webkit-font-smoothing: antialiased;
+}
 
 .home-main {
   height: 515px;

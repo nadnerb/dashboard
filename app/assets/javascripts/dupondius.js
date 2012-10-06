@@ -85,11 +85,20 @@
 })(jQuery);
 
 $(document).ready(function () {
+
+    $('#create-another-link').live('click', function () {
+        $.removeCookie('project_data');
+        $.removeCookie('project_id');
+        $.removeCookie('project_token');
+        window.refresh();
+    });
+
     var getSuccess = function(response) {
-        if (response.status === 'CREATE_COMPLETE') {
+        if (response.status === '') {
             $('#loading-image').remove();
             $('#please-wait').remove();
-            $('#waiting .page-container').append('<h2>Your environment is ready for action</h2><a href="' + response.output.value + '">' + response.output.value + '</a>');
+            $('#waiting .page-container').append('<h2>Your environment is ready for action</h2><h1><a href="' + response.output.value + '">' + response.output.value + '</a></h1>');
+            $('#waiting .page-container').append('<p>Done with this environment? <a id="create-another-link" href="">Create another</a></p>');
             return;
         } else {
           setTimeout(function () {
@@ -125,8 +134,7 @@ $(document).ready(function () {
 
         $('#nav-application-name').html('<button class="btn btn-info">' + data.project.name + '</button>');
         $('#nav-application-stack').html('<button class="btn btn-info">' + data.project.tech_stack + '</button>');
-        $('#nav-application-support').html('<button class="btn btn-info">' + data.project.support.join(', ') + '</button>');
-        $('#nav-application-envs').html('<button class="btn btn-info">' + data.project.environments.join(', ') + '</button>');
+        $('#nav-region-selected').html('<button class="btn btn-info">' + data.project.region + '</button>');
 
         return;
     }
@@ -146,7 +154,7 @@ $(document).ready(function () {
 
             $('#summary-application-name').text(text);
 
-            $.cookie('project_token', $('#application-token').val(), {path: '/', expires: 1});
+            $.cookie('project_token', $('#application-token').val(), {path: '/', expires: 365});
             return text;
         },
         focus: function () {
@@ -220,10 +228,10 @@ $(document).ready(function () {
             }
         }};
 
-        $.cookie('project_data', JSON.stringify(data), {expires: 1});
+        $.cookie('project_data', JSON.stringify(data), {expires: 365});
 
         var postSuccess = function(response) {
-            $.cookie('project_id', response.id, {expires: 1});
+            $.cookie('project_id', response.id, {expires: 365});
             inifiniteCheck(response.id);
         };
 

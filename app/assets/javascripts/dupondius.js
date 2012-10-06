@@ -134,8 +134,7 @@ $(document).ready(function () {
 
         $('#nav-application-name').html('<button class="btn btn-info">' + data.project.name + '</button>');
         $('#nav-application-stack').html('<button class="btn btn-info">' + data.project.tech_stack + '</button>');
-        $('#nav-application-support').html('<button class="btn btn-info">' + data.project.support.join(', ') + '</button>');
-        $('#nav-application-envs').html('<button class="btn btn-info">' + data.project.environments.join(', ') + '</button>');
+        $('#nav-region-selected').html('<button class="btn btn-info">' + data.project.region + '</button>');
 
         return;
     }

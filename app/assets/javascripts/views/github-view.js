@@ -6,7 +6,7 @@ define([
     ], function (BackboneSuperView, PerformanceCharts, WidgetView, template) {
       return BackboneSuperView.extend({
 
-        id: 'github-view',
+      id: 'github-view',
 
       template: template,
 
@@ -29,7 +29,7 @@ define([
           heading: 'Github',
         contentId: 'github-widget'
         }).render();
-        this.githubView.append("<div class='github-widget' data-repo='" + githubUser + "/" + githubProject + "'>");
+        this.githubView.append("<div class='github-widget-container' data-repo='" + githubUser + "/" + githubProject + "'>");
         this.githubView.append('<div id="loading-github"></div>');
         this.$('.github-widget').append(this.githubView.el);
       },

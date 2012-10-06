@@ -277,11 +277,11 @@
               },
               "/home/deployer/deploy.sh" : {
                "content" : { "Fn::Join" : ["", [
-                  "#!/bin/bash -e \n"
+                  "#!/bin/bash -e \n",
                   "chown :tomcat /var/tmp/", { "Ref" : "ProjectName" }, "-$1.war\n",
-                  "mv /var/tmp/", { "Ref" : "ProjectName" }, "-$1.war /var/lib/tomcat7/webapps/ROOT.war
+                  "mv /var/tmp/", { "Ref" : "ProjectName" }, "-$1.war /var/lib/tomcat7/webapps/ROOT.war\n"
                   ]]},
-                "mode"  : "000740",
+                "mode"  : "000770",
                 "owner" : "deployer",
                 "group" : "deployer"
               }

@@ -75,11 +75,11 @@ p.main-logo {
 }
 
 .dupondius-image {
-  background-image: url("dupondius.png");
+  background-image: url("dupondius-mascot.png");
   position: absolute;
   left: 300px;
   height: 352px;
-  width: 454px;
+  width: 442px;
 }
 
 .dupondius-blurb {

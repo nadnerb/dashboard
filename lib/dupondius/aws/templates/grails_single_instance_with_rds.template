@@ -137,18 +137,6 @@
                 "git.x86_64"   : []
               }
             },
-            "services" : {
-              "sysvinit" : {
-                "tomcat7" : {
-                  "enabled" : "true",
-                  "ensureRunning" : "true"
-                },
-                "mysqld" : {
-                    "enabled"       : "true",
-                    "ensureRunning" : "true"
-                }
-              }
-            },
             "groups" : {
                 "www" : {}
             },
@@ -293,6 +281,16 @@
                   "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
                   ]]},
                 "mode"  : "000644",
+                "owner" : "deployer",
+                "group" : "deployer"
+              },
+              "/home/deployer/deploy.sh" : {
+               "content" : { "Fn::Join" : ["", [
+                  "#!/bin/bash -e \n",
+                  "chown :tomcat /var/tmp/", { "Ref" : "ProjectName" }, "-$1.war\n",
+                  "mv /var/tmp/", { "Ref" : "ProjectName" }, "-$1.war /var/lib/tomcat7/webapps/ROOT.war\n"
+                  ]]},
+                "mode"  : "000770",
                 "owner" : "deployer",
                 "group" : "deployer"
               }

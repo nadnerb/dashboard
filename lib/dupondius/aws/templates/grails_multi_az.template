@@ -1,12 +1,12 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Single instance with tomcat and mysql. grails_single_instance.template",
+  "Description" : "Dupondi.us. Grails Multi AZ. Create a highly available, scalable Grails stack with a multi-AZ MySQL Amazon RDS database instance for the backend data store. grails_multi_az.template",
 
   "Parameters" : {
 
     "KeyName" : {
-      "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instance",
+      "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
       "Type" : "String"
     },
     "InstanceType" : {
@@ -57,7 +57,7 @@
     },
 
     "DBPassword": {
-      "Description" : "Password MySQL database access",
+      "Description" : "Password for MySQL database access",
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "41",
@@ -65,13 +65,46 @@
       "ConstraintDescription" : "must contain only alphanumeric characters."
     },
 
-    "DBRootPassword": {
-      "Description" : "Root password for MySQL",
+    "DBAllocatedStorage": {
+      "Default": "5",
+      "Description" : "The size of the database (Gb) (minimum 5GB, maximum 1024 GB)",
+      "Type": "Number",
+      "MinValue": "5",
+      "MaxValue": "1024",
+      "ConstraintDescription" : "must be between 5 and 1024Gb."
+    },
+
+    "DBInstanceClass": {
+      "Default": "db.m1.small",
+      "Description" : "The database instance type",
       "Type": "String",
-      "MinLength": "1",
-      "MaxLength": "41",
-      "AllowedPattern" : "[a-zA-Z0-9]*",
-      "ConstraintDescription" : "must contain only alphanumeric characters."
+      "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m1.large", "db.m1.xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge" ],
+      "ConstraintDescription" : "must select a valid database instance type."
+    },
+
+    "MultiAZDatabase": {
+      "Default": "true",
+      "Description" : "Create a multi-AZ MySQL Amazon RDS database instance",
+      "Type": "String",
+      "AllowedValues" : [ "true", "false" ],
+      "ConstraintDescription" : "must be either true or false."
+    },
+
+    "WebServerCapacity": {
+      "Default": "2",
+      "Description" : "The initial number of WebServer instances",
+      "Type": "Number",
+      "MinValue": "1",
+      "MaxValue": "5",
+      "ConstraintDescription" : "must be between 1 and 5 EC2 instances."
+    },
+
+    "InstanceType" : {
+      "Description" : "WebServer EC2 instance type",
+      "Type" : "String",
+      "Default" : "m1.small",
+      "AllowedValues" : [ "t1.micro","m1.small","m1.medium","m1.large","m1.xlarge","m2.xlarge","m2.2xlarge","m2.4xlarge","c1.medium","c1.xlarge","cc1.4xlarge","cc2.8xlarge","cg1.4xlarge"],
+      "ConstraintDescription" : "must be a valid EC2 instance type."
     }
   },
 
@@ -105,11 +138,52 @@
 
   "Resources" : {
 
-
-    "WebServer": {
-      "Type": "AWS::EC2::Instance",
+    "ElasticLoadBalancer" : {
+      "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
       "Metadata" : {
-        "dupondius::template" : "grails_single_instance",
+        "Comment" : "Configure the Load Balancer with a simple health check and cookie-based stickiness"
+      },
+      "Properties" : {
+        "AvailabilityZones" : { "Fn::GetAZs" : "" },
+        "LBCookieStickinessPolicy" : [ {
+          "PolicyName" : "CookieBasedPolicy",
+          "CookieExpirationPeriod" : "30"
+        } ],
+        "Listeners" : [ {
+          "LoadBalancerPort" : "80",
+          "InstancePort" : "8080",
+          "Protocol" : "HTTP",
+          "PolicyNames" : [ "CookieBasedPolicy" ]
+        } ],
+        "HealthCheck" : {
+          "Target" : "HTTP:8080/status",
+          "HealthyThreshold" : "2",
+          "UnhealthyThreshold" : "5",
+          "Interval" : "10",
+          "Timeout" : "5"
+        }
+      }
+    },
+
+    "WebServerGroup" : {
+      "Type" : "AWS::AutoScaling::AutoScalingGroup",
+      "Properties" : {
+        "AvailabilityZones" : { "Fn::GetAZs" : "" },
+        "LaunchConfigurationName" : { "Ref" : "LaunchConfig" },
+        "MinSize" : "1",
+        "MaxSize" : "5",
+        "DesiredCapacity" : { "Ref" : "WebServerCapacity" },
+        "Tags" : [ {"Key" : "dupondius:project", "Value" : { "Ref" : "ProjectName"}, "PropagateAtLaunch" : "true" },
+                   {"Key" : "dupondius:environment", "Value" : { "Ref" : "EnvironmentName"}, "PropagateAtLaunch" : "true" }
+                 ],
+        "LoadBalancerNames" : [ { "Ref" : "ElasticLoadBalancer" } ]
+      }
+    },
+
+    "LaunchConfig": {
+      "Type" : "AWS::AutoScaling::LaunchConfiguration",
+      "Metadata" : {
+
         "AWS::CloudFormation::Init" : {
           "config" : {
             "packages" : {
@@ -121,10 +195,8 @@
                 "tomcat7"     : [],
                 "tomcat-native"     : [],
                 "mysql"        : [],
-                "mysql-server" : [],
                 "mysql-devel"  : [],
                 "mysql-libs"   : [],
-                "nginx"         : [],
                 "git.x86_64"   : []
               }
             },
@@ -231,7 +303,6 @@
               "/tmp/setup.mysql" : {
                 "content" : { "Fn::Join" : ["", [
                   "CREATE USER '", { "Ref" : "DBUsername" }, "'@'localhost' IDENTIFIED BY '", { "Ref" : "DBPassword" }, "';\n",
-                  "CREATE DATABASE ", { "Ref" : "DBName" }, ";\n",
                   "GRANT ALL ON ", { "Ref" : "DBName" }, ".* TO '", { "Ref" : "DBUsername" }, "'@'localhost';\n",
                   "FLUSH PRIVILEGES;\n"
                     ]]},
@@ -250,7 +321,8 @@
                   "DB_NAME=", { "Ref" : "DBName" }, "\n",
                   "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
                   "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
-                  "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
+                  "DB_HOST=", { "Fn::GetAtt": [ "MySQLDatabase", "Endpoint.Address" ] }, "\n",
+                  "DB_PORT=", { "Fn::GetAtt": [ "MySQLDatabase", "Endpoint.Port" ] }, "\n"
                   ]]},
                 "mode"  : "000644",
                 "owner" : "root",
@@ -312,10 +384,8 @@
         "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
                           { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
         "InstanceType"   : { "Ref" : "InstanceType" },
-        "SecurityGroups" : [ {"Ref" : "FrontendGroup"} ],
-        "Tags" : [ {"Key" : "dupondius:project", "Value" : { "Ref" : "ProjectName"} },
-                   {"Key" : "dupondius:environment", "Value" : { "Ref" : "EnvironmentName"} }
-                 ],
+        "SecurityGroups" : [ {"Ref" : "WebServerSecurityGroup"} ],
+        "KeyName"        : { "Ref" : "KeyName" },
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
           "yum update -y aws-cfn-bootstrap\n",
@@ -327,8 +397,21 @@
           "  exit 1\n",
           "}\n",
 
-          "# Set the time zone\n",
-          "ln -s /usr/share/zoneinfo/Australia/Melbourne /etc/localtime\n",
+          "# Install Rails packages\n",
+          "/opt/aws/bin/cfn-init -v -s ", { "Ref" : "AWS::StackName" }, " -r LaunchConfig ",
+          "    --access-key AKIAIB3JD5B24BFQEDVQ",
+          "    --secret-key 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",
+          "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+
+          "# Allow the environment to the loaded for the deployer\n",
+          "echo \"PermitUserEnvironment yes\" >> /etc/ssh/sshd_config\n",
+          "/etc/init.d/sshd restart\n",
+
+          "# Use Ruby 1.9\n",
+          "rm /usr/bin/ruby\n",
+          "ln -s /usr/bin/ruby1.9 /usr/bin/ruby\n",
+          "ln -s /usr/bin/gem1.9 /usr/bin/gem\n",
+          "gem install bundler --no-rdoc --no-ri\n",
 
           "# Give the deployer user login rights\n",
           "useradd -m deployer\n",
@@ -344,19 +427,12 @@
           "chmod 0440 /etc/sudoers.d/deployer\n",
 
           "mkdir -p /var/nginx/cache\n",
-          "# Add nginx to the tomcat group\n",
-          "usermod -a -G tomcat nginx\n",
 
           "# Install packages\n",
           "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r WebServer ",
           "    --access-key ", { "Ref" : "AwsAccessKey" },
           "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
-
-          "# Setup MySQL root password and create a user\n",
-          "mysqladmin -u root password '", { "Ref" : "DBRootPassword" }, "' || error_exit 'Failed to initialize root password'\n",
-          "mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql || error_exit 'Failed to create database user'\n",
-
 
           "# Tools to support automated DNS update using Route53\n",
           "easy_install  -U boto\n",
@@ -377,7 +453,7 @@
           "unzip /tmp/newrelic_agent2.8.0.zip -d /usr/share/tomcat7\n",
 
           "# All is well so signal success\n",
-          "/opt/aws/bin/cfn-signal -e 0 -r \"Tomcat application setup\" '", { "Ref" : "WaitHandle" }, "'\n"
+          "/opt/aws/bin/cfn-signal -e 0 -r \"Environment setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
         ]]}}
       }
     },
@@ -388,34 +464,45 @@
 
     "WaitCondition" : {
       "Type" : "AWS::CloudFormation::WaitCondition",
-      "DependsOn" : "WebServer",
+      "DependsOn" : "WebServerGroup",
       "Properties" : {
-        "Handle" : {"Ref" : "WaitHandle"},
-        "Timeout" : "3000"
+        "Handle"  : {"Ref" : "WaitHandle"},
+        "Timeout" : "1500"
       }
     },
 
-    "FrontendGroup" : {
+    "WebServerSecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
-        "GroupDescription" : "Enable SSH and HTTP access via port 8080",
-        "SecurityGroupIngress" : [ {
-          "IpProtocol" : "tcp",
-          "FromPort" : "22",
-          "ToPort" : "22",
-          "CidrIp" : "0.0.0.0/0"
-        }, {
-          "IpProtocol" : "tcp",
-          "FromPort" : "80",
-          "ToPort" : "80",
-          "CidrIp" : "0.0.0.0/0"
-        }, {
-          "IpProtocol" : "tcp",
-          "FromPort" : "8080",
-          "ToPort" : "8080",
-          "CidrIp" : "0.0.0.0/0"
-        } ]
+        "GroupDescription" : "Enable HTTP access via port 80 locked down to the load balancer + SSH access",
+        "SecurityGroupIngress" : [
+          {"IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "SourceSecurityGroupOwnerId" : {"Fn::GetAtt" : ["ElasticLoadBalancer", "SourceSecurityGroup.OwnerAlias"]},"SourceSecurityGroupName" : {"Fn::GetAtt" : ["ElasticLoadBalancer", "SourceSecurityGroup.GroupName"]}},
+          {"IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : "0.0.0.0/0"}
+        ]
+      }
+    },
 
+    "DBSecurityGroup": {
+      "Type": "AWS::RDS::DBSecurityGroup",
+      "Properties": {
+        "GroupDescription": "Grant database access to web server",
+        "DBSecurityGroupIngress": {
+          "EC2SecurityGroupName": { "Ref": "WebServerSecurityGroup" }
+        }
+      }
+    },
+
+    "MySQLDatabase": {
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "Engine" : "MySQL",
+        "DBName" : { "Ref": "DBName" },
+        "MultiAZ" : { "Ref": "MultiAZDatabase" },
+        "MasterUsername": { "Ref": "DBUsername" },
+        "MasterUserPassword": { "Ref" : "DBPassword" },
+        "DBInstanceClass": { "Ref" : "DBInstanceClass" },
+        "DBSecurityGroups": [ { "Ref": "DBSecurityGroup" } ],
+        "AllocatedStorage": { "Ref" : "DBAllocatedStorage" }
       }
     },
 
@@ -423,19 +510,19 @@
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "HostedZone"}, "." ]]},
-        "Comment" : "CNAME to tomcat instance.",
+        "Comment" : "CNAME for the web instance.",
         "Name" : { "Fn::Join" : [ "", [{"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, "."]]},
         "Type" : "CNAME",
-        "TTL" : "900",
-        "ResourceRecords" : [{ "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}]
+        "TTL" : "300",
+        "ResourceRecords" : [{ "Fn::GetAtt" : [ "ElasticLoadBalancer", "DNSName" ]}]
       }
     }
   },
 
   "Outputs" : {
     "WebsiteURL" : {
-      "Value" : { "Fn::Join" : ["", ["http://", {"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}]] },
-      "Description" : "URL for newly created Tomcat webserver"
+      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "ElasticLoadBalancer", "DNSName" ]}]] },
+      "Description" : "URL for newly created Rails application"
     }
   }
 }

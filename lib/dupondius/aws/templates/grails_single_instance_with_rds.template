@@ -76,7 +76,7 @@
 
     "DBInstanceClass": {
       "Default": "db.m1.small",
-      "Description" : "The size of the database (Gb) (minimum 5GB, maximum 1024 GB)",
+      "Description" : "The instance size of the database",
       "Type": "String",
       "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m1.large", "db.m1.xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge" ],
       "ConstraintDescription" : "must select a valid database instance type."
@@ -130,7 +130,6 @@
                 "tomcat7"     : [],
                 "tomcat-native"     : [],
                 "mysql"        : [],
-                "mysql-server" : [],
                 "mysql-devel"  : [],
                 "mysql-libs"   : [],
                 "nginx"         : [],
@@ -305,10 +304,6 @@
                 "tomcat7" : {
                   "enabled" : "true",
                   "ensureRunning" : "true"
-                },
-                "mysqld" : {
-                    "enabled"       : "true",
-                    "ensureRunning" : "true"
                 }
               }
             }
@@ -353,6 +348,8 @@
           "chmod 0440 /etc/sudoers.d/deployer\n",
 
           "mkdir -p /var/nginx/cache\n",
+          "# Add nginx to the tomcat group\n",
+          "usermod -a -G tomcat nginx\n",
 
           "# Install packages\n",
           "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r WebServer ",

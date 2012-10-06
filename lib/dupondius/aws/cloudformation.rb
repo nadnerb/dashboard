@@ -84,7 +84,7 @@ module Dupondius; module Aws; module CloudFormation
     end
 
     def template_name
-      self.description.match(/\w+$/).to_s
+      self.description.match(/\w+\.\w+$/).to_s
     end
 
     def update params

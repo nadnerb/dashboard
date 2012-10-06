@@ -41,11 +41,18 @@ namespace :dupondius do
         :secret_access_key => Dupondius.config.secret_access_key
       )
       bucket = s3.buckets['dupondius']
-      ['install-dashboard', 'install-app', 'configure-nginx', 'update-route53-dns', 'nginx.conf', 'update-config'].each do |file_name|
-        obj = bucket.objects["config/#{file_name}"]
-        obj.write(File.open(File.expand_path(File.join( File.dirname(__FILE__), '..', file_name))).read)
+
+      Dir[File.join(File.dirname(__FILE__), '..', 'config', '*')].each do |filename|
+        puts "Uploading asset: #{File.basename(filename)}"
+        obj = bucket.objects["config/#{File.basename(filename)}"]
+        obj.write(File.open(filename).read)
         obj.acl= :public_read
       end
+      #['install-dashboard', 'install-app', 'configure-nginx', 'update-route53-dns', 'nginx.conf', 'update-config'].each do |file_name|
+        #obj = bucket.objects["config/#{file_name}"]
+        #obj.write(File.open(File.expand_path(File.join( File.dirname(__FILE__), '..', file_name))).read)
+        #obj.acl= :public_read
+      #end
     end
 
     desc 'Upload cloudformation templates to s3'

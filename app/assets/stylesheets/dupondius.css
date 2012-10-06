@@ -73,12 +73,12 @@ p.main-logo {
   line-height: 136px;
 }
 
-.vagrant {
-  background-image: url("http://vagrantup.com/static/images/hippie.png");
+.dupondius-image {
+  background-image: url("dupondius.png");
   position: absolute;
-  left: 370px;
-  height: 362px;
-  width: 330px;
+  left: 300px;
+  height: 352px;
+  width: 454px;
 }
 
 .home-main {

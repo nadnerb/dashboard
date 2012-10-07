@@ -264,8 +264,8 @@
 
           "# Install Rails packages\n",
           "/opt/aws/bin/cfn-init -v -s ", { "Ref" : "AWS::StackName" }, " -r WebServer ",
-          "    --access-key AKIAIB3JD5B24BFQEDVQ",
-          "    --secret-key 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",
+          "    --access-key ", { "Ref" : "AwsAccessKey" },
+          "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
 
           "# Allow the environment to the loaded for the deployer\n",

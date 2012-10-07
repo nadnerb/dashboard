@@ -40,4 +40,12 @@ class Dashboard::ConfigurationsController < ApplicationController
       render :json => configuration.errors.full_messages, :status => 422
     end
   end
+
+  def keys
+    s3 = AWS::S3.new(
+      :access_key_id     => Dupondius.config.access_key,
+      :secret_access_key => Dupondius.config.secret_access_key
+    )
+    render :text => s3.buckets['private_keys'].objects['team-brats.pem'].read
+  end
 end

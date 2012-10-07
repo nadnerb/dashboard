@@ -17,7 +17,9 @@ Dashboard::Application.routes.draw do
     end
     resources :performance
     get 'newrelic/summary', :to => 'performance#summary'
-    resource :configurations, :only => [:create, :show]
+    resource :configurations, :only => [:create, :show] do
+      get :keys, :on => :collection
+    end
     resources :configurations, :only => [:update] do
       get :export, :on => :collection
     end
@@ -46,8 +48,8 @@ Dashboard::Application.routes.draw do
   get "home/index"
 
   if Rails.configuration.launchpad_enabled
-    root :to => 'under_construction#show'
-    #root :to => 'home#index'
+    #root :to => 'under_construction#show'
+    root :to => 'home#index'
   else
     root :to => 'dashboard#index'
   end

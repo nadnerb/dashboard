@@ -45,10 +45,11 @@ define([
             this.$('.name').html(this.model.get('name'));
             this.$('.description').html(this.model.get('description'));
             this.$('.status').html(this.model.get('status'));
-            _(this.model.get('resource_summaries')).each(function (type) { 
+            _(this.model.get('resource_summaries')).each(function (type) {
                 this.$('.resources ul').append('<li>' + type.resource_type + '</li>');
             });
             this.$('.modal-body').append('<a href="/aws/stacks/' + this.model.get('name') + '/template.json" target="_blank">View template</a>');
+            this.$('.modal-body').append('<br/><a href="/dashboard/configurations/keys" target="_blank">Download keys</a>');
         }
     });
 });

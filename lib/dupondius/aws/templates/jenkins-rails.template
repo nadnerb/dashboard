@@ -263,6 +263,7 @@
           "mv /var/tmp/git-tmp/.git /var/lib/jenkins/\n",
           "cd /var/lib/jenkins/\n",
           "git checkout ", { "Ref" : "ProjectType" } ,"\n",
+          "rm -rf .git\n",
           "sed -i 's/\\(<hudsonUrl>\\).*\\(<\\/hudsonUrl>\\)/\\1http:\\/\\/ci.", { "Ref" : "ProjectName" }, ".dupondi.us:8080\\/\\2/' hudson.tasks.Mailer.xml\n",
           "sed -i 's/\\(<projectUrl>\\).*\\(<\\/projectUrl>\\)/\\1https:\\/\\/github.com\\/", { "Ref" : "ProjectGithubUser" }, "\\/", { "Ref" : "ProjectName" } ,"\\2/' jobs/*/config.xml\n",
           "sed -i 's/\\(<url>git@github.com:\\).*\\(<\\/url>\\)/\\1", { "Ref" : "ProjectGithubUser" } ,"\\/", { "Ref" : "ProjectName" } ,".git\\2/' jobs/*/config.xml\n",

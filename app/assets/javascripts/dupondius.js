@@ -94,7 +94,7 @@ $(document).ready(function () {
     });
 
     var getSuccess = function(response) {
-        if (response.status === '') {
+        if (response.status === 'CREATE_COMPLETE') {
             $('#loading-image').remove();
             $('#please-wait').remove();
             $('#waiting .page-container').append('<h2>Your environment is ready for action</h2><h1><a href="' + response.output.value + '">' + response.output.value + '</a></h1>');

@@ -76,14 +76,18 @@ p.main-logo {
 
 .dupondius-image {
   background-image: url("dupondius-mascot.png");
-  position: absolute;
-  left: 300px;
+  float: right;
   height: 352px;
   width: 442px;
+  margin-left: 20px;
+  margin-right:10px;
 }
 
 .dupondius-blurb {
+  text-align: left;
   color: #424242;
+  font-size: 18px;
+  padding-left: 20px;
 }
 
 .btn-dupondius {
@@ -190,7 +194,7 @@ p {
     text-align: center;
     margin: 0 auto;
     width: 1000px;
-    height: 800px;
+    height: 550px;
     background-color: white;
     padding: 20px;
     -webkit-border-radius: 8px;

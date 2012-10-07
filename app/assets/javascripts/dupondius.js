@@ -142,7 +142,7 @@ $(document).ready(function () {
     $.scrollingWizard([{
         id: '#page1',
         validation: function () {
-            var text = $('#application-name').val().replace(/[^a-zA-z0-9]/g, '_');
+            var text = $('#application-name').val().replace(/[\W_]/g, '');
 
             if (text === '') {
                 return null;

@@ -210,42 +210,6 @@
               }
             },
             "files" : {
-              "/usr/local/bin/cli53" : {
-                "source" : "https://raw.github.com/barnybug/cli53/master/scripts/cli53",
-                "mode"   : "000744",
-                "owner"  : "root",
-                "group"  : "root"
-              },
-              "/usr/sbin/update-route53-dns" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/update-route53-dns",
-                "mode"   : "000744",
-                "owner"  : "root",
-                "group"  : "root"
-              },
-              "/etc/nginx/nginx.conf" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf.grails",
-                "mode"   : "000644",
-                "owner"  : "root",
-                "group"  : "root"
-              },
-              "/etc/nginx/conf.d/tomcat.conf" : {
-                "content" : { "Fn::Join" : ["", [
-                    "server {                                                            \n",
-                    "  listen       80;                                                  \n",
-                    "  server_name  _;                                                   \n",
-                    "  location / {                                                      \n",
-                    "        root /var/lib/tomcat7/webapps/ROOT;                         \n",
-                    "        proxy_set_header X-Forwarded-Host $host;                    \n",
-                    "        proxy_set_header X-Forwarded-Server $host;                  \n",
-                    "        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n",
-                    "        proxy_pass http://localhost:8080;                           \n",
-                    "    }                                                               \n",
-                    "}                                                                   \n"
-                ]]},
-                "mode"   : "000644",
-                "owner"  : "root",
-                "group"  : "root"
-              },
               "/etc/tomcat7/tomcat7.conf" : {
                 "content" : { "Fn::Join" : ["", [
                    "# System-wide configuration file for tomcat services\n",
@@ -299,7 +263,156 @@
                 "mode"  : "000644",
                 "owner" : "root",
                 "group" : "root"
-              }
+              },
+              "/etc/tomcat7/server.xml" : {
+                "content" : { "Fn::Join" : ["", [
+                    "<?xml version='1.0' encoding='utf-8'?>\n",
+                    "<!--\n",
+                    "  Licensed to the Apache Software Foundation (ASF) under one or more\n",
+                    "  contributor license agreements.  See the NOTICE file distributed with\n",
+                    "  this work for additional information regarding copyright ownership.\n",
+                    "  The ASF licenses this file to You under the Apache License, Version 2.0\n",
+                    "  (the \"License\"); you may not use this file except in compliance with\n",
+                    "  the License.  You may obtain a copy of the License at\n",
+                    "\n",
+                    "      http://www.apache.org/licenses/LICENSE-2.0\n",
+                    "\n",
+                    "  Unless required by applicable law or agreed to in writing, software\n",
+                    "  distributed under the License is distributed on an \"AS IS\" BASIS,\n",
+                    "  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n",
+                    "  See the License for the specific language governing permissions and\n",
+                    "  limitations under the License.\n",
+                    "-->\n",
+                    "<!-- Note:  A \"Server\" is not itself a \"Container\", so you may not\n",
+                    "     define subcomponents such as \"Valves\" at this level.\n",
+                    "     Documentation at /docs/config/server.html\n",
+                    " -->\n",
+                    "<Server port=\"8005\" shutdown=\"SHUTDOWN\">\n",
+                    "  <!-- Security listener. Documentation at /docs/config/listeners.html\n",
+                    "  <Listener className=\"org.apache.catalina.security.SecurityListener\" />\n",
+                    "  -->\n",
+                    "  <!--APR library loader. Documentation at /docs/apr.html -->\n",
+                    "  <Listener className=\"org.apache.catalina.core.AprLifecycleListener\" SSLEngine=\"on\" />\n",
+                    "  <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->\n",
+                    "  <Listener className=\"org.apache.catalina.core.JasperListener\" />\n",
+                    "  <!-- Prevent memory leaks due to use of particular java/javax APIs-->\n",
+                    "  <Listener className=\"org.apache.catalina.core.JreMemoryLeakPreventionListener\" />\n",
+                    "  <Listener className=\"org.apache.catalina.mbeans.GlobalResourcesLifecycleListener\" />\n",
+                    "  <Listener className=\"org.apache.catalina.core.ThreadLocalLeakPreventionListener\" />\n",
+                    "\n",
+                    "  <!-- Global JNDI resources\n",
+                    "       Documentation at /docs/jndi-resources-howto.html\n",
+                    "  -->\n",
+                    "  <GlobalNamingResources>\n",
+                    "    <!-- Editable user database that can also be used by\n",
+                    "         UserDatabaseRealm to authenticate users\n",
+                    "    -->\n",
+                    "    <Resource name=\"UserDatabase\" auth=\"Container\"\n",
+                    "              type=\"org.apache.catalina.UserDatabase\"\n",
+                    "              description=\"User database that can be updated and saved\"\n",
+                    "              factory=\"org.apache.catalina.users.MemoryUserDatabaseFactory\"\n",
+                    "              pathname=\"conf/tomcat-users.xml\" />\n",
+                    "  </GlobalNamingResources>\n",
+                    "\n",
+                    "  <!-- A \"Service\" is a collection of one or more \"Connectors\" that share\n",
+                    "       a single \"Container\" Note:  A \"Service\" is not itself a \"Container\",\n",
+                    "       so you may not define subcomponents such as \"Valves\" at this level.\n",
+                    "       Documentation at /docs/config/service.html\n",
+                    "   -->\n",
+                    "  <Service name=\"Catalina\">\n",
+                    "\n",
+                    "    <!--The connectors can use a shared executor, you can define one or more named thread pools-->\n",
+                    "    <!--\n",
+                    "    <Executor name=\"tomcatThreadPool\" namePrefix=\"catalina-exec-\"\n",
+                    "        maxThreads=\"150\" minSpareThreads=\"4\"/>\n",
+                    "    -->\n",
+                    "\n",
+                    "\n",
+                    "    <!-- A \"Connector\" represents an endpoint by which requests are received\n",
+                    "         and responses are returned. Documentation at :\n",
+                    "         Java HTTP Connector: /docs/config/http.html (blocking & non-blocking)\n",
+                    "         Java AJP  Connector: /docs/config/ajp.html\n",
+                    "         APR (HTTP/AJP) Connector: /docs/apr.html\n",
+                    "         Define a non-SSL HTTP/1.1 Connector on port 8080\n",
+                    "    -->\n",
+                    "    <Connector port=\"8080\" protocol=\"HTTP/1.1\"\n",
+                    "               connectionTimeout=\"20000\"\n",
+                    "               redirectPort=\"8443\" />\n",
+                    "    <!-- A \"Connector\" using the shared thread pool-->\n",
+                    "    <!--\n",
+                    "    <Connector executor=\"tomcatThreadPool\"\n",
+                    "               port=\"8080\" protocol=\"HTTP/1.1\"\n",
+                    "               connectionTimeout=\"20000\"\n",
+                    "               redirectPort=\"8443\" />\n",
+                    "    -->\n",
+                    "    <!-- Define a SSL HTTP/1.1 Connector on port 8443\n",
+                    "         This connector uses the JSSE configuration, when using APR, the\n",
+                    "         connector should be using the OpenSSL style configuration\n",
+                    "         described in the APR documentation -->\n",
+                    "    <!--\n",
+                    "    <Connector port=\"8443\" protocol=\"HTTP/1.1\" SSLEnabled=\"true\"\n",
+                    "               maxThreads=\"150\" scheme=\"https\" secure=\"true\"\n",
+                    "               clientAuth=\"false\" sslProtocol=\"TLS\" />\n",
+                    "    -->\n",
+                    "\n",
+                    "    <!-- Define an AJP 1.3 Connector on port 8009 -->\n",
+                    "    <Connector port=\"8009\" protocol=\"AJP/1.3\" redirectPort=\"8443\" />\n",
+                    "\n",
+                    "\n",
+                    "    <!-- An Engine represents the entry point (within Catalina) that processes\n",
+                    "         every request.  The Engine implementation for Tomcat stand alone\n",
+                    "         analyzes the HTTP headers included with the request, and passes them\n",
+                    "         on to the appropriate Host (virtual host).\n",
+                    "         Documentation at /docs/config/engine.html -->\n",
+                    "\n",
+                    "    <!-- You should set jvmRoute to support load-balancing via AJP ie :\n",
+                    "    <Engine name=\"Catalina\" defaultHost=\"localhost\" jvmRoute=\"jvm1\">\n",
+                    "    -->\n",
+                    "    <Engine name=\"Catalina\" defaultHost=\"localhost\">\n",
+                    "\n",
+                    "      <!--For clustering, please take a look at documentation at:\n",
+                    "          /docs/cluster-howto.html  (simple how to)\n",
+                    "          /docs/config/cluster.html (reference documentation) -->\n",
+                    "\n",
+                    "      <Cluster className=\"org.apache.catalina.ha.tcp.SimpleTcpCluster\"/>\n",
+                    "\n",
+                    "\n",
+                    "      <!-- Use the LockOutRealm to prevent attempts to guess user passwords\n",
+                    "           via a brute-force attack -->\n",
+                    "      <Realm className=\"org.apache.catalina.realm.LockOutRealm\">\n",
+                    "        <!-- This Realm uses the UserDatabase configured in the global JNDI\n",
+                    "             resources under the key \"UserDatabase\".  Any edits\n",
+                    "             that are performed against this UserDatabase are immediately\n",
+                    "             available for use by the Realm.  -->\n",
+                    "        <Realm className=\"org.apache.catalina.realm.UserDatabaseRealm\"\n",
+                    "               resourceName=\"UserDatabase\"/>\n",
+                    "      </Realm>\n",
+                    "\n",
+                    "      <Host name=\"localhost\"  appBase=\"webapps\"\n",
+                    "            unpackWARs=\"true\" autoDeploy=\"true\">\n",
+                    "\n",
+                    "        <!-- SingleSignOn valve, share authentication between web applications\n",
+                    "             Documentation at: /docs/config/valve.html -->\n",
+                    "        <!--\n",
+                    "        <Valve className=\"org.apache.catalina.authenticator.SingleSignOn\" />\n",
+                    "        -->\n",
+                    "\n",
+                    "        <!-- Access log processes all example.\n",
+                    "             Documentation at: /docs/config/valve.html\n",
+                    "             Note: The pattern used is equivalent to using pattern=\"common\" -->
+                    "        <Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n",
+                    "               prefix=\"localhost_access_log.\" suffix=\".txt\"\n",
+                    "               pattern=\"%h %l %u %t &quot;%r&quot; %s %b\" />\n",
+                    "\n",
+                    "      </Host>\n",
+                    "    </Engine>\n",
+                    "  </Service>\n",
+                    "</Server>\n"
+                    ]]},
+                "mode"  : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
               "/etc/default/app" : {
                "content" : { "Fn::Join" : ["", [
                   "ENVIRONMENT_NAME=", { "Ref" : "EnvironmentName" }, "\n",
@@ -312,7 +425,8 @@
                   "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
                   "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
                   "DB_HOST=", { "Fn::GetAtt": [ "MySQLDatabase", "Endpoint.Address" ] }, "\n",
-                  "DB_PORT=", { "Fn::GetAtt": [ "MySQLDatabase", "Endpoint.Port" ] }, "\n"
+                  "DB_PORT=", { "Fn::GetAtt": [ "MySQLDatabase", "Endpoint.Port" ] }, "\n",
+                  "LOAD_BALANCER=", { "Ref" : "ElasticLoadBalancer" }, "\n"
                   ]]},
                 "mode"  : "000644",
                 "owner" : "root",
@@ -331,7 +445,9 @@
                   "DB_NAME=", { "Ref" : "DBName" }, "\n",
                   "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
                   "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
-                  "DB_SOCKET=/var/lib/mysql/mysql.sock\n"
+                  "DB_HOST=", { "Fn::GetAtt": [ "MySQLDatabase", "Endpoint.Address" ] }, "\n",
+                  "DB_PORT=", { "Fn::GetAtt": [ "MySQLDatabase", "Endpoint.Port" ] }, "\n",
+                  "AWS_ELB_HOME=~/ElasticLoadBalancing\n"
                   ]]},
                 "mode"  : "000644",
                 "owner" : "deployer",
@@ -340,8 +456,20 @@
               "/home/deployer/deploy.sh" : {
                "content" : { "Fn::Join" : ["", [
                   "#!/bin/bash -e \n",
-                  "chown :tomcat /var/tmp/", { "Ref" : "ProjectName" }, "-$1.war\n",
-                  "mv /var/tmp/", { "Ref" : "ProjectName" }, "-$1.war /var/lib/tomcat7/webapps/ROOT.war\n"
+                  "source /etc/default/app\n",
+                  "export AWS_ELB_HOME=~/ElasticLoadBalancing\n",
+                  "export LOAD_BALANCER=", { "Ref" : "ElasticLoadBalancer" }, "\n",
+                  "/home/deployer/deploy-instance.sh\n"
+                  ]]},
+                "mode"  : "000770",
+                "owner" : "deployer",
+                "group" : "deployer"
+              },
+              "/home/deployer/deploy-instance.sh" : {
+               "content" : { "Fn::Join" : ["", [
+                  "#!/bin/bash -e \n",
+                  "chown :tomcat /var/tmp/", { "Ref" : "ProjectName" }, "*.war\n",
+                  "mv /var/tmp/", { "Ref" : "ProjectName" }, "-*.war /var/lib/tomcat7/webapps/ROOT.war\n"
                   ]]},
                 "mode"  : "000770",
                 "owner" : "deployer",
@@ -350,18 +478,9 @@
             },
             "services" : {
               "sysvinit" : {
-                "nginx" : {
-                    "enabled" : "true",
-                    "ensureRunning" : "true",
-                    "files" : ["/etc/nginx/nginx.conf"]
-                },
                 "tomcat7" : {
                   "enabled" : "true",
                   "ensureRunning" : "true"
-                },
-                "mysqld" : {
-                    "enabled"       : "true",
-                    "ensureRunning" : "true"
                 }
               }
             }
@@ -387,7 +506,7 @@
           "  exit 1\n",
           "}\n",
 
-          "# Install Rails packages\n",
+          "# Install packages\n",
           "/opt/aws/bin/cfn-init -v -s ", { "Ref" : "AWS::StackName" }, " -r LaunchConfig ",
           "    --access-key ", { "Ref" : "AwsAccessKey" },
           "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
@@ -398,7 +517,8 @@
           "/etc/init.d/sshd restart\n",
 
           "# Give the deployer user login rights\n",
-          "useradd -m deployer\n",
+          "chsh -s /bin/bash deployer\n",
+          "chown deployer.deployer /home/deployer\n",
           "mkdir -p /home/deployer/.ssh\n",
           "echo \"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAyrBOE3zDQMcoRi9no60foxqEy7EVmAARowko6rERDXCp5tKrY3dOpk0wDyuZgvvq2gfaVRaUuwo1AJwJk43sFb6ZVxRwNZLjIF2dFV+RjQKy1NnPd9ymrZacIOyQXLzFUWsM59JPA6v8zznF826RSBuQIIGESz9n0lhICfO4oIq62Bexllh9O/vU71EKnzFxqq2StNCd5q/tit7AK0GiHnm2OyufBQrGhUjVrCDmXx2X9XX77swHky56z4ZgZk1XdC4EEHE4WariMzryjBPldCXkQGq5x97IC35aeCCVcyDAkQ+5HRxJK/Ja2RYy8f5bsmYRcI06suWGePUQO48Bjw==\" >> /home/deployer/.ssh/authorized_keys\n",
           "curl https://s3.amazonaws.com/private_keys/deployer.pem -o /home/deployer/.ssh/id_rsa\n",
@@ -409,20 +529,6 @@
           "# Give the deployer sudo permission to the dashboard /etc/init.d scripts\n",
           "echo \"deployer ALL=(root)NOPASSWD:/bin/mv,/etc/init.d/tomcat7 *\" > /etc/sudoers.d/deployer\n",
           "chmod 0440 /etc/sudoers.d/deployer\n",
-
-          "mkdir -p /var/nginx/cache\n",
-
-          "# Install packages\n",
-          "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r WebServer ",
-          "    --access-key ", { "Ref" : "AwsAccessKey" },
-          "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
-          "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
-
-          "# Tools to support automated DNS update using Route53\n",
-          "easy_install  -U boto\n",
-          "easy_install  -U argparse\n",
-          "easy_install  -U dnspython\n",
-          "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
 
           "#add new relic server monitoring\n",
           "rpm -uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm\n",
@@ -435,6 +541,10 @@
 
           "curl https://s3.amazonaws.com/dupondius/newrelic_agent2.8.0.zip > /tmp/newrelic_agent2.8.0.zip\n",
           "unzip /tmp/newrelic_agent2.8.0.zip -d /usr/share/tomcat7\n",
+
+          "curl http://ec2-downloads.s3.amazonaws.com/ElasticLoadBalancing.zip > /tmp/ElasticLoadBalancing.zip\n",
+          "sudo -u deployer unzip /tmp/ElasticLoadBalancing.zip -d /home/deployer\n",
+          "sudo -u deployer ln -s /home/deployer/ElasticLoadBalancing* /home/deployer/ElasticLoadBalancing\n",
 
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"Environment setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
@@ -494,7 +604,7 @@
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
         "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "HostedZone"}, "." ]]},
-        "Comment" : "CNAME for the web instance.",
+        "Comment" : "CNAME for the load balancer.",
         "Name" : { "Fn::Join" : [ "", [{"Ref" : "EnvironmentName"}, ".", {"Ref" : "ProjectName"}, ".", {"Ref" : "HostedZone"}, "."]]},
         "Type" : "CNAME",
         "TTL" : "300",

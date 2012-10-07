@@ -399,7 +399,7 @@
                     "\n",
                     "        <!-- Access log processes all example.\n",
                     "             Documentation at: /docs/config/valve.html\n",
-                    "             Note: The pattern used is equivalent to using pattern=\"common\" -->
+                    "             Note: The pattern used is equivalent to using pattern=\"common\" -->\n",
                     "        <Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n",
                     "               prefix=\"localhost_access_log.\" suffix=\".txt\"\n",
                     "               pattern=\"%h %l %u %t &quot;%r&quot; %s %b\" />\n",

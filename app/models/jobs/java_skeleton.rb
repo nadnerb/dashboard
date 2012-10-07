@@ -14,6 +14,6 @@ class Jobs::JavaSkeleton
     cd #{project.name};\
     git init;\
     git add .;\
-    git commit --author='dupondi.us <commiter@dupondi.us>' -m 'Initial commit'`
+    git commit --author='dupondi.us <team@dupondi.us>' -m 'Initial commit'`
   end
 end

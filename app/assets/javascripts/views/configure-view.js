@@ -20,7 +20,10 @@ define([
             this.bindTo(this.availableCollection, 'reset', function () {
                 this.$('.message').remove();
                 this.renderAvailableEnvironments();
-                this.collection.fetch();
+                var view = this;
+                setTimeout( function () {
+                    view.collection.fetch();
+                }, 100);
             });
 
             this.bindTo(this.collection, 'reset', function () {
@@ -34,6 +37,7 @@ define([
                  contentId: 'environments-widget'
             }).render();
             view.appendTemplate(template);
+            view.$('.widget-content').addClass('row');
             this.renderEnvironments();
             this.$el.html(view.el);
         },
@@ -60,8 +64,7 @@ define([
 
         renderAvailableEnvironment: function (availableEnvironment) {
             var view = new EnvironmentView({model: availableEnvironment}).render();
-            this.$('.widget-content').append(view.el);
-            view.spinner();
+            this.$('.widget-content .content').append(view.el);
             this.views.push(view);
         },
 

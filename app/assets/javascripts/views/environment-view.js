@@ -22,19 +22,13 @@ define([
             'click .info': 'info'
         },
 
-        className: 'environment span4',
+        className: 'environment span4 loading',
 
         template: availableEnvironmentTemplate,
 
         interval: null,
 
         view: null,
-
-        initialize: function () {
-            // this.bindTo(this.model, 'sync', function () {
-            //     this.render().fadeIn();
-            // });
-        },
 
         serialize: function () {
             var instances = this.instancesCollection;
@@ -59,24 +53,16 @@ define([
             return this.render();
         },
 
-        spinner: function () {
-            var name = this.model.get('name') || this.model.get('tags')['dupondius:environment'];
-            if (this.$('#loading-' + name + ' svg').length === 0) {
-                spinner('loading-' + name, 50, 45, 15, 3, '#888');
-            }
-        },
-
         fadeIn: function () {
             var view = this;
             setTimeout(function () {
-                view.$('.environment-loading').fadeOut();
+                view.$el.removeClass('loading');
                 view.$('.environment-information').css('visibility', 'visible').fadeIn();
             }, Math.random() * 1000);
         },
 
         fadeOut: function () {
-            this.spinner();
-            this.$('.environment-loading').fadeIn();
+            this.$el.addClass('loading');
             this.$('.environment-information').fadeOut();
         },
 
@@ -133,7 +119,7 @@ define([
             this.view.show();
             var self = this;
             setTimeout(function () {
-                self.view.spinner();
+                self.$el.addClass('loading');
             }, 300);
             return false;
         },
@@ -151,7 +137,7 @@ define([
             this.view.show();
             var self = this;
             setTimeout(function () {
-                self.view.spinner();
+                self.$el.addClass('loading');
             }, 300);
             return false;
         },

@@ -7,9 +7,9 @@ define([
 
         id: 'newrelic',
 
-        initialize: function (options) {
-          this.serverView = new ServerView(options);
-          this.chartsView = new ChartsView(options);
+        initialize: function () {
+          this.serverView = new ServerView();
+          this.chartsView = new ChartsView();
         },
 
         postRender: function () {

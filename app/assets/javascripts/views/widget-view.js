@@ -5,22 +5,27 @@ define([
 ], function (BackboneSuperView, Backbone, template) {
     return BackboneSuperView.extend({
 
-        className: 'widget',
+        className: 'widget loading',
 
         template: template,
 
-        initialize: function (options) {
-          this.options = options;
-          this.model = new Backbone.Model({heading: options.heading});
+        serialize: function () {
+            return {
+                heading: this.options.heading
+            };
         },
 
         postRender: function () {
+            if (this.options.extraClassName) {
+                this.$el.addClass(this.options.extraClassName);
+            }
             this.$el.attr('id', this.options.contentId + '-wrapper');
             this.$('.widget-content').attr('id', this.options.contentId);
         },
 
         append: function (content) {
-            this.$('.widget-content').append(content);
+            this.$el.removeClass('loading');
+            this.$('.widget-content .content').hide().append(content).fadeIn();
         },
 
         appendTemplate: function (content, model) {
@@ -33,7 +38,9 @@ define([
         },
 
         empty: function () {
-            this.$('.widget-content').empty();  
+            this.$el.removeClass('loading');
+            this.$('.widget-content .content').empty();
+            return this;
         }
     });
 });

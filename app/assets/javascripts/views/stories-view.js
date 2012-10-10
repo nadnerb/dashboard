@@ -45,8 +45,6 @@ define([
 
             if (this.model.has('not_configured')) {
                 view.appendTemplate(configurePivotalTemplate);    
-            } else {
-                view.append('Meticulous Reticulationing...');
             }
 
             this.$el.html(view.el);
@@ -76,6 +74,7 @@ define([
         },
 
         renderLineGraph: function (view) {
+            view.empty();
             renderLineGraph({
                 elementId: view.options.contentId,
                 labels: this.model.burnDownDates(),

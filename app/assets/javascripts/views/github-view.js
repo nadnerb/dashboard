@@ -8,6 +8,8 @@ define([
 
       id: 'github-view',
 
+      className: 'row',
+
       template: template,
 
       initialize: function (options) {
@@ -27,19 +29,11 @@ define([
 
         this.githubView = new WidgetView({
           heading: 'Github',
-        contentId: 'github-widget'
+          contentId: 'github-widget'
         }).render();
         this.githubView.append("<div class='github-widget-container' data-repo='" + githubUser + "/" + githubProject + "'>");
         this.githubView.append('<div id="loading-github"></div>');
         this.$('.github-widget').append(this.githubView.el);
-      },
-
-      spinner: function () {
-        if (this.githubView.$('#loading-github svg').length === 0) {
-          spinner('loading-github', 50, 45, 15, 3, '#888');
-        } else {
-          this.$('#loading-github').empty();
-        }
       },
 
       renderPerformanceChart: function () {
@@ -56,10 +50,6 @@ define([
 
       renderChart: function (chart) {
         return chart.get('source');
-          // return '<li id="chart-' + chart.id +
-          //   '"><div class="controls pull-right"><a href="#" class="btn btn-mini" data-id="' + chart.id +
-          //   '"><i class="icon-remove"></i></a></div>' +
-          //   chart.get('source') + '</li>';
         }
     });
 

@@ -47,9 +47,7 @@ define([
             var github = new GithubView();
             this.dashboard.add(github);
 
-            view.spinner();
             github.github();
-            github.spinner();
         },
 
         performance: function () {

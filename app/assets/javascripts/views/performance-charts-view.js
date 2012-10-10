@@ -15,11 +15,12 @@ define([
             'click li .controls .btn': 'deleteChart'
         },
 
-        initialize: function (options) {
-          WidgetView.prototype.initialize.call(this, {
+        initialize: function () {
+          this.options = {
               heading: 'Performance Charts',
               contentId: 'performance-charts-widget'
-          });
+          };
+          WidgetView.prototype.initialize.call(this, this.options);
           this.performanceModel = new PerformanceCharts();
           this.performanceModel.on('reset', function () {
             this.render();

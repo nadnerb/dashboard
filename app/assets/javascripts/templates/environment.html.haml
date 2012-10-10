@@ -4,7 +4,6 @@
     - else {
         %h3
             %a.environment-name{target: '_blank', href: 'http://' + model.tags['dupondius:environment'] + '.' + model.tags['dupondius:project'] + '.dupondi.us/'}= model.tags['dupondius:environment']
-%div{id: "loading-" + model.tags['dupondius:environment'], class: 'environment-loading'}
 %div.environment-information.hidden
     %dl.dl-horizontal
         - if (model.tags['dupondius:environment'] === 'dev') {

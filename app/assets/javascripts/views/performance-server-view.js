@@ -14,11 +14,12 @@ define([
             'click #server-config-modal .confirm': 'confirmToken'
         },
 
-        initialize: function (options) {
-          WidgetView.prototype.initialize.call(this, {
+        initialize: function () {
+          this.options = {
               heading: 'Server performance',
               contentId: 'server-performance-widget'
-          });
+          };
+          WidgetView.prototype.initialize.call(this, this.options);
           this.configuration = new ServerConfiguration();
           this.configuration.on('change', function () {
             this.render();

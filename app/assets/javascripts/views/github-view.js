@@ -28,7 +28,7 @@ define([
         this.performanceModel.fetch();
 
         this.githubView = new WidgetView({
-          heading: 'Github',
+          heading: 'Latest Commits',
           contentId: 'github-widget'
         }).render();
         this.githubView.append("<div class='github-widget-container' data-repo='" + githubUser + "/" + githubProject + "'>");

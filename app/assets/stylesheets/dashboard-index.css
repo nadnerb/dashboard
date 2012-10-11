@@ -4,6 +4,23 @@
   line-height: 100px;
 }
 
+#velocity-widget {
+  background-color: #09C;
+  font-size: 60px;
+}
+
+#total-cost-widget {
+  background-color: #2eb535;
+}
+
+#total-cost-widget .content {
+  margin-top: 35px;
+}
+
+#total-cost-widget .content h1 {
+  font-size: 40px;
+}
+
 #pivotal-not-configured {
   padding-top: 15px;
   color: #D80B17;
@@ -20,7 +37,7 @@
 
 .loading .widget-content,
 .loading .environment-information {
-  background: white url(/assets/spinner-small.gif) no-repeat center center;
+  background: white url(/assets/spinner-small.gif) no-repeat 98% 95%;
 }
 
 .widget-content {

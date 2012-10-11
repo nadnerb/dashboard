@@ -44,7 +44,7 @@ define([
 
         postRender: function () {
             this.totalCostView = new WidgetView({
-                 heading: 'Total Cost',
+                 heading: 'Estimated Cost Per Month',
                  contentId: 'total-cost-widget',
                  extraClassName: 'span3'
             }).render();
@@ -58,7 +58,7 @@ define([
             this.$el.append(this.velocityView.el);
 
             this.buildView = new WidgetView({
-                 heading: 'Build',
+                 heading: 'Build Status',
                  contentId: 'build-widget',
                  extraClassName: 'span6'
             }).render();
@@ -73,7 +73,7 @@ define([
             if (this.velocityModel.get('not_configured')) {
                 this.velocityView.empty().append('<div id="pivotal-not-configured">Pivotal needs to be configured from the Stories Tab.</div>');
             } else {
-                this.velocityView.empty().append('<span id="current-velocity">' + this.velocityModel.get('current_velocity') + '</span>');
+                this.velocityView.empty().append('<h1 id="current-velocity">' + this.velocityModel.get('current_velocity') + '</h1>');
             }
         },
 

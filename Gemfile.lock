@@ -5,6 +5,20 @@ GIT
     foreman-export-initscript (0.0.1)
       foreman
 
+PATH
+  remote: /Users/stephen/work/dupondius/capistrano-s3-copy
+  specs:
+    capistrano-s3-copy (0.0.4)
+      capistrano (>= 2.12.0)
+      frahugo-s3sync
+
+PATH
+  remote: /Users/stephen/work/dupondius/elbow
+  specs:
+    elbow (0.0.1)
+      aws-sdk
+      net-dns
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -111,6 +125,7 @@ GEM
     ffi (1.1.4)
     foreman (0.53.0)
       thor (>= 0.13.6)
+    frahugo-s3sync (1.3.8)
     gherkin (2.11.1)
       json (>= 1.4.6)
     haml (3.1.6)
@@ -165,6 +180,7 @@ GEM
     multi_xml (0.5.1)
     multipart-post (1.1.5)
     mysql2 (0.3.11)
+    net-dns (0.7.1)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -312,6 +328,7 @@ DEPENDENCIES
   aws-sdk
   bigdecimal
   capistrano
+  capistrano-s3-copy!
   capybara
   capybara-webkit
   coffee-rails (~> 3.2.1)
@@ -322,6 +339,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   dotenv
+  elbow!
   foreman
   foreman-export-initscript!
   haml-rails

@@ -159,6 +159,26 @@
                 "owner"  : "root",
                 "group"  : "root"
               },
+              "/etc/yum.repos.d/s3tools.repo" : {
+                "content" : { "Fn::Join" : ["", [
+                  "[s3tools]\n",
+                  "name=Tools for managing Amazon S3 - Simple Storage Service (RHEL_6)\n",
+                  "type=rpm-md\n",
+                  "baseurl=http://s3tools.org/repo/RHEL_6/\n",
+                  "gpgcheck=1\n",
+                  "gpgkey=http://s3tools.org/repo/RHEL_6/repodata/repomd.xml.key\n",
+                  "enabled=1\n"
+                  ]] },
+                "mode" : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
+              "/home/deployer/.s3cfg" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/s3cfg",
+                "mode"   : "000644",
+                "owner"  : "deployer",
+                "group"  : "deployer"
+              },
               "/usr/sbin/update-config" : {
                 "source" : "https://s3.amazonaws.com/dupondius/config/update-config",
                 "mode"   : "000744",
@@ -260,6 +280,11 @@
           "    --access-key ", { "Ref" : "AwsAccessKey" },
           "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+
+          "# Install s3cmd used for deployment\n",
+          "yum install -y s3cmd\n",
+          "echo \"access_key = ", {"Ref" : "AwsAccessKey"}, "\" >> /home/deployer/.s3cfg\n",
+          "echo \"secret_key = ", {"Ref" : "AwsSecretAccessKey"}, "\" >> /home/deployer/.s3cfg\n",
 
           "# Setup MySQL root password and create a user\n",
           "mysqladmin -u root password '", { "Ref" : "DBRootPassword" }, "' || error_exit 'Failed to initialize root password'\n",

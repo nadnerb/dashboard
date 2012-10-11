@@ -1,5 +1,7 @@
 load "deploy/assets"
 require 'bundler/capistrano'
+require 'capistrano-s3-copy'
+require 'elbow/capistrano'
 
 begin
   require 'dotenv'
@@ -18,6 +20,14 @@ set :use_sudo, false
 set :applicationdir, "/opt/app/#{application}"
 set :deploy_to, applicationdir
 set :keep_releases, 5
+
+set :deploy_via, :s3_copy
+set :aws_access_key_id,     ENV['AWS_ACCESS_KEY_ID']
+set :aws_secret_access_key, ENV['AWS_SECRET_ACCESS_KEY']
+set :aws_releases_bucket, 'dupondius_releases'
+
+# If you are deploying to an ELB uncomment the following line and configure accordingly
+#elastic_load_balancer domain, :app, :web, :db, :primary => true
 
 # TODO: Make the key an env var
 ssh_options[:keys] = %w(../deployer.pem)

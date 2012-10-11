@@ -40,6 +40,8 @@ gem 'jquery-rails'
 # Deploy with Capistrano
 group :development do
   gem 'capistrano', :require => false
+  gem 'elbow', :require => false
+  gem 'capistrano-s3-copy', :git => 'git://github.com/srbartlett/capistrano-s3-copy.git', :require => false
   gem 'sqlite3'
 end
 

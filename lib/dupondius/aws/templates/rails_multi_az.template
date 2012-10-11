@@ -237,6 +237,26 @@
                 "owner"  : "root",
                 "group"  : "root"
               },
+              "/etc/yum.repos.d/s3tools.repo" : {
+                "content" : { "Fn::Join" : ["", [
+                  "[s3tools]\n",
+                  "name=Tools for managing Amazon S3 - Simple Storage Service (RHEL_6)\n",
+                  "type=rpm-md\n",
+                  "baseurl=http://s3tools.org/repo/RHEL_6/\n",
+                  "gpgcheck=1\n",
+                  "gpgkey=http://s3tools.org/repo/RHEL_6/repodata/repomd.xml.key\n",
+                  "enabled=1\n"
+                  ]] },
+                "mode" : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
+              "/home/deploy/.s3cfg" : {
+                "source" : "https://s3.amazonaws.com/dupondius/config/s3cfg",
+                "mode"   : "000644",
+                "owner"  : "deployer",
+                "group"  : "deployer"
+              },
               "/etc/default/app" : {
                "content" : { "Fn::Join" : ["", [
                   "ENVIRONMENT_NAME=", { "Ref" : "EnvironmentName" }, "\n",
@@ -316,6 +336,11 @@
           "echo \"PermitUserEnvironment yes\" >> /etc/ssh/sshd_config\n",
           "/etc/init.d/sshd restart\n",
 
+          "# Install s3cmd used for deployment\n",
+          "yum install -y s3cmd\n",
+          "echo \"access_key = ", {"Ref" : "AwsAccessKey"}, "\" >> /home/deployer/.s3cfg\n",
+          "echo \"secret_key = ", {"Ref" : "AwsSecretAccessKey"}, "\" >> /home/deployer/.s3cfg\n",
+
           "# Use Ruby 1.9\n",
           "rm /usr/bin/ruby\n",
           "ln -s /usr/bin/ruby1.9 /usr/bin/ruby\n",
@@ -360,6 +385,7 @@
           "echo \"/etc/init.d/newrelic-sysmond restart\" >> /etc/rc.local\n",
 
           "#install the app\n",
+          "#TODO install s3cmd, fetch aws_install.sh (using environment) from s3 and run as: su - deployer aws_install.sh\n",
           "/usr/sbin/install-app\n",
 
           "# All is well so signal success\n",

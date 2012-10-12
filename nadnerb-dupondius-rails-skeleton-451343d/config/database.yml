@@ -1,0 +1,33 @@
+base: &base
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  timeout: 5000
+  pool: 5
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  <% if ENV['DB_SOCKET'] %>
+  socket: <%= ENV['DB_SOCKET'] %>
+  <% else %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
+  <% end %>
+
+production:
+  <<: *base
+
+qa:
+  <<: *base
+
+canary:
+  <<: *base
+
+development:
+  <<: *base
+
+test: &test
+  <<: *base
+
+cucumber:
+  <<: *test

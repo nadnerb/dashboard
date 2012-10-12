@@ -142,7 +142,7 @@ $(document).ready(function () {
     $.scrollingWizard([{
         id: '#page1',
         validation: function () {
-            var text = $('#application-name').val().replace(/[\W_]/g, '');
+            var text = $('#application-name').val().replace(/[^a-z0-9\s]/gi, '').replace(/[\s]/g, '-');
 
             if (text === '') {
                 return null;
@@ -211,11 +211,13 @@ $(document).ready(function () {
             environments.push($(element).text().trim());
         });
 
+        var applicationName = $('#application-name').val().replace(/[^a-z0-9\s]/gi, '').replace(/[\s]/g, '-');
+        debugger
         var data = {project: {
-            name: $('#application-name').val(),
+            name: applicationName,
             token: $('#application-token').val(),
             github_account: $('#github-account').val(),
-            github_project: $('#application-name').val().replace(/[^\w\s]/gi, '').replace(/ /g, '_'),
+            github_project: applicationName,
             github_private: $('#github-private').is(':checked'),
             tech_stack: $('#tech-stack').selectableGrid().selected().text().trim(),
             region: $('#aws-region').val(),

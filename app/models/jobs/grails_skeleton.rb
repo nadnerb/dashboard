@@ -12,7 +12,7 @@ class Jobs::GrailsSkeleton
   def run
     p "building grails environment: #{resting_place} for project: #{project.name}"
     FileUtils.cd(resting_place, :verbose => true) do
-      p `curl -u 'dupondius:4nalienatemybaby' -L -o grails.tar.gz https://api.github.com/repos/uglyog/dupondius-grails-skeleton/tarball;\
+      p `curl -L -o grails.tar.gz https://api.github.com/repos/uglyog/dupondius-grails-skeleton/tarball;\
       tar xfz grails.tar.gz;\
       mv \`ls -d -- */\` #{project.name}`
       FileUtils.cd(project.name, :verbose => true) do

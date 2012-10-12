@@ -142,7 +142,7 @@ $(document).ready(function () {
     $.scrollingWizard([{
         id: '#page1',
         validation: function () {
-            var text = $('#application-name').val().replace(/[^a-z0-9\s]/gi, '').replace(/[\s]/g, '-');
+            var text = $('#application-name').val().replace(/[^a-z0-9_\s]/gi, '').replace(/[\s]/g, '-');
 
             if (text === '') {
                 return null;
@@ -211,8 +211,7 @@ $(document).ready(function () {
             environments.push($(element).text().trim());
         });
 
-        var applicationName = $('#application-name').val().replace(/[^a-z0-9\s]/gi, '').replace(/[\s]/g, '-');
-        debugger
+        var applicationName = $('#application-name').val().replace(/[^a-z0-9_\s]/gi, '').replace(/[\s]/g, '-');
         var data = {project: {
             name: applicationName,
             token: $('#application-token').val(),

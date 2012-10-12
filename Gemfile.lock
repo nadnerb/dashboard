@@ -5,13 +5,19 @@ GIT
     foreman-export-initscript (0.0.1)
       foreman
 
-GIT
-  remote: git://github.com/srbartlett/capistrano-s3-copy.git
-  revision: 588c9d001294eda02f143f5b50a63c6b46dee63e
+PATH
+  remote: /Users/stephen/work/dupondius/capistrano-s3-copy
   specs:
     capistrano-s3-copy (0.0.4)
       capistrano (>= 2.12.0)
       frahugo-s3sync
+
+PATH
+  remote: /Users/stephen/work/dupondius/elbow
+  specs:
+    elbow (0.0.1)
+      aws-sdk
+      net-dns
 
 GEM
   remote: https://rubygems.org/
@@ -108,9 +114,6 @@ GEM
       warden (~> 1.2.1)
     diff-lcs (1.1.3)
     dotenv (0.1.1)
-    elbow (0.0.1)
-      aws-sdk
-      net-dns
     erubis (2.7.0)
     eventmachine (0.12.10)
     execjs (1.4.0)
@@ -336,7 +339,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   dotenv
-  elbow
+  elbow!
   foreman
   foreman-export-initscript!
   haml-rails

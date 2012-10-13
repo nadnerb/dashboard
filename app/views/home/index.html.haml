@@ -1,0 +1,28 @@
+!!! Strict
+%html(lang="en")
+  %head
+    %title Welcome to Dupondi.us
+    %meta{ :charset => "utf-8"}
+    %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    %meta{ 'http-equiv' => "X-UA-Compatible", :content => "IE=Edge,chrome=1"}
+    %link{ :href => "/assets/bootstrap_and_overrides.css", :rel => "stylesheet"}
+    %link{ :href => "/assets/dupondius.css", :rel => "stylesheet"}
+    %link{ :href => "/assets/dupondius-navigation.css", :rel => "stylesheet"}
+    %link{ :href => "/assets/planar.css", :rel => "stylesheet"}
+    %link{ :href => "/assets/jquery.selectable-grid.css", :rel => "stylesheet"}
+  %body
+    = render "shared/empty_nav"
+    %div.steps
+      %div#home.home-page
+        %div.page-container
+          %div.home-main
+            %p.main-logo
+              %span.dupon.large-font dupon
+              %span.dius.large-font di.us
+            %div.dupondius-image
+            %p.dupondius-blurb Here at dupondi.us, we aim to make Iteration Zero easy. Utilising the dupondi.us Launchpad, you can get up and running in no time, creating the stack you need with a fully automated continuous delivery solution.
+            %p.dupondius-blurb Simply click the button below, to begin your productive journey with dupondi.us.
+            %p.dupondius-blurb Iteration zero made easy.
+            %a.btn.btn-dupondius.btn-xlarge 
+              Take me to the launchpad &nbsp; 
+              %i.icon-arrow-right.icon-white

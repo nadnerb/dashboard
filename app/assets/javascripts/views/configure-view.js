@@ -6,9 +6,20 @@ define([
     'views/environment-view',
     'text!templates/environments.html.haml'
 ], function (BackboneSuperView, AvailableCollection, InstancesCollection, WidgetView, EnvironmentView, template) {
+
     return BackboneSuperView.extend({
 
         className: 'environments',
+
+        regions: {
+            'us-east-1': 'US East (Virginia)',
+            'us-west-1': 'US West (North California)',
+            'us-west-2': 'US West (Oregon)',
+            'eu-west-1': 'EU West (Ireland)',
+            'ap-southeast-1': 'Asia Pacific (Singapore)',
+            'ap-northeast-1': 'Asia Pacific (Tokyo)',
+            'sa-east-1': 'South Amercia (Sao Paulo)'
+        },
 
         views: [],
 
@@ -33,7 +44,7 @@ define([
         
         postRender: function () {
             var view = new WidgetView({
-                 heading: 'Environments - Region: ' + awsRegion,
+                 heading: 'Environments - ' + this.regions[awsRegion],
                  contentId: 'environments-widget'
             }).render();
             view.appendTemplate(template);

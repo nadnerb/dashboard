@@ -12,11 +12,17 @@
     display: block;
 }
 
-#stories .modal-body {
+@media (max-width: 480px) {
+    #stories .modal {
+        top: 10%;
+    }    
+}
+
+#stories .modal .modal-body {
     text-align: center;
 }
 
-#stories .modal-body img {
+#stories .modal .modal-body img {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;

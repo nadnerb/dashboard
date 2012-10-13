@@ -242,7 +242,7 @@ p {
   /*
    * Selectable Grid styles
    */
-  #tech-stack, #envs {
+  #tech-stack {
     width: 1000px !important;
     margin-top: 25px;
   }
@@ -251,44 +251,9 @@ p {
     top: 55px;
   }
 
-  #support-technologies .selectable-grid-column:nth-child(4) img {
-    top: 50px;
-  }
-
-  #envs .selectable-grid-column:nth-child(2) img {
-    top: 27px;
-  }
-
-  #envs .selectable-grid-column:nth-child(3) img {
-    top: 25px;
-  }
-
-  #tech-stack .selectable-grid-column,
-  #envs .selectable-grid-column {
+  #tech-stack .selectable-grid-column {
     width: 230px;
     height: 230px;
-  }
-
-  #support-technologies {
-    width: 900px !important;
-  }
-
-  #support-technologies .selectable-grid-column {
-    width: 260px;
-    height: 260px;
-  }
-
-  .selectable-grid-divider {
-    width: auto;
-    height: 220px;
-    float: left;
-    border-left: 2px solid #CCCCCC;
-    margin: 30px 10px 10px 28px;
-  }
-
-  #support-technologies .selectable-grid-column:nth-child(3),
-  #support-technologies .selectable-grid-column:nth-child(4) {
-    float: right;
   }
 
   #region select {

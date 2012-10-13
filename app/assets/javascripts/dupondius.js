@@ -201,16 +201,6 @@ $(document).ready(function () {
             return $('#aws-region').val();
         }
     }], function () {
-        var support = [];
-        $('#support-technologies').selectableGrid().selected().each(function (index, element) {
-            support.push($(element).text().trim());
-        });
-
-        var environments = [];
-        $('#envs').selectableGrid().selected().each(function (index, element) {
-            environments.push($(element).text().trim());
-        });
-
         var applicationName = $('#application-name').val().replace(/[^a-z0-9_\s]/gi, '').replace(/[\s]/g, '-');
         var data = {project: {
             name: applicationName,
@@ -220,8 +210,6 @@ $(document).ready(function () {
             github_private: $('#github-private').is(':checked'),
             tech_stack: $('#tech-stack').selectableGrid().selected().text().trim(),
             region: $('#aws-region').val(),
-            support: support,
-            environments: environments,
             aws: {
               accessKey: $("#aws-access-key-id").val(),
               secretAccessKey: $("#aws-secret-access-key").val(),

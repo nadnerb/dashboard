@@ -29,7 +29,7 @@
 	float: left;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 979px) {
 	.navbar .brand {
 		padding: 3px 0 0 12px !important;
 	}
@@ -50,37 +50,35 @@
 	}
 }
 
-@media (min-width: 1200px) {
-	.navbar .nav li a {
-		padding: 0 !important;
-		display: inline-block;
-		width: 100%;
-		text-align: center;
-		background: none !important;
-		position: absolute;
-		bottom: 5px;
-	}
+.navbar .nav li a {
+	padding: 0 !important;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	background: none !important;
+	position: absolute;
+	bottom: 5px;
+}
 
-	.navbar .nav li a:hover {
-		color: #999;
-	}
+.navbar .nav li a:hover {
+	color: #999;
+}
 
-	.navbar-inner .nav li {
-		position: relative;
-		cursor: pointer;
-		height: 82px;
-		width: 95px;
-		border-left: 1px solid #8C8C8C;
-		border-right: 1px solid #303030;
-		text-shadow: 0 1px 0 black;
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5C5C5C), color-stop(100%,#303030));
-	}
+.navbar-inner .nav li {
+	position: relative;
+	cursor: pointer;
+	height: 82px;
+	width: 95px;
+	border-left: 1px solid #8C8C8C;
+	border-right: 1px solid #303030;
+	text-shadow: 0 1px 0 black;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5C5C5C), color-stop(100%,#303030));
+}
 
-	.navbar-inner .nav li:hover {
-		background: none;
-	}
+.navbar-inner .nav li:hover {
+	background: none;
+}
 
-	.brand.right {
-		float: right;
-	}
+.brand.right {
+	float: right;
 }

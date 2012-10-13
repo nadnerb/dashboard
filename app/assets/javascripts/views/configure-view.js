@@ -33,7 +33,7 @@ define([
         
         postRender: function () {
             var view = new WidgetView({
-                 heading: 'Environments',
+                 heading: 'Environments - Region: ' + awsRegion,
                  contentId: 'environments-widget'
             }).render();
             view.appendTemplate(template);

@@ -6,7 +6,6 @@
 
 #velocity-widget {
   background-color: #09C;
-  font-size: 60px;
 }
 
 #total-cost-widget {
@@ -22,8 +21,11 @@
 }
 
 #pivotal-not-configured {
-  padding-top: 15px;
-  color: #D80B17;
+  padding-top: 30px;
+}
+
+#pivotal-not-configured a {
+  color: #D80B17; 
 }
 
 #total-cost-widget, #velocity-widget, #build-widget {

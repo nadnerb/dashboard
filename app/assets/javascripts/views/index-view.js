@@ -71,7 +71,7 @@ define([
 
         renderVelocity: function () {
             if (this.velocityModel.get('not_configured')) {
-                this.velocityView.empty().append('<div id="pivotal-not-configured">Pivotal needs to be configured from the Stories Tab.</div>');
+                this.velocityView.empty().append('<div id="pivotal-not-configured">Pivotal Tracker <a href="#stories">needs to be configured.</a></div>');
             } else {
                 this.velocityView.empty().append('<h1 id="current-velocity">' + this.velocityModel.get('current_velocity') + '</h1>');
             }

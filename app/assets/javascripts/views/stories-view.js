@@ -2,14 +2,16 @@ define([
     'vendor/base',
     'models/iteration',
     'views/widget-view',
+    'views/pivotal-tracker-help-view',
     'text!templates/configure-pivotal.html.haml'
-], function (BackboneSuperView, Iteration, WidgetView, configurePivotalTemplate) {
+], function (BackboneSuperView, Iteration, WidgetView, PivotalTrackerHelpView, configurePivotalTemplate) {
     return BackboneSuperView.extend({
 
         id: 'stories',
 
         events: {
-            'click .btn': 'configurePivotalTracker'
+            'click button.btn': 'configurePivotalTracker',
+            'click .help': 'help'
         },
 
         initialize: function (options) {
@@ -34,12 +36,12 @@ define([
             }).render();
             this.$el.html(view.el);
             this.renderLineGraph(view);
-            this.$('.widget-header h3').append(this.make('a', {'href': 'https://www.pivotaltracker.com/projects/' + this.model.get('stories')[0].project_id, 'target': '_blank'}, 'Go to Pivotal Tracker'));
+            this.$('.widget-header h3').append(this.make('a', {'href': 'https://www.pivotaltracker.com/projects/' + this.model.get('stories')[0].project_id, 'target': '_blank'}, 'Pivotal Tracker'));
         },
 
         renderConfigurePivotalTracker: function () {
             var view = new WidgetView({
-               heading: 'Configure Pivotal Tracker',
+               heading: 'Pivotal Tracker',
                contentId: 'configure-pivotal-tracker-widget'
             }).render();
 
@@ -48,6 +50,13 @@ define([
             }
 
             this.$el.html(view.el);
+        },
+
+        help: function () {
+            var view = new PivotalTrackerHelpView().render();
+            this.$el.append(view.el);
+            view.show();
+            return false;
         },
 
         configurePivotalTracker: function () {

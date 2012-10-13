@@ -3,6 +3,24 @@
 	margin: 0 auto;
 	max-width: 900px;
 }
+#stories legend {
+    margin-bottom: 10px;
+} 
+
+#stories small {
+    margin-bottom: 20px;
+    display: block;
+}
+
+#stories .modal-body {
+    text-align: center;
+}
+
+#stories .modal-body img {
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
 
 #configure-pivotal-tracker-widget {
     padding: 20px 40px;

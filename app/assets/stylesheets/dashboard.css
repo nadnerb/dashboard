@@ -89,3 +89,21 @@ body {
   white-space: nowrap;
   overflow: hidden;
 }
+
+.dupon {
+  font-family: Planer-Regular;
+  font-weight: normal;
+  font-style: normal;
+  text-transform: none;
+  padding-right: 1px;
+  text-shadow: none;
+}
+
+.dius {
+  font-family: Planer-DemiBold;
+  font-weight: normal;
+  font-style: normal;
+  text-transform: none;
+  color: #d80b17;
+  text-shadow: none;
+}

@@ -5,10 +5,12 @@ class ProjectsController < ApplicationController
   respond_to :json
 
   def new
+    render :layout => false
   end
 
   def show
     @project = Project.find(params[:id])
+    render :layout => false
   end
 
   def create

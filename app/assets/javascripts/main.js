@@ -30,20 +30,16 @@ require.config({
 
 require([
     'underscore',
-    'underscore.string'], function(_, _string) {
-        _.mixin(_string.exports());
+    'underscore.string'
+], function(_, _string) {
+    _.mixin(_string.exports());
 });
 
 require([
-  'jquery',
-  'backbone',
-  'routers/app-router',
-  'libs/base',
-  'libs/bootstrap',
-  'libs/jquery.cookie',
-  'libs/jquery.countdown',
-  'libs/jquery.githubRepoWidget',
-  'libs/moment'
+    'jquery',
+    'backbone',
+    'routers/app-router',
+    'libs/backbone.superview'
 ], function($, Backbone, AppRouter) {
     $(function() {
         router = new AppRouter();

@@ -1,5 +1,6 @@
 define([
-    'backbone'
+    'backbone',
+    'libs/bootstrap'
 ], function (Backbone) {
     return Backbone.SuperView.extend({
 

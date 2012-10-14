@@ -1,7 +1,8 @@
 define([
     'backbone',
     'models/last-successful',
-    'text!templates/build-information.html.haml'
+    'text!templates/build-information.html.haml',
+    'libs/jquery.countdown'
 ], function (Backbone, LastSuccessful, template) {
 
     return Backbone.SuperView.extend({

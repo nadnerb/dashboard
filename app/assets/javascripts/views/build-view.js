@@ -1,7 +1,8 @@
 define([
     'backbone',
     'models/last-failed',
-    'text!templates/build.html.haml'
+    'text!templates/build.html.haml',
+    'libs/bootstrap'
 ], function (Backbone, LastFailed, template) {
 
     return Backbone.SuperView.extend({

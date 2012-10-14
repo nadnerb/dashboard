@@ -2,8 +2,11 @@ define([
     'backbone',
     'collections/newrelic-charts',
     'views/widget-view',
-    'text!templates/github.html.haml'
-    ], function (Backbone, PerformanceCharts, WidgetView, template) {
+    'text!templates/github.html.haml',
+    'libs/jquery.cookie',
+    'libs/jquery.githubRepoWidget',
+    'libs/moment'
+], function (Backbone, PerformanceCharts, WidgetView, template) {
       return Backbone.SuperView.extend({
 
       id: 'github-view',

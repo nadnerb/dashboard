@@ -115,12 +115,7 @@ define([
             this.view = new ShowEnvironmentView().render();
             this.view.model.set({id: this.model.get('tags')['aws:cloudformation:stack-name']}, {silent: true});
             this.view.model.fetch();
-
             this.view.show();
-            var self = this;
-            setTimeout(function () {
-                self.$el.addClass('loading');
-            }, 300);
             return false;
         },
 

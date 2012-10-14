@@ -107,3 +107,13 @@ body {
   color: #d80b17;
   text-shadow: none;
 }
+
+.loading .widget-content,
+.loading .modal-body,
+.loading .environment-information {
+  background: white url(/assets/spinner-small.gif) no-repeat center center;
+}
+
+.loading .actions {
+  background: white url(/assets/spinner-small.gif) no-repeat left center;
+}

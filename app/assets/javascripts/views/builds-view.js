@@ -18,18 +18,15 @@ define([
 
             this.collection = new BuildsCollection();
             this.bindTo(this.collection, 'reset', function () {
-                this.$('.message').remove();
+                this.appendView(BuildPipelineView).
+                appendView(BuildInformationView).
+                checkPeriodically();
             });
         },
 
         postRender: function () {
             WidgetView.prototype.postRender.call(this);
-            this.append(this.make('span', {class: 'message span12'}, 'Negotiating with Jenkins...'));
             this.$('.widget-content').addClass('row');
-
-            this.appendView(BuildPipelineView).
-                appendView(BuildInformationView).
-                checkPeriodically();
         },
 
         appendView: function (View) {

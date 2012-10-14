@@ -37,11 +37,6 @@
   padding-top: 15px;
 }
 
-.loading .widget-content,
-.loading .environment-information {
-  background: white url(/assets/spinner-small.gif) no-repeat 98% 95%;
-}
-
 .widget-content {
   min-height: 100px;
 }

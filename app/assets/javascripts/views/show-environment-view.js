@@ -12,6 +12,7 @@ define([
 
         initialize: function (options) {
             ModalView.prototype.initialize.call(this);
+            this.loading(true);
 
             this.model = new Stack();
             this.bindTo(this.model, 'change', function () {
@@ -20,25 +21,10 @@ define([
             });
         },
 
-        serialize: function () {
-            return {
-                model: this.model.toJSON(),
-                random: this.random
-            }
-        },
-
         fadeIn: function () {
-            this.$('#loading-' + this.random).fadeOut();
+            this.loading(false);
+            // this.$('#loading-' + this.random).fadeOut();
             this.$('dl').css('visibility', 'visible').fadeIn();
-        },
-
-        fadeOut: function () {
-            this.spinner();
-            this.$('#loading-' + this.random).fadeIn();
-        },
-
-        spinner: function () {
-            spinner('loading-' + this.random, 50, 45, 15, 3, '#888');
         },
 
         renderInformation: function () {

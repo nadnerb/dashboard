@@ -33,8 +33,12 @@ define([
             this.$el.modal('hide');
         },
 
-        spinner: function () {
-            spinner('loading-fields-' + this.random, 50, 45, 15, 3, '#888');
+        loading: function (isLoading) {
+            if (isLoading === true) {
+                this.$el.addClass('loading');
+            } else {
+                this.$el.removeClass('loading');
+            }
         }
     });
 });

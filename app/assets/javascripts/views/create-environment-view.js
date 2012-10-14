@@ -49,13 +49,6 @@ define([
             }
         },
 
-        serialize: function () {
-            return {
-                model: this.model,
-                random: this.random
-            }
-        },
-
         renderStackTemplates: function () {
             var markup = haml.compileHaml({source: stackTemplatesTemplate})({ stackTemplates: this.stackTemplates.toJSON() });
             this.$('.form-horizontal').html(markup);
@@ -96,13 +89,12 @@ define([
         },
 
         fadeIn: function () {
-            this.$('#loading-fields-' + this.random).fadeOut();
+            this.loading(false);
             this.$('.form-horizontal').css('visibility', 'visible').fadeIn();
         },
 
         fadeOut: function () {
-            this.spinner();
-            this.$('#loading-fields-' + this.random).fadeIn();
+            this.loading(true);
             this.$('.form-horizontal').css('visibility', 'visible').fadeOut();
         },
 

@@ -42,21 +42,13 @@ define([
         },
 
         fadeIn: function () {
-            this.$('#loading-' + this.model.get('tags')['aws:cloudformation:stack-name']).css('visibility', 'visible').fadeOut();
+            this.$el.removeClass('loading');
             this.$('.buttons').fadeIn();
         },
 
         fadeOut: function () {
-            this.spinner();
-            this.$('#loading-' + this.model.get('tags')['aws:cloudformation:stack-name']).css('visibility', 'visible').fadeIn();
+            this.$el.addClass('loading');
             this.$('.buttons').fadeOut();
-        },
-
-        spinner: function () {
-            var name = this.model.get('tags')['aws:cloudformation:stack-name'];
-            if (this.$('#loading-' + name + ' svg').length === 0) {
-                spinner('loading-' + name, 9, 8, 10, 3, '#888');
-            }
         },
 
         handleAction: function (action, status) {

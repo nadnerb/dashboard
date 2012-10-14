@@ -1,7 +1,7 @@
 define([
-    'libs/base'
-], function (BackboneSuperView) {
-    return BackboneSuperView.extend({
+    'backbone'
+], function (Backbone) {
+    return Backbone.SuperView.extend({
 
         className: 'modal hide fade in',
 

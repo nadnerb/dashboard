@@ -1,10 +1,9 @@
 define([
-    'libs/base',
     'models/server-configuration',
     'views/widget-view',
     'text!templates/configure-newrelic-server.html.haml',
     'text!templates/configure-newrelic.html.haml'
-], function (BackboneSuperView, ServerConfiguration, WidgetView, configureTemplate, modalTemplate) {
+], function (ServerConfiguration, WidgetView, configureTemplate, modalTemplate) {
     return WidgetView.extend({
 
         id: 'server-performance-config',

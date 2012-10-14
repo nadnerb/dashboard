@@ -1,6 +1,7 @@
 define([
-  "backbone",
-  "jquery"
+  'backbone',
+  'jquery',
+  'libs/haml'
 ], function(Backbone, $) {
 
   // This is a view base class built on top of the default Backbone.View; it

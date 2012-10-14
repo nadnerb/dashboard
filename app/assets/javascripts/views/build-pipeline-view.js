@@ -1,9 +1,9 @@
 define([
-    'libs/base',
+    'backbone',
     'views/build-view',
-], function (BackboneSuperView, BuildView) {
+], function (Backbone, BuildView) {
 
-    return BackboneSuperView.extend({
+    return Backbone.SuperView.extend({
 
         className: 'build-pipeline span5',
 
@@ -56,7 +56,7 @@ define([
         },
 
         destroy: function () {
-            BackboneSuperView.prototype.destroy.call(this);
+            Backbone.SuperView.prototype.destroy.call(this);
             _(this.views).each(function (view) {
                 view.destroy();
             });

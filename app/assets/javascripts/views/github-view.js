@@ -1,10 +1,10 @@
 define([
-    'libs/base',
+    'backbone',
     'collections/newrelic-charts',
     'views/widget-view',
     'text!templates/github.html.haml'
-    ], function (BackboneSuperView, PerformanceCharts, WidgetView, template) {
-      return BackboneSuperView.extend({
+    ], function (Backbone, PerformanceCharts, WidgetView, template) {
+      return Backbone.SuperView.extend({
 
       id: 'github-view',
 

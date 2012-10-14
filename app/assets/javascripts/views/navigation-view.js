@@ -1,8 +1,8 @@
 define([
-    'libs/base',
+    'backbone',
     'text!templates/navigation.html.haml'
-], function (BackboneSuperView, template) {
-    return BackboneSuperView.extend({
+], function (Backbone, template) {
+    return Backbone.SuperView.extend({
 
         className: 'navbar', //navbar-fixed-top
 

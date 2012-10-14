@@ -1,11 +1,10 @@
 define([
     'backbone',
-    'libs/base',
     'models/last-failed',
     'text!templates/build.html.haml'
-], function (Backbone, BackboneSuperView, LastFailed, template) {
+], function (Backbone, LastFailed, template) {
 
-    return BackboneSuperView.extend({
+    return Backbone.SuperView.extend({
 
         className: 'build',
 

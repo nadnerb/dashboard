@@ -1,13 +1,12 @@
 define([
-    'libs/base',
+    'backbone',
     'collections/available',
     'collections/instances',
     'views/widget-view',
     'views/environment-view',
     'text!templates/environments.html.haml'
-], function (BackboneSuperView, AvailableCollection, InstancesCollection, WidgetView, EnvironmentView, template) {
-
-    return BackboneSuperView.extend({
+], function (Backbone, AvailableCollection, InstancesCollection, WidgetView, EnvironmentView, template) {
+    return Backbone.SuperView.extend({
 
         className: 'environments',
 
@@ -121,7 +120,7 @@ define([
             _(this.views).each(function (view) {
                 view.destroy();
             }, this);
-            BackboneSuperView.prototype.destroy.call(this);
+            Backbone.SuperView.prototype.destroy.call(this);
         }
     });
 });

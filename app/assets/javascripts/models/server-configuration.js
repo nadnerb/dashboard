@@ -5,14 +5,6 @@ define([
   return Backbone.Model.extend({
     urlRoot: 'dashboard/configurations/',
 
-    //urlRoot: function() {
-      //var url = 'dashboard/configurations/';
-      //if(this.id) {
-        //url = url + this.id;
-      //}
-      //return url;
-    //},
-
      validate: function (attrs) {
        var errors = [];
 

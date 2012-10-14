@@ -1,9 +1,9 @@
 define([
-    'libs/base',
+    'backbone',
     'models/stack',
     'text!templates/instance.html.haml'
-], function (BackboneSuperView, Stack, template) {
-    return BackboneSuperView.extend({
+], function (Backbone, Stack, template) {
+    return Backbone.SuperView.extend({
         template: template,
 
         tagName: 'tr',

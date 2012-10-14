@@ -1,10 +1,9 @@
 define([
-    'libs/base',
     'collections/newrelic-charts',
     'views/widget-view',
     'text!templates/configure-newrelic-charts.html.haml',
     'text!templates/add-newrelic-chart.html.haml'
-], function (BackboneSuperView, PerformanceCharts, WidgetView, configureTemplateCharts, addChartModalTemplate) {
+], function (PerformanceCharts, WidgetView, configureTemplateCharts, addChartModalTemplate) {
     return WidgetView.extend({
 
         id: 'performance',

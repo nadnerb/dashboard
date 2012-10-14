@@ -1,9 +1,9 @@
 define([
-    'libs/base',
+    'backbone',
     'views/performance-server-view',
     'views/performance-charts-view'
-], function (BackboneSuperView, ServerView, ChartsView) {
-    return BackboneSuperView.extend({
+], function (Backbone, ServerView, ChartsView) {
+    return Backbone.SuperView.extend({
 
         id: 'newrelic',
 
@@ -20,7 +20,7 @@ define([
         destroy: function () {
           this.serverView.destroy();
           this.chartsView.destroy();
-          BackboneSuperView.prototype.destroy.call(this);
+          Backbone.SuperView.prototype.destroy.call(this);
         }
 
     });

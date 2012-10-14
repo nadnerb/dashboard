@@ -1,5 +1,5 @@
 define([
-    'libs/base',
+    'backbone',
     'views/widget-view',
     'models/cost',
     'models/velocity',
@@ -7,8 +7,8 @@ define([
     'text!templates/total-cost.html.haml',
     'text!templates/build-passing.html.haml',
     'text!templates/index.html.haml'
-], function (BackboneSuperView, WidgetView, Cost, Velocity, BuildsCollection, totalCostTemplate, buildPassingTemplate, template) {
-    return BackboneSuperView.extend({
+], function (Backbone, WidgetView, Cost, Velocity, BuildsCollection, totalCostTemplate, buildPassingTemplate, template) {
+    return Backbone.SuperView.extend({
 
         id: 'index-view',
 

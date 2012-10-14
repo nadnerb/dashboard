@@ -1,5 +1,5 @@
 define([
-    'libs/base',
+    'backbone',
     'models/instance',
     'models/stack',
     'views/create-environment-view',
@@ -8,8 +8,8 @@ define([
     'text!templates/create_environment.html.haml',
     'text!templates/available_environment.html.haml',
     'text!templates/environment.html.haml'
-], function (BackboneSuperView, Instance, Stack, CreateEnvironmentView, ShowEnvironmentView, InstancesView, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
-    return BackboneSuperView.extend({
+], function (Backbone, Instance, Stack, CreateEnvironmentView, ShowEnvironmentView, InstancesView, createEnvironmentTemplate, availableEnvironmentTemplate, template) {
+    return Backbone.SuperView.extend({
 
         events: {
             'click .start': 'start',

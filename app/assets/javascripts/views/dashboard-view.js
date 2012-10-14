@@ -1,9 +1,9 @@
 define([
-    'libs/base',
+    'backbone',
     'views/navigation-view',
     'text!templates/dashboard.html.haml'
-], function (BackboneSuperView, NavigationView, template) {
-    return BackboneSuperView.extend({
+], function (Backbone, NavigationView, template) {
+    return Backbone.SuperView.extend({
 
         className: 'container-fluid',
 

@@ -19,19 +19,11 @@ require.config({
             exports: '_'
         },
 
-        'underscore.string': {
-              deps: ["underscore"],
-              exports: '_.string'
-        },
-
+        'underscore.string': ["underscore"],
         'libs/bootstrap': ["jquery"],
-
         'libs/jquery.cookie': ["jquery"],
-
         'libs/jquery.countdown': ["jquery"],
-
         'libs/jquery.githubRepoWidget': ["jquery"],
-
         'libs/base': ['backbone']
     }
 });
@@ -48,7 +40,6 @@ require([
   'routers/app-router',
   'libs/base',
   'libs/bootstrap',
-  'libs/haml',
   'libs/jquery.cookie',
   'libs/jquery.countdown',
   'libs/jquery.githubRepoWidget',

@@ -1,10 +1,10 @@
 define([
-    'libs/base',
+    'backbone',
     'models/last-successful',
     'text!templates/build-information.html.haml'
-], function (BackboneSuperView, LastSuccessful, template) {
+], function (Backbone, LastSuccessful, template) {
 
-    return BackboneSuperView.extend({
+    return Backbone.SuperView.extend({
 
         className: 'build-information span7',
 

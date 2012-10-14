@@ -1,11 +1,11 @@
 define([
-    'libs/base',
+    'backbone',
     'models/iteration',
     'views/widget-view',
     'views/pivotal-tracker-help-view',
     'text!templates/configure-pivotal.html.haml'
-], function (BackboneSuperView, Iteration, WidgetView, PivotalTrackerHelpView, configurePivotalTemplate) {
-    return BackboneSuperView.extend({
+], function (Backbone, Iteration, WidgetView, PivotalTrackerHelpView, configurePivotalTemplate) {
+    return Backbone.SuperView.extend({
 
         id: 'stories',
 

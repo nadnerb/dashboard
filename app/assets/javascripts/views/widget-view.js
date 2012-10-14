@@ -1,9 +1,8 @@
 define([
-    'libs/base',
     'backbone',
     'text!templates/widget.html.haml'
-], function (BackboneSuperView, Backbone, template) {
-    return BackboneSuperView.extend({
+], function (Backbone, template) {
+    return Backbone.SuperView.extend({
 
         className: 'widget loading',
 

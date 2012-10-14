@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'models/last-successful',
     'text!templates/build-information.html.haml'
 ], function (BackboneSuperView, LastSuccessful, template) {

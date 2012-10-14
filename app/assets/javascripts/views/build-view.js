@@ -1,6 +1,6 @@
 define([
     'backbone',
-    'vendor/base',
+    'libs/base',
     'models/last-failed',
     'text!templates/build.html.haml'
 ], function (Backbone, BackboneSuperView, LastFailed, template) {

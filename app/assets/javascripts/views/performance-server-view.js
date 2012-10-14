@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'models/server-configuration',
     'views/widget-view',
     'text!templates/configure-newrelic-server.html.haml',

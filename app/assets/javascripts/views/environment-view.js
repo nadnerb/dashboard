@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'models/instance',
     'models/stack',
     'views/create-environment-view',

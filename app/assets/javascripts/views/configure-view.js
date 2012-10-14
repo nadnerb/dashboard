@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'collections/available',
     'collections/instances',
     'views/widget-view',

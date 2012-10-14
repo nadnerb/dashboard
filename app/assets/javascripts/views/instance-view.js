@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'models/stack',
     'text!templates/instance.html.haml'
 ], function (BackboneSuperView, Stack, template) {

@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'views/widget-view',
     'models/cost',
     'models/velocity',
@@ -86,4 +86,3 @@ define([
         }
     });
 });
-

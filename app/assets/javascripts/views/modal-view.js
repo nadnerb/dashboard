@@ -1,5 +1,5 @@
 define([
-    'vendor/base'
+    'libs/base'
 ], function (BackboneSuperView) {
     return BackboneSuperView.extend({
 

@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'views/performance-server-view',
     'views/performance-charts-view'
 ], function (BackboneSuperView, ServerView, ChartsView) {

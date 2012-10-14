@@ -1,11 +1,11 @@
 require.config({
     baseUrl: 'assets',
     paths: {
-        jquery: 'vendor/jquery-1.7.2',
-        underscore: 'vendor/underscore',
-        backbone: 'vendor/backbone',
-        'underscore.string': 'vendor/underscore.string',
-        text: 'vendor/text',
+        jquery: 'libs/jquery-1.7.2',
+        underscore: 'libs/underscore',
+        backbone: 'libs/backbone',
+        'underscore.string': 'libs/underscore.string',
+        text: 'libs/text',
         templates: 'templates'
     },
 
@@ -24,13 +24,15 @@ require.config({
               exports: '_.string'
         },
 
-        'vendor/bootstrap': ["jquery"],
+        'libs/bootstrap': ["jquery"],
 
-        'vendor/jquery.cookie': ["jquery"],
+        'libs/jquery.cookie': ["jquery"],
 
-        'vendor/jquery.countdown': ["jquery"],
+        'libs/jquery.countdown': ["jquery"],
 
-        'vendor/base': ['backbone']
+        'libs/jquery.githubRepoWidget': ["jquery"],
+
+        'libs/base': ['backbone']
     }
 });
 
@@ -44,11 +46,13 @@ require([
   'jquery',
   'backbone',
   'routers/app-router',
-  'vendor/base',
-  'vendor/bootstrap',
-  'vendor/haml',
-  'vendor/jquery.cookie',
-  'vendor/jquery.countdown'
+  'libs/base',
+  'libs/bootstrap',
+  'libs/haml',
+  'libs/jquery.cookie',
+  'libs/jquery.countdown',
+  'libs/jquery.githubRepoWidget',
+  'libs/moment'
 ], function($, Backbone, AppRouter) {
     $(function() {
         router = new AppRouter();

@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'backbone',
     'text!templates/widget.html.haml'
 ], function (BackboneSuperView, Backbone, template) {

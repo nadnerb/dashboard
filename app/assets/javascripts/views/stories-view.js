@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'models/iteration',
     'views/widget-view',
     'views/pivotal-tracker-help-view',

@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'views/navigation-view',
     'text!templates/dashboard.html.haml'
 ], function (BackboneSuperView, NavigationView, template) {

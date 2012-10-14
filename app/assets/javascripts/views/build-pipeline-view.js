@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'views/build-view',
 ], function (BackboneSuperView, BuildView) {
 

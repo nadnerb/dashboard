@@ -1,5 +1,5 @@
 define([
-    'vendor/base',
+    'libs/base',
     'text!templates/navigation.html.haml'
 ], function (BackboneSuperView, template) {
     return BackboneSuperView.extend({

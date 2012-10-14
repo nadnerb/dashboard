@@ -22,6 +22,8 @@ define([
                 appendView(BuildInformationView).
                 checkPeriodically();
             });
+
+            this.collection.fetch();
         },
 
         postRender: function () {

@@ -63,7 +63,7 @@ define([
 
         fadeOut: function () {
             this.$el.addClass('loading');
-            this.$('.environment-information').fadeOut();
+            this.$('.environment-information').empty();
         },
 
         updateInstance: function () {
@@ -130,10 +130,6 @@ define([
             });
 
             this.view.show();
-            var self = this;
-            setTimeout(function () {
-                self.$el.addClass('loading');
-            }, 300);
             return false;
         },
 

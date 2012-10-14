@@ -8,7 +8,7 @@ define([
         random: null,
 
         initialize: function () {
-            this.random = Math.round(Math.random() * 1000);
+            this.loading(true);
 
             this.$el.modal({
                 keyboard: true,

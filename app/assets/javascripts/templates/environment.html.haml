@@ -4,7 +4,7 @@
     - else {
         %h3
             %a.environment-name{target: '_blank', href: 'http://' + model.tags['dupondius:environment'] + '.' + model.tags['dupondius:project'] + '.dupondi.us/'}= model.tags['dupondius:environment']
-%div.environment-information.hidden
+%div.environment-information
     %dl.dl-horizontal
         - if (model.tags['dupondius:environment'] === 'dev') {
             %dt Instance Count:

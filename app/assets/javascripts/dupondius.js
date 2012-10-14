@@ -97,7 +97,7 @@ $(document).ready(function () {
         if (response.status === 'CREATE_COMPLETE') {
             $('#loading-image').remove();
             $('#please-wait').remove();
-            $('#waiting .page-container').append('<h2>Your environment is ready for action</h2><h1><a href="' + response.output.value + '">' + response.output.value + '</a></h1>');
+            $('#waiting .page-container').append('<h2>Your environment is ready for action</h2><h1><a href="' + response.output.value + '" target="_blank">' + response.output.value + '</a></h1>');
             $('#waiting .page-container').append('<p>Done with this environment? <a id="create-another-link" href="">Create another</a></p>');
             return;
         } else {

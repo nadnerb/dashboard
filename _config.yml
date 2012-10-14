@@ -1,0 +1,5 @@
+server: true
+permalink: /:year/:title/
+pygments: true
+exclude: README.md
+url: http://recipies.dupondi.us

@@ -159,6 +159,20 @@
                 "owner"  : "root",
                 "group"  : "root"
               },
+              "/etc/yum.repos.d/s3tools.repo" : {
+                "content" : { "Fn::Join" : ["", [
+                  "[s3tools]\n",
+                  "name=Tools for managing Amazon S3 - Simple Storage Service (RHEL_6)\n",
+                  "type=rpm-md\n",
+                  "baseurl=http://s3tools.org/repo/RHEL_6/\n",
+                  "gpgcheck=1\n",
+                  "gpgkey=http://s3tools.org/repo/RHEL_6/repodata/repomd.xml.key\n",
+                  "enabled=1\n"
+                  ]] },
+                "mode" : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
               "/etc/default/app" : {
                "content" : { "Fn::Join" : ["", [
                   "ENVIRONMENT_NAME=ci\n",
@@ -172,7 +186,7 @@
                   "DB_USERNAME=", { "Ref" : "DBUsername" }, "\n",
                   "DB_PASSWORD=", { "Ref" : "DBPassword" }, "\n",
                   "DB_SOCKET=/var/lib/mysql/mysql.sock\n",
-                  "export ENVIRONMENT_NAME PROJECT_NAME GITHUB_PROJECT_USER ZONE AWS_ACCESS_KEY TTL AWS_SECRET_ACCESS_KEY\n"
+                  "export ENVIRONMENT_NAME PROJECT_NAME GITHUB_PROJECT_USER ZONE AWS_ACCESS_KEY_ID TTL AWS_SECRET_ACCESS_KEY\n"
                   ]]},
                 "mode"  : "000644",
                 "owner" : "root",
@@ -248,7 +262,7 @@
           "# Install Jenkins\n",
           "wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo\n",
           "rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key\n",
-          "yum install -y git jenkins Xvfb patch readline readline-devel zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison iconv-devel\n",
+          "yum install -y git jenkins Xvfb patch libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison iconv-devel\n",
 
           "service jenkins stop\n",
           "mkdir -p /var/lib/jenkins/\n",
@@ -279,6 +293,12 @@
           "    --access-key ", { "Ref" : "AwsAccessKey" },
           "    --secret-key ", { "Ref" : "AwsSecretAccessKey" },
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+
+          "# Install s3cmd used for deployment\n",
+          "yum install -y s3cmd\n",
+          "wget -O /var/lib/jenkins/.s3cfg https://s3.amazonaws.com/dupondius/config/s3cfg\n",
+          "echo \"access_key = ", {"Ref" : "AwsAccessKey"}, "\" >> /var/lib/jenkins/.s3cfg\n",
+          "echo \"secret_key = ", {"Ref" : "AwsSecretAccessKey"}, "\" >> /var/lib/jenkins/.s3cfg\n",
 
           "# Setup MySQL root password and create a user\n",
           "mysqladmin -u root password '", { "Ref" : "DBRootPassword" }, "' || error_exit 'Failed to initialize root password'\n",

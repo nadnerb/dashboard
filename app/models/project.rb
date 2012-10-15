@@ -1,5 +1,7 @@
 class Project < ActiveRecord::Base
-  attr_accessible :name, :token, :tech_stack, :region, :github_account, :github_project, :github_private
+  attr_accessible :name, :token, :tech_stack, :region,
+    :github_account, :github_project, :github_private,
+    :aws_access_key, :aws_secret_access_key, :aws_key_name
 
   validates_presence_of :name
 
@@ -14,7 +16,10 @@ class Project < ActiveRecord::Base
           DBName: 'dashboard',
           DBUsername: 'dashboard',
           DBPassword: 'dashboard',
-          DBRootPassword: 'r00tr00t'
+          DBRootPassword: 'r00tr00t',
+          AwsAccessKey: self.aws_access_key,
+          AwsSecretAccessKey: self.aws_secret_access_key,
+          KeyName: self.aws_key_name
       }).create
     end
   end

@@ -53,7 +53,7 @@ $(document).ready(function () {
         return;
     }
 
-    $.scrollingWizard({ 
+    $.scrollingWizard({
         steps: [{
             id: '#page1',
             validation: function () {
@@ -115,7 +115,7 @@ $(document).ready(function () {
                 $('#summary-aws-region').text($('#aws-region').val());
                 return $('#aws-region').val();
             }
-        }], 
+        }],
         finished: function () {
             var applicationName = $('#application-name').val().replace(/[^a-z0-9_\s]/gi, '').replace(/[\s]/g, '-');
             var data = {project: {
@@ -126,11 +126,9 @@ $(document).ready(function () {
                 github_private: $('#github-private').is(':checked'),
                 tech_stack: $('#tech-stack').selectableGrid().selected().text().trim(),
                 region: $('#aws-region').val(),
-                aws: {
-                  accessKey: $("#aws-access-key-id").val(),
-                  secretAccessKey: $("#aws-secret-access-key").val(),
-                  privateKey: $("#aws-private-key").val()
-                }
+                aws_access_key: $("#aws-access-key-id").val(),
+                aws_secret_access_key: $("#aws-secret-access-key").val(),
+                aws_key_name: $("#aws-private-key").val()
             }};
 
             $.cookie('project_data', JSON.stringify(data), {expires: 365});

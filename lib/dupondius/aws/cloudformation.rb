@@ -126,15 +126,16 @@ module Dupondius; module Aws; module CloudFormation
     def self.create project_name, tech_stack, aws_region, parameters
       template_name = "jenkins-#{tech_stack}.template"
 
-      Dupondius::Aws::CloudFormation.access(aws_region).stacks.create("ci-#{project_name}", Template.find(template_name),
+      access = AWS::CloudFormation.new(:access_key_id => parameters[:AwsAccessKey],
+         :secret_access_key => parameters[:AwsSecretAccessKey],
+         :cloud_formation_endpoint => Dupondius::Aws::CloudFormation::REGIONS[aws_region][:endpoint])
+
+      access.stacks.create("ci-#{project_name}", Template.find(template_name),
         :parameters => {HostedZone: Dupondius.config.hosted_zone,
                         ProjectName: project_name,
-                        AwsAccessKey: Dupondius.config.access_key,
-                        AwsSecretAccessKey: Dupondius.config.secret_access_key,
                         DBName: project_name,
                         DBUsername: project_name,
-                        DBPassword: project_name,
-                        KeyName: Dupondius.config.key_name}.merge(parameters))
+                        DBPassword: project_name}.merge(parameters))
     end
 
 
@@ -150,13 +151,15 @@ module Dupondius; module Aws; module CloudFormation
     end
 
     def create
-      Dupondius::Aws::CloudFormation.access(@aws_region).stacks.create("dashboard-#{@project_name}", load_template,
+      access = AWS::CloudFormation.new(:access_key_id => @parameters[:AwsAccessKey],
+         :secret_access_key => @parameters[:AwsSecretAccessKey],
+         :cloud_formation_endpoint => Dupondius::Aws::CloudFormation::REGIONS[@aws_region][:endpoint])
+
+
+      access.stacks.create("dashboard-#{@project_name}", load_template,
         :parameters => {HostedZone: Dupondius.config.hosted_zone,
                         ProjectName: @project_name,
-                        EnvironmentName: 'dashboard',
-                        AwsAccessKey: Dupondius.config.access_key,
-                        AwsSecretAccessKey: Dupondius.config.secret_access_key,
-                        KeyName: Dupondius.config.key_name}.merge(@parameters))
+                        EnvironmentName: 'dashboard'}.merge(@parameters))
     end
 
     def self.find project_name, aws_region

@@ -1,13 +1,15 @@
 require 'aws-sdk'
-require 'dupondius/config'
 require 'dupondius/aws/cloudformation'
 require 'dupondius/aws/ec2'
+require 'ostruct'
 
 module Dupondius
 extend self
 
+  @config = OpenStruct.new
+
   def configure
-    block_given? ? yield(Dupondius::Config) : Dupondius::Config
+    block_given? ? yield(@config) : @config
   end
   alias :config :configure
 

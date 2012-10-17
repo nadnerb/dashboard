@@ -53,12 +53,13 @@ define([
             });
 
             var lastSuccessful = new LastSuccessful({displayName: productionBuild.get('displayName')});
-            lastSuccessful.on('change', function () {
+
+            this.bindTo(lastSuccessful, 'change', function () {
                 this.$('.last-production-deployment').countdown({
                     since: new Date(lastSuccessful.get('timestamp')), 
                     layout: '{dn} {dl} {hn} {hl} {mn} {ml} ago'
                 });
-            }, this);
+            });
 
             lastSuccessful.fetch();
         }

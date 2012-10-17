@@ -17,11 +17,13 @@ define([
             this.views = [];
 
             this.collection = new BuildsCollection();
-            this.bindTo(this.collection, 'reset', function () {
+            var listener = this.bindTo(this.collection, 'reset', function () {
                 this.appendView(BuildPipelineView).
                 appendView(BuildInformationView).
                 checkPeriodically();
-            });
+                
+                listener.unbind();
+            }); 
 
             this.collection.fetch();
         },

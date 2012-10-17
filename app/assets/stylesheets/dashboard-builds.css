@@ -27,10 +27,17 @@
     padding: 15px;
 }
 
-.builds .build .spinner {
+.builds .build .loading {
     position: absolute;
     right: 5px;
-    top: 5px;
+    top: 4px;
+    width: 40px;
+    height: 40px;
+    background: transparent url(/assets/spinner-build.gif) no-repeat center center;
+}
+
+.builds .build .loading.off {
+    background: none;
 }
 
 .builds .build:first-child {

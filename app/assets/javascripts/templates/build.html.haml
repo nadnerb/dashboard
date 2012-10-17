@@ -1,6 +1,6 @@
 %div{class: 'build-button build-' + color}
     %a.heading{href: url, target: '_blank'} = niceName
-    %div.spinner{id: 'spinner-' + displayName}
+    %div.loading.off
 %a.build-now{href: 'http://ci.dupondi.us:8080/job/' + displayName + '/build?delay=0sec'} 
     %i.icon-play
 %i.icon-arrow-down

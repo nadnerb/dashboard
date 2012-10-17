@@ -17,11 +17,9 @@ define([
 
         renderSpinner: function () {
             if (this.model.get('color').indexOf('anim') !== -1) {
-                if (this.$('.spinner svg').length === 0) {
-                    spinner('spinner-' + this.model.get('displayName'), 16, 15, 15, 3, '#fff');
-                }
+                this.$('.loading').removeClass('off');
             } else {
-                this.$('.spinner').empty();
+                this.$('.loading').addClass('off');
             }
         },
 

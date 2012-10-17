@@ -2,7 +2,7 @@ define([
     'backbone',
     'models/last-successful',
     'text!templates/build-information.html.haml',
-    'libs/jquery.countdown'
+    'libs/moment'
 ], function (Backbone, LastSuccessful, template) {
 
     return Backbone.SuperView.extend({
@@ -55,10 +55,7 @@ define([
             var lastSuccessful = new LastSuccessful({displayName: productionBuild.get('displayName')});
 
             this.bindTo(lastSuccessful, 'change', function () {
-                this.$('.last-production-deployment').countdown({
-                    since: new Date(lastSuccessful.get('timestamp')), 
-                    layout: '{dn} {dl} {hn} {hl} {mn} {ml} ago'
-                });
+                this.$('.last-production-deployment').text(moment(new Date(lastSuccessful.get('timestamp'))).fromNow());
             });
 
             lastSuccessful.fetch();

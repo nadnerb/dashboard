@@ -22,7 +22,6 @@ require.config({
         'underscore.string': ["underscore"],
         'libs/bootstrap': ["jquery"],
         'libs/jquery.cookie': ["jquery"],
-        'libs/jquery.countdown': ["jquery"],
         'libs/jquery.githubRepoWidget': ["jquery"],
         'libs/base': ['backbone']
     }

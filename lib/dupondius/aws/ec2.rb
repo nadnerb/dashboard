@@ -4,7 +4,7 @@ module Dupondius; module Aws; module Ec2
   def self.access
     @ec2 ||= AWS::EC2.new(:access_key_id => Dupondius.config.access_key,
        :secret_access_key => Dupondius.config.secret_access_key)
-    @ec2.regions[Dupondius::Config.aws_region]
+    @ec2.regions[Dupondius.config.aws_region]
   end
 
   def self.cost_table

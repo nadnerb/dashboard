@@ -14,7 +14,7 @@ namespace :dupondius do
 
     task :environment => :dotenv do
       Dupondius.configure do |config|
-        config.cloudformation_bucket = 'dupondius_cfn_templates'
+        config.cloudformation_bucket = 'dupondius_cf_templates'
         config.access_key = ENV['AWS_ACCESS_KEY_ID']
         config.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
         config.aws_region = ENV['AWS_REGION']

@@ -48,11 +48,6 @@ namespace :dupondius do
         obj.write(File.open(filename).read)
         obj.acl= :public_read
       end
-      #['install-dashboard', 'install-app', 'configure-nginx', 'update-route53-dns', 'nginx.conf', 'update-config'].each do |file_name|
-        #obj = bucket.objects["config/#{file_name}"]
-        #obj.write(File.open(File.expand_path(File.join( File.dirname(__FILE__), '..', file_name))).read)
-        #obj.acl= :public_read
-      #end
     end
 
     desc 'Upload cloudformation templates to s3'

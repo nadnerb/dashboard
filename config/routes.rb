@@ -23,8 +23,6 @@ Dashboard::Application.routes.draw do
     resources :configurations, :only => [:update] do
       get :export, :on => :collection
     end
-    #TODO: potential duplication with aws/instances controller
-    resources :instances, :only => [:index]
   end
 
   namespace :aws do

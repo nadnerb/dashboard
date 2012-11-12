@@ -24,7 +24,7 @@ set :keep_releases, 5
 set :deploy_via, :s3_copy
 set :aws_access_key_id,     ENV['AWS_ACCESS_KEY_ID']
 set :aws_secret_access_key, ENV['AWS_SECRET_ACCESS_KEY']
-set :aws_releases_bucket, 'dupondius_releases'
+set :aws_releases_bucket, 'dupondius_release'
 
 # If you are deploying to an ELB uncomment the following line and configure accordingly
 #elastic_load_balancer domain, :app, :web, :db, :primary => true

@@ -1,7 +1,7 @@
 require 'dupondius'
 
 Dupondius.configure do |config|
-  config.key_name = 'team-brats'
+  config.key_name = 'dupondius'
   config.cloudformation_bucket = 'dupondius_cf_templates'
   config.aws_region = ENV['AWS_REGION']
   config.access_key = ENV['AWS_ACCESS_KEY_ID']

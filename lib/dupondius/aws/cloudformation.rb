@@ -9,6 +9,7 @@ module Dupondius; module Aws; module CloudFormation
      'us-west-2' => {name: 'US West (Oregon)', endpoint: 'cloudformation.us-west-2.amazonaws.com'},
      'eu-west-1' => {name: 'EU West (Ireland)', endpoint:  'cloudformation.eu-west-1.amazonaws.com'},
      'ap-southeast-1' => {name: 'Asia Pacific (Singapore)', endpoint: 'cloudformation.ap-southeast-1.amazonaws.com'},
+     'ap-southeast-2' => {name: 'Asia Pacific (Sydney)', endpoint: 'cloudformation.ap-southeast-2.amazonaws.com'},
      'ap-northeast-1' => {name: 'Asia Pacific (Tokyo)', endpoint: 'cloudformation.ap-northeast-1.amazonaws.com'},
      'sa-east-1' => {name: 'South Amercia (Sao Paulo)', endpoint: 'cloudformation.sa-east-1.amazonaws.com'}
   }

@@ -66,6 +66,7 @@ module Dupondius; module Aws; module CloudFormation
 
     def self.create template_name, environment_name, project_name, parameters
       self.new(Dupondius::Aws::CloudFormation.access.stacks.create("#{environment_name}-#{project_name}", Template.find(template_name),
+        :disable_rollback => false,
         :parameters => {HostedZone: Dupondius.config.hosted_zone,
                         ProjectName: project_name,
                         AwsAccessKey: Dupondius.config.access_key,

@@ -214,25 +214,25 @@
             },
             "files" : {
               "/etc/nginx/nginx.conf" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf",
+                "source" : "https://s3.amazonaws.com/dupondius_config/nginx.conf",
                 "mode"   : "000644",
                 "owner"  : "root",
                 "group"  : "root"
               },
               "/usr/sbin/update-config" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/update-config",
+                "source" : "https://s3.amazonaws.com/dupondius_config/update-config",
                 "mode"   : "000744",
                 "owner"  : "root",
                 "group"  : "root"
               },
               "/usr/sbin/configure-nginx" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/configure-nginx",
+                "source" : "https://s3.amazonaws.com/dupondius_config/configure-nginx",
                 "mode"   : "000744",
                 "owner"  : "root",
                 "group"  : "root"
               },
               "/usr/sbin/install-app" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/install-app",
+                "source" : "https://s3.amazonaws.com/dupondius_config/install-app",
                 "mode"   : "000744",
                 "owner"  : "root",
                 "group"  : "root"
@@ -252,7 +252,7 @@
                 "group" : "root"
               },
               "/home/deploy/.s3cfg" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/s3cfg",
+                "source" : "https://s3.amazonaws.com/dupondius_config/s3cfg",
                 "mode"   : "000644",
                 "owner"  : "deployer",
                 "group"  : "deployer"

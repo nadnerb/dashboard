@@ -141,20 +141,14 @@
               }
             },
             "files" : {
-              "/usr/local/bin/cli53" : {
-                "source" : "https://raw.github.com/barnybug/cli53/master/scripts/cli53",
-                "mode"   : "000744",
-                "owner"  : "root",
-                "group"  : "root"
-              },
               "/usr/sbin/update-route53-dns" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/update-route53-dns",
+                "source" : "https://s3.amazonaws.com/dupondius_config/update-route53-dns",
                 "mode"   : "000744",
                 "owner"  : "root",
                 "group"  : "root"
               },
               "/usr/sbin/configure-nginx" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/configure-nginx",
+                "source" : "https://s3.amazonaws.com/dupondius_config/configure-nginx",
                 "mode"   : "000744",
                 "owner"  : "root",
                 "group"  : "root"
@@ -174,19 +168,19 @@
                 "group" : "root"
               },
               "/home/deployer/.s3cfg" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/s3cfg",
+                "source" : "https://s3.amazonaws.com/dupondius_config/s3cfg",
                 "mode"   : "000644",
                 "owner"  : "deployer",
                 "group"  : "deployer"
               },
               "/usr/sbin/update-config" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/update-config",
+                "source" : "https://s3.amazonaws.com/dupondius_config/update-config",
                 "mode"   : "000744",
                 "owner"  : "root",
                 "group"  : "root"
               },
               "/etc/nginx/nginx.conf" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf",
+                "source" : "https://s3.amazonaws.com/dupondius_config/nginx.conf",
                 "mode"   : "000644",
                 "owner"  : "root",
                 "group"  : "root"
@@ -320,9 +314,9 @@
           "usermod -a -G www nginx\n",
 
           "# Tools to support automated DNS update using Route53\n",
-          "easy_install  -U boto\n",
-          "easy_install  -U argparse\n",
-          "easy_install  -U dnspython\n",
+          "easy_install  -U pip\n",
+          "pip install cli53\n",
+
           "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
 
           "# Support for config server to allow dynamic config updates\n",

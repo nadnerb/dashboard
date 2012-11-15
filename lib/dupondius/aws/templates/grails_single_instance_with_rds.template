@@ -146,20 +146,14 @@
               }
             },
             "files" : {
-              "/usr/local/bin/cli53" : {
-                "source" : "https://raw.github.com/barnybug/cli53/master/scripts/cli53",
-                "mode"   : "000744",
-                "owner"  : "root",
-                "group"  : "root"
-              },
               "/usr/sbin/update-route53-dns" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/update-route53-dns",
+                "source" : "https://s3.amazonaws.com/dupondius_config/update-route53-dns",
                 "mode"   : "000744",
                 "owner"  : "root",
                 "group"  : "root"
               },
               "/etc/nginx/nginx.conf" : {
-                "source" : "https://s3.amazonaws.com/dupondius/config/nginx.conf.grails",
+                "source" : "https://s3.amazonaws.com/dupondius_config/nginx.conf.grails",
                 "mode"   : "000644",
                 "owner"  : "root",
                 "group"  : "root"
@@ -370,9 +364,8 @@
           "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
 
           "# Tools to support automated DNS update using Route53\n",
-          "easy_install  -U boto\n",
-          "easy_install  -U argparse\n",
-          "easy_install  -U dnspython\n",
+          "easy_install  -U pip\n",
+          "pip install cli53\n",
           "echo \"/usr/sbin/update-route53-dns\" >> /etc/rc.local\n",
 
           "#add new relic server monitoring\n",

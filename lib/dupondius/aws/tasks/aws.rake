@@ -15,6 +15,7 @@ namespace :dupondius do
     task :environment => :dotenv do
       Dupondius.configure do |config|
         config.cloudformation_bucket = 'dupondius_cf_templates'
+        config.config_bucket = 'dupondius_config'
         config.access_key = ENV['AWS_ACCESS_KEY_ID']
         config.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
         config.aws_region = ENV['AWS_REGION']
@@ -40,11 +41,11 @@ namespace :dupondius do
         :access_key_id     => Dupondius.config.access_key,
         :secret_access_key => Dupondius.config.secret_access_key
       )
-      bucket = s3.buckets['dupondius']
+      bucket = s3.buckets[Dupondius.config.config_bucket]
 
       Dir[File.join(File.dirname(__FILE__), '..', 'config', '*')].each do |filename|
         puts "Uploading asset: #{File.basename(filename)}"
-        obj = bucket.objects["config/#{File.basename(filename)}"]
+        obj = bucket.objects[File.basename(filename)]
         obj.write(File.open(filename).read)
         obj.acl= :public_read
       end

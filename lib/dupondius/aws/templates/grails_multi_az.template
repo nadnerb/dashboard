@@ -539,7 +539,7 @@
           "echo \"/usr/sbin/nrsysmond-config --set license_key=\\$NEW_RELIC_LICENSE_KEY\" >> /etc/rc.local\n",
           "echo \"/etc/init.d/newrelic-sysmond restart\" >> /etc/rc.local\n",
 
-          "curl https://s3.amazonaws.com/dupondius/newrelic_agent2.8.0.zip > /tmp/newrelic_agent2.8.0.zip\n",
+          "curl http://download.newrelic.com/newrelic/java-agent/newrelic-api/2.8.0/newrelic_agent2.8.0.zip > /tmp/newrelic_agent2.8.0.zip\n",
           "unzip /tmp/newrelic_agent2.8.0.zip -d /usr/share/tomcat7\n",
 
           "curl http://ec2-downloads.s3.amazonaws.com/ElasticLoadBalancing.zip > /tmp/ElasticLoadBalancing.zip\n",

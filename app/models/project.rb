@@ -5,7 +5,7 @@ class Project < ActiveRecord::Base
 
   validates_presence_of :name
 
-  after_create :launch_dashboard
+  after_create :assign_github_deploy_key, :launch_dashboard, :launch_ci
 
   def launch_dashboard
     if Rails.configuration.aws_enabled
@@ -24,10 +24,38 @@ class Project < ActiveRecord::Base
     end
   end
 
-  handle_asynchronously :launch_dashboard
 
   def dashboard
     @dashboard ||= Dupondius::Aws::CloudFormation::Dashboard.find(self.name, self.region)
   end
 
+  def github_deploy_key
+    SSHKey.new(read_attribute(:github_deploy_key))
+  end
+
+  private
+
+  def assign_github_deploy_key
+    self.github_deploy_key= SSHKey.generate.private_key
+    save!
+
+    github_client= Octokit::Client.new(:login => self.github_account, :oauth_token => self.token)
+    github_client.add_deploy_key({username: self.github_account, repo: self.name}, 'dupondius deploy key', self.github_deploy_key.ssh_public_key)
+  end
+
+  def launch_ci
+    options = {
+        AwsAccessKey: self.aws_access_key,
+        AwsSecretAccessKey: self.aws_secret_access_key,
+        KeyName: self.aws_key_name,
+        InstanceType: 'm1.small',
+        ProjectGithubUser: self.github_account,
+        ProjectType: self.tech_stack.split(' ').last.downcase,
+        GithubDeployPrivateKey: self.github_deploy_key.private_key
+    }
+    Dupondius::Aws::CloudFormation::ContinuousIntegration.create(self.name, self.tech_stack, self.region, options)
+  end
+
+  handle_asynchronously :launch_dashboard
+  handle_asynchronously :launch_ci
 end

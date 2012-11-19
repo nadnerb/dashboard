@@ -21,6 +21,7 @@ gem "curb", "~> 0.8.1"
 gem 'json'
 gem 'httparty'
 gem 'haml-rails'
+gem 'sshkey'
 
 # Gems used only for assets and not required
 # in production environments by default.

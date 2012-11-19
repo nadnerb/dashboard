@@ -126,7 +126,7 @@ module Dupondius; module Aws; module CloudFormation
   class ContinuousIntegration < Stack
 
     def self.create project_name, tech_stack, aws_region, parameters
-      template_name = "jenkins-#{tech_stack}.template"
+      template_name = "jenkins-#{tech_stack.parameterize}.template"
 
       access = AWS::CloudFormation.new(:access_key_id => parameters[:AwsAccessKey],
          :secret_access_key => parameters[:AwsSecretAccessKey],

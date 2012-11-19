@@ -37,12 +37,8 @@
       "Description" : "The AWS Secret acess key",
       "Type" : "String"
     },
-    "SecretAccessKeyEnc" : {
-      "Description" : "The AWS Secret acess key (encrypted)",
-      "Type" : "String"
-    },
-    "PrivateKeyEnc" : {
-      "Description" : "The private key of a key pair stored in EC2",
+    "GithubDeployPrivateKey" : {
+      "Description" : "The Github deploy private key",
       "Type" : "String"
     },
     "DBName": {
@@ -262,7 +258,7 @@
           "mkdir -p /var/lib/jenkins/\n",
           "rm -rf /var/lib/jenkins/*\n",
           "mkdir /var/lib/jenkins/.ssh\n",
-          "cp /home/deployer/.ssh/id_rsa /var/lib/jenkins/.ssh\n",
+          "echo \"", { "Ref" : "GithubDeployPrivateKey" }, "\" > /var/lib/jenkins/.ssh/id_rsa\n",
           "chown -R jenkins:jenkins /var/lib/jenkins/.ssh\n",
           "chmod 600 /var/lib/jenkins/.ssh/id_rsa\n",
           "sed -i 's/\\(Defaults\\s\\+requiretty\\)/#\\1/' /etc/sudoers\n",
@@ -277,8 +273,6 @@
           "sed -i 's/\\(<url>git@github.com:\\).*\\(<\\/url>\\)/\\1", { "Ref" : "ProjectGithubUser" } ,"\\/", { "Ref" : "ProjectName" } ,".git\\2/' jobs/*/config.xml\n",
           "sed -i 's/$PROJECT_NAME/", { "Ref" : "ProjectName" } ,"/' jobs/*/config.xml\n",
           "sed -i 's/\\(<accessId>\\).*\\(<\\/accessId>\\)/\\1", { "Ref" : "AwsAccessKey" }, "\\2/' config.xml\n",
-          "sed -i 's/\\(<secretKey>\\).*\\(<\\/secretKey>\\)/\\1", { "Ref" : "SecretAccessKeyEnc" }, "\\2/' config.xml\n",
-          "sed -i 's/\\(<privateKey>\\).*\\(<\\/privateKey>\\)/\\1", { "Ref" : "PrivateKeyEnc" }, "\\2/' config.xml\n",
           "chown -R jenkins:jenkins /var/lib/jenkins\n",
           "cd -\n",
 

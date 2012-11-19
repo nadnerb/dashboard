@@ -298,7 +298,6 @@
           "chsh -s /bin/sh deployer\n",
           "mkdir -p /home/deployer/.ssh\n",
           "echo \"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAyrBOE3zDQMcoRi9no60foxqEy7EVmAARowko6rERDXCp5tKrY3dOpk0wDyuZgvvq2gfaVRaUuwo1AJwJk43sFb6ZVxRwNZLjIF2dFV+RjQKy1NnPd9ymrZacIOyQXLzFUWsM59JPA6v8zznF826RSBuQIIGESz9n0lhICfO4oIq62Bexllh9O/vU71EKnzFxqq2StNCd5q/tit7AK0GiHnm2OyufBQrGhUjVrCDmXx2X9XX77swHky56z4ZgZk1XdC4EEHE4WariMzryjBPldCXkQGq5x97IC35aeCCVcyDAkQ+5HRxJK/Ja2RYy8f5bsmYRcI06suWGePUQO48Bjw==\" >> /home/deployer/.ssh/authorized_keys\n",
-          "curl https://s3.amazonaws.com/private_keys/deployer.pem -o /home/deployer/.ssh/id_rsa\n",
           "chown -R deployer:deployer /home/deployer\n",
           "chmod 600 /home/deployer/.ssh/id_rsa\n",
 
